@@ -1,5 +1,6 @@
 ---
 title: Comparing house prices
+subtitle: Evaluating the data
 author: Florian handke
 date: '2019-09-22'
 slug: comparing-house-prices
@@ -9,7 +10,6 @@ tags:
   - dplyr
   - plotly
   - scraping
-subtitle: ''
 summary: ''
 authors: []
 lastmod: '2020-01-11T00:21:47+01:00'
@@ -38,7 +38,7 @@ library(fs)
 After I collected the data in my last post, it was saved in a local .rds file. This provides a high performance way to store data that is processed with R. With the readr package the file can be loaded via `read_rds()`.
 
 ```{r, warning=FALSE, message = FALSE}
-HousingData <- readr::read_rds(dir_ls("~/Documents/handdke_codet",
+HousingData <- readr::read_rds(dir_ls("~/Documents/handdke_codet/static",
                                       recurse = TRUE) %>% 
                                  path_abs() %>% 
                                  str_subset("HousingData.Rds"))
