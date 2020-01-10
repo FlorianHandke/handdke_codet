@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Florian Handke">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="The ski season has just started. Therefore I was interested to know how the prices for different tickets are. So I compared and analyzed the prices of different ski resorts in Germany, Austria and Switzerland. https://www.skiinfo.de maintains a database with the prices of various ski areas in the categories day ticket and 6-day ticket. Each for adults and children.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/comparing-ski-resorts/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/comparing-ski-resorts/">
+
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Handkecodet">
+  <meta property="og:url" content="/post/comparing-ski-resorts/">
+  <meta property="og:title" content="Comparing ski resorts | Handkecodet">
+  <meta property="og:description" content="The ski season has just started. Therefore I was interested to know how the prices for different tickets are. So I compared and analyzed the prices of different ski resorts in Germany, Austria and Switzerland. https://www.skiinfo.de maintains a database with the prices of various ski areas in the categories day ticket and 6-day ticket. Each for adults and children."><meta property="og:image" content="/img/me">
+  <meta property="twitter:image" content="/img/me"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2020-01-11T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2020-01-11T00:29:45&#43;01:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/comparing-ski-resorts/"
+  },
+  "headline": "Comparing ski resorts",
+  
+  "datePublished": "2020-01-11T00:00:00Z",
+  "dateModified": "2020-01-11T00:29:45+01:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Florian Handke"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Handkecodet",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img//"
+    }
+  },
+  "description": "The ski season has just started. Therefore I was interested to know how the prices for different tickets are. So I compared and analyzed the prices of different ski resorts in Germany, Austria and Switzerland. https://www.skiinfo.de maintains a database with the prices of various ski areas in the categories day ticket and 6-day ticket. Each for adults and children."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Comparing ski resorts | Handkecodet</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Handkecodet</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Handkecodet</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#hero"><span>Welcome</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#biography"><span>Biography</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Comparing ski resorts</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    Jan 11, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    32 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/categories/r/">R</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+<link href="/rmarkdown-libs/leaflet/leaflet.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/leaflet/leaflet.js"></script>
+<link href="/rmarkdown-libs/leafletfix/leafletfix.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/Proj4Leaflet/proj4-compressed.js"></script>
+<script src="/rmarkdown-libs/Proj4Leaflet/proj4leaflet.js"></script>
+<link href="/rmarkdown-libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/leaflet-binding/leaflet.js"></script>
+
+
+<p><img src="/post/2020-01-11-comparing-ski-resorts_files/wintry-2068298_1920.jpg" width="800" /></p>
+<p>The ski season has just started. Therefore I was interested to know how the prices for different tickets are. So I compared and analyzed the prices of different ski resorts in Germany, Austria and Switzerland. <a href="skiinfo.de">https://www.skiinfo.de</a> maintains a database with the prices of various ski areas in the categories day ticket and 6-day ticket. Each for adults and children.</p>
+<p>I have not checked the listed prices and possible additional services e.g. in multi-day tickets have not been checked by me.</p>
+<p>Therefore I import the HTML tables listed on skiinfo.de and transfer them into a processable table. This requires some adjustments, like converting non-existing data cells or transforming prices into numeric values. Additionally, all prices in Swiss Francs are converted into Euro. The current (09.01.2020) exchange rate of 0.93 EURO per 1 CHF is used for this.</p>
+<pre class="r"><code>de_ski_prices &lt;- as.data.frame(
+  xml2::read_html(&quot;https://www.skiinfo.de/deutschland/skipaesse.html&quot;) %&gt;% 
+    rvest::html_table(fill=TRUE)) %&gt;% 
+  tibble::as_tibble() %&gt;% 
+  dplyr::mutate(Country = &quot;de&quot;)
+
+aut_ski_prices &lt;- as.data.frame(
+  xml2::read_html(&quot;https://www.skiinfo.de/osterreich/skipaesse.html&quot;) %&gt;% 
+    rvest::html_table(fill=TRUE)) %&gt;% 
+  tibble::as_tibble() %&gt;% 
+  dplyr::mutate(Country = &quot;aut&quot;)
+
+ch_ski_prices &lt;- as.data.frame(
+  xml2::read_html(&quot;https://www.skiinfo.de/schweiz/skipaesse.html&quot;) %&gt;% 
+    rvest::html_table(fill=TRUE)) %&gt;% 
+  tibble::as_tibble() %&gt;% 
+  dplyr::mutate(Country = &quot;ch&quot;)
+
+pricelist_resorts &lt;- tibble::tibble() %&gt;% 
+  dplyr::bind_rows(de_ski_prices) %&gt;% 
+  dplyr::bind_rows(aut_ski_prices) %&gt;% 
+  dplyr::bind_rows(ch_ski_prices) %&gt;% 
+  dplyr::select(-&#39;Var.6&#39;) %&gt;% 
+  dplyr::mutate_at(vars(2:5), ~ stringr::str_remove(., &quot;€|CHF&quot;)) %&gt;% 
+  dplyr::mutate_all(~ stringr::str_trim(.)) %&gt;% 
+  dplyr::mutate_all(~ replace(., . == &quot;-&quot;, NA)) %&gt;% 
+  dplyr::mutate_at(vars(2:5), ~ as.numeric(.))</code></pre>
+<pre class="r"><code>pricelist_resorts_euro &lt;- pricelist_resorts %&gt;% 
+  dplyr::filter(Country != &quot;ch&quot;) %&gt;% 
+  dplyr::bind_rows(pricelist_resorts %&gt;% 
+                     dplyr::filter(Country == &quot;ch&quot;) %&gt;% 
+                     dplyr::mutate_at(vars(2:5), ~ . * 0.93)) %&gt;% 
+  dplyr::mutate_at(vars(2:5), ~ replace(., . == 0, NA))</code></pre>
+<p>First we want to examine how the data is structured. How many ski resorts are there per country and how do the individual prices compare. Simple bars and box plot diagrams are suitable for this.</p>
+<div id="number-of-ski-areas-per-country" class="section level1">
+<h1>Number of ski areas per country</h1>
+<p>As shown in the diagram, most ski resorts are located in Austria (223) followed by Switzerland (154) and Germany (148).</p>
+<pre class="r"><code>pricelist_resorts_euro %&gt;% 
+  dplyr::group_by(Country) %&gt;% 
+  dplyr::summarise(Count = dplyr::n()) %&gt;% 
+  dplyr::ungroup() %&gt;% 
+  plotly::plot_ly(x = ~Count,
+                  y = ~Country,
+                  type = &quot;bar&quot;)</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"visdat":{"3a84777cf07":["function () ","plotlyVisDat"]},"cur_data":"3a84777cf07","attrs":{"3a84777cf07":{"x":{},"y":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"Count"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Country","type":"category","categoryorder":"array","categoryarray":["aut","ch","de"]},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[223,154,148],"y":["aut","ch","de"],"type":"bar","orientation":"h","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="price-behaviour-per-ticket-class" class="section level1">
+<h1>Price behaviour per ticket class</h1>
+<p>Now we want to compare the price behaviour of the different ticket classes in the individual ski areas. It is important to note that not every ski resort offers multi-day tickets. 163 of the 525 ski resorts only offer day tickets. German ski resorts account for 91 of these. A possible reason for this could be smaller ski resorts in Germany.</p>
+<p>The diagram shows that the price level in German ski resorts is lower in relation to the median than in neighbouring Switzerland and Austria. Whereby these have a similar price level across all categories. Outliers are the Swiss ski resorts Flims Laax Falera (435.24 EURO) and Crans Montana (432.45 EURO) for multi-day tickets.</p>
+<pre class="r"><code>pricelist_resorts_euro %&gt;% 
+  tidyr::gather(-c(Skigebiet, Country), key = &quot;Category&quot;, value = &quot;Price&quot;) %&gt;% 
+  plotly::plot_ly(x = ~Category, 
+                  y = ~Price, 
+                  color = ~Country, 
+                  type = &quot;box&quot;) %&gt;%
+  plotly::layout(boxmode = &quot;group&quot;)</code></pre>
+<div id="htmlwidget-2" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"visdat":{"3a84601c7304":["function () ","plotlyVisDat"]},"cur_data":"3a84601c7304","attrs":{"3a84601c7304":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"boxmode":"group","xaxis":{"domain":[0,1],"automargin":true,"title":"Category","type":"category","categoryorder":"array","categoryarray":["Erwachsene.6.Tage","Erwachsene.Tageskarte","Kinder.6.Tage","Kinder.Tageskarte"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"Price"},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","x":["Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage"],"y":[24,19.5,19.5,19,13,22.5,24.5,22,17,19,24.5,19,17,25,19.5,28,28,24.5,21,24,23.5,24.5,18,29.7,27,21,28,22.3,30,26.5,28,20.5,20,19,24,24,15.8,27,25,16.5,21.5,30,23,16.9,23.5,28,17.5,16,19.6,25,21,16,16,24,25,28.5,19,24,25,8,19.5,20,21,18.5,29,22,21.5,23,24.5,15,16.4,17,28,14,24,25,27,25,23,25,27.5,21,13,18,23,20,28,25,22.5,27,17.5,22,21.9,32.5,27,15,21,22,19,26.5,18,22,30,27,19,17.5,29,28,21,17,18.5,24,16,25,16.5,23,22,23,19.5,34,24,24.5,22,19,25,16.5,23,25,19.5,25,26.5,25.5,20,24.5,24.5,35,24,18.5,24.3,18.5,31,2,18,20,18,27.5,19.5,17.5,22.5,28,24.5,23,22,31,21,25.5,27,13.5,28,18.5,33.5,19,26.5,28.5,32.5,33,16,27.5,31.9,19,18.5,24.5,22,16,28,24,27,24.5,28,19,25.5,25.5,34,13,24.5,16,24,21,25,20.7,34,23,31,27,25.5,22,16.5,24,24,18,17.5,24.5,20,28,19,34,18,16,22.5,27,23.5,22.5,13,17.5,27.5,26,28,25,25,25,47,33.5,29,31,24.5,23,45,49,33,29,33.2,49,36.5,23,41.5,38.5,57,57,49,41,48,47,30.5,23,49.5,53.5,38,55.5,46.7,52.5,46,56,37.5,39.5,34.5,48,48,31.5,53.5,49.5,28.5,43.5,52.5,39,39.9,46.5,56,30.5,29.5,41.9,56,34,26,37.5,48,42.5,49.5,36.5,48.5,55.5,15,39,33,42,37,49.5,37,43.5,46,49,22,27.4,31,55.5,28,46,55.5,42,56,39.5,55.5,55,41,18,28.5,41.5,35,45,56,37.9,53.5,33,44,36.5,52,53.5,20.5,32.5,39,28,42.5,35.5,41.5,47,53.5,32,29.5,58,56.5,37,23,35,46.5,37.5,27,55.5,33,41.5,43,39.5,38,56.5,48,49,43,36.5,55.5,20,37,49,37.5,49,43.5,41,34,49,49,54,48,37,39,34,52,43,36,40,29,55,39,34.5,45,55.5,49,38.5,43,52,35,41,53.5,19.5,55.5,36.5,47,34.6,42.5,42.5,45.5,54,32,55,55.5,32.9,29.5,49,32,29,56.5,46.5,53.5,49,56,27,41,44,56.5,17,49,24,47,34.5,50,40.5,56.5,46,56,53.5,41,43,24.5,48,48.5,33,34,40.5,38.5,56,49.5,56.5,30,23,42.5,53.5,48.5,43,28,35,55,53,56.5,55.5,55.5,55.5,112,80,94,80,111,123,129,125,88.5,76,130,138,138,138,126,101.5,128,128,72,154,131,108,138,113.5,120,120,138,117,133,128,128,67,131,138,76,126,120,110,85.4,138,153.5,89,78,100.1,120,80,60.5,138,118.5,154,88.5,118,120,103,90,101.5,138,98,126,115.5,125,68.9,85,138,63,118.5,120,127,136,112.5,120,133,86.5,87,120,90,149,120,121.5,131,80,115,98.6,157,131,67,89,120,133.5,76.2,116,134,131,90,85,143,139,100.5,93.5,122,71,120,77.5,120,113,112.5,107,180,128,125,114,88.5,120,68,116.5,126,85,126,128,118.5,95,123,123,166.5,127.5,85,108.8,90,147,114,99,93.5,138,101.5,92,108,138,123,118.5,114,147,107.1,118.5,131,138,99,147,133.5,147,147,150.5,67,138,154,65.5,85,123,112,68,139,116.5,131,125,138,95,118.5,111,180,125,119.5,76,119.5,117.8,180,102,166.5,131,118.5,114,65,126,126,86,79,129.5,103,153.5,90.5,180,85,116.5,131,117,118.5,71,79,138,130,139,120,120,120,197,133,142,135,128,222,245.5,81,250,170,101,217,275.5,275.5,275.5,251,205.5,255.5,255.5,90,269,261.5,188,275.5,237.9,240,240,275.5,194,266,255.5,255.5,134,261.5,275.5,150,251,240,186,201.9,275.5,307,154,150.5,213,266.5,133,150,154,275.5,207.5,269,170,236,266.5,206,150.5,203,275.5,175,251,231,250,120.2,145,275.5,126,228,266.5,195,302.5,196,266.5,266,173,147,218,172,248,266.5,218.3,261.5,160,230,164.3,262,261.5,89,136,240,231.5,159.1,218,224,261.5,163,141.5,286,278,215.5,189,237,136,266.5,155,218,219.5,196,202,300,255.5,250,227,170,266.5,83,195,251,163,251,234.5,197.5,179,245.5,245.5,302.5,254.5,170,179.5,165,245,227.5,194,187.5,275.5,202.5,172,251,275.5,245.5,197.5,227.5,245,178.5,197.5,261.5,275.5,195,245,214,245,245,256,134,275.5,269,111.8,152,245.5,160,125,278,232.5,261.5,250,275.5,120,197.5,190,300,250,239,146,239,207,300,204.5,302.5,261.5,197.5,227.5,96,251,251,156.5,155,213.5,201,307,244.5,300,154,235.5,261.5,239.5,228,134,158.5,275.5,260,278,266.5,266.5,266.5],"type":"box","name":"aut","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","x":["Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage"],"y":[20.46,30.69,25.11,23.25,18.6,24.645,23.25,26.97,23.25,20.46,20.46,22.32,25.11,24.18,24.18,21.39,13.95,21.39,27.9,25.11,26.04,44.64,23.25,19.53,23.25,46.5,11.16,26.97,22.32,24.18,20.46,28.83,28.83,22.32,22.32,27.9,23.25,28.83,24.18,21.39,25.11,26.04,36.921,29.295,22.32,39.06,34.41,30.69,31.62,25.11,21.39,22.32,14.88,18.6,27.9,4.65,24.18,28.83,20.46,24.18,23.25,26.04,16.74,28.83,15.81,33.48,6.51,33.48,20.46,25.11,16.74,12.09,32.55,33.48,27.9,20.46,26.04,18.6,18.6,44.64,30.69,23.25,36.27,20.46,16.74,24.18,16.74,29.76,25.11,14.88,9.3,23.25,16.74,18.6,22.32,22.32,25.11,10.23,34.41,32.55,21.39,20.46,16.74,17.67,28.83,18.6,16.74,23.25,16.74,18.6,28.83,16.74,26.97,21.39,33.48,27.621,32.55,20.46,18.6,27.9,24.18,36.27,35.34,20.46,14.88,27.9,26.97,44.64,35.34,28.83,27.9,26.04,34.41,26.04,37.2,32.55,51.15,37.2,78.12,32.55,29.76,49.29,47.43,53.94,39.99,39.99,31.62,44.64,42.78,35.34,47.43,35.34,18.6,30.69,40.92,39.99,39.99,59.52,38.13,39.06,33.48,82.77,28.83,67.89,27.9,36.27,26.04,44.64,57.66,31.62,27.9,40.92,45.57,51.15,60.45,30.69,39.06,39.06,82.77,58.59,39.06,59.52,57.66,61.38,52.08,51.15,33.48,32.55,22.32,23.25,51.15,7.44,38.13,40.92,31.62,33.48,36.27,39.99,22.32,58.59,25.11,61.38,13.95,52.08,40.92,36.27,32.55,23.25,51.15,51.15,53.01,36.27,54.87,51.15,32.55,59.52,61.38,48.36,71.61,26.04,23.25,54.87,24.18,49.29,51.15,19.53,9.3,46.5,32.55,28.83,38.13,33.48,69.75,13.95,69.75,52.08,29.76,32.55,58.125,30.69,36.27,53.01,29.76,31.62,36.27,23.25,26.04,43.71,23.25,53.01,30.69,61.38,47.43,37.2,53.94,29.76,41.85,48.36,48.36,71.61,47.43,33.48,45.57,40.92,37.2,59.52,30.69,70.68,48.36,54.87,39.99,52.08,51.15,73.47,85.56,166.47,97.65,111.6,83.7,68.82,99.51,139.5,108.81,100.44,100.44,109.74,122.76,125.55,93,146.01,167.4,223.2,90.21,245.52,130.2,102.3,101.37,95.79,132.99,146.01,113.46,111.6,109.74,85.56,133.92,97.65,154.38,132.06,99.51,166.47,161.82,144.15,164.61,112.53,93,117.18,117.18,141.36,100.44,150.66,155.31,187.86,97.65,101.37,165.54,155.31,145.08,97.65,127.41,95.79,223.2,138.57,133.92,173.91,83.7,134.85,126.48,112.995,79.98,98.58,121.83,46.5,176.7,153.45,119.97,75.33,78.12,139.5,117.18,123.69,119.97,155.31,138.012,139.5,120.9,104.16,119.97,111.6,173.91,169.26,89.28,72.54,146.01,143.22,223.2,173.91,139.5,137.64,187.86,110.67,158.1,153.45,268.77,199.95,351.54,162.75,127.41,136.71,199.02,278.07,186.93,195.3,155.31,219.48,199.95,250.17,143.22,218.55,204.6,297.6,180.42,432.45,326.43,120.9,165.54,119.97,196.23,218.55,220.41,199.95,275.28,131.13,208.32,135.78,435.24,263.655,183.21,255.75,269.7,287.37,274.35,219.48,136.71,234.36,190.65,199.95,148.8,301.32,292.95,288.3,195.3,148.8,267.84,245.52,266.91,172.05,256.68,245.52,297.6,278.07,273.42,346.89,102.3,269.7,210.18,225.99,122.76,197.16,202.74,69.75,352.47,237.15,152.52,292.485,138.57,160.89,253.89,181.35,186.93,239.94,292.95,252.03,186,232.5,167.4,238.08,203.67,232.5,346.89,225.99,153.45,216.69,218.55,198.09,297.6,184.14,346.89,232.5,275.28,288.3,220.41,314.34],"type":"box","name":"ch","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","x":["Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Kinder.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Erwachsene.Tageskarte","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Kinder.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage","Erwachsene.6.Tage"],"y":[14,19,10.5,22,15,12,13,13,14,14,19,17,14,10,15,16.9,16,21,20,20.5,15,17,18.5,9,24.5,14,15,13,19,14,12,13,24.5,19,13,13,16,18,18,15,17,16,18.5,10,19,17,15,11,16,18,14,8,21,14,15,10,10,14,17,9,23.5,13,14.9,15,19.5,12,21.9,19,19,16,23,18,15,19,18,10.5,17,15,10,18,17,15,12,14,14,14,14,15,14,17,8,17,19,12,18.5,15,10,17,12,15,17,8,12,7,13,19,19,17.7,13,15,16,16,8,16.5,18,13,14,19,12,25,15,14,10,14,11,11.5,22.5,16,20,24,25,19,17,24.5,10,19.5,30,12.5,33,22,17,17,17,20,18,24,34,26,13,22,27.9,20,41,33,30.5,23.5,22,27,12.5,39.5,22,19,20,19,49.5,19.5,17,14,46,25,16,14,28,35,32,26,9.5,26,20,24,25,12,40,34,25,14,39,30,19,12,30,18,28.5,10,15,39,20,25,30,36,14,24.9,20,40.5,20,31.1,49.5,38.5,19,28,22,20,40,22,11,23,22,20,24,29,20,16,20,20,20,26,26,20,22,12,25,19,23,38,17,28,20,20,24,18,20,26,10,22,15,16,8.5,23,34,27,24.5,17,22,24,18,11,26.5,37,26,19.5,41,25,30,20,22,32,18,15,14,38,19,31,47,37,24,22,48,16,72,78,121,90,90,90.5,53,128,76,53,69,60,96,89,120,78,105,60,49,54,99,74,49,94,90.5,90.5,120,89,67,95,102,49,62,65,49,120,96,50,70,90,52,82,90,73,78,102,60,102,60,144,96,119.5,96,75,128,120,171,242,132,100,132,244.5,58,255.5,112,58,122,154,110,115,177,240,122,163.5,215,99,139,162,124,99,194.5,244.5,244.5,146,177,98,171,210,99,84,95,99,240,138,100,80,132,86,119,132,85,122,210,119,210,80,215,138,239,138,96,255.5],"type":"box","name":"de","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="price-ratio-of-one-day-to-6-day-tickets" class="section level1">
+<h1>Price ratio of one-day to 6-day tickets</h1>
+<p>What is the price ratio between single and multi-day tickets. In the best case this is a maximum of six times the price of a single ticket. This ratio is shown in the following diagram. The median for all three countries has a ratio of approx. 5, which means that in most ski resorts, one day is given free of charge when buying a multi-day ticket.</p>
+<p>All ski areas with a ratio greater than 6 are not profitable in relation to the pure piste pass. Further additional services would therefore have to be integrated in order to be attractive for potential customers at all.</p>
+<p>In the case of Rottach Egern with a ratio of 10.5, for example, the multi-day ticket includes a combined ticket for a larger ski region.</p>
+<pre class="r"><code>ratio_6_days &lt;- pricelist_resorts_euro %&gt;% 
+  dplyr::select(Skigebiet, Country, Erwachsene.6.Tage, Erwachsene.Tageskarte) %&gt;% 
+  tidyr::drop_na(Erwachsene.6.Tage) %&gt;% 
+  dplyr::mutate(Ratio = round(Erwachsene.6.Tage / Erwachsene.Tageskarte, 1)) %&gt;% 
+  dplyr::arrange(Ratio) 
+
+ratio_6_days %&gt;% 
+  plotly::plot_ly(color = ~Country, y = ~Ratio, 
+                  type = &quot;box&quot;, 
+                  boxpoints = &quot;all&quot;, 
+                  jitter = 0.3,
+                  pointpos = -1.8,
+                  hoverinfo = &quot;text&quot;,
+                  text = ~paste0(Skigebiet,
+                                 &quot;&lt;br&gt;Ratio: &quot;, Ratio,
+                                 &quot;&lt;br&gt;Price daily ticket: &quot;, Erwachsene.Tageskarte,
+                                 &quot;&lt;br&gt;Price 6 day ticket: &quot;, Erwachsene.6.Tage))</code></pre>
+<div id="htmlwidget-3" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"visdat":{"3a8478bb69c5":["function () ","plotlyVisDat"]},"cur_data":"3a8478bb69c5","attrs":{"3a8478bb69c5":{"y":{},"boxpoints":"all","jitter":0.3,"pointpos":-1.8,"hoverinfo":"text","text":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"yaxis":{"domain":[0,1],"automargin":true,"title":"Ratio"},"xaxis":{"domain":[0,1],"automargin":true},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","y":[2.8,3.4,3.9,3.9,3.9,4,4.1,4.2,4.2,4.2,4.2,4.2,4.2,4.3,4.3,4.3,4.3,4.3,4.4,4.4,4.4,4.4,4.4,4.5,4.5,4.5,4.5,4.6,4.6,4.6,4.6,4.6,4.6,4.6,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,4.9,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.1,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.2,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.4,5.4,5.4,5.4,5.4,5.4,5.4,5.4,5.4,5.4,5.5,5.5,5.5,5.5,5.6,5.6,5.6,5.7,5.8,5.8,5.8,5.8,5.8,5.8,5.9,6.2,6.7,7.2,7.4],"boxpoints":"all","jitter":0.3,"pointpos":-1.8,"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["Alpl<br>Ratio: 2.8<br>Price daily ticket: 29<br>Price 6 day ticket: 81","Silvretta-Bielerhöhe<br>Ratio: 3.4<br>Price daily ticket: 32.9<br>Price 6 day ticket: 111.8","Bodental<br>Ratio: 3.9<br>Price daily ticket: 23<br>Price 6 day ticket: 90","Gaaler Lifte<br>Ratio: 3.9<br>Price daily ticket: 34<br>Price 6 day ticket: 133","Teichalmlifte<br>Ratio: 3.9<br>Price daily ticket: 24.5<br>Price 6 day ticket: 96","Achensee - Maurach<br>Ratio: 4<br>Price daily ticket: 33.5<br>Price 6 day ticket: 133","Gaissau Hintersee<br>Ratio: 4.1<br>Price daily ticket: 37.5<br>Price 6 day ticket: 154","Achensee - Christlum<br>Ratio: 4.2<br>Price daily ticket: 47<br>Price 6 day ticket: 197","Hochkössen<br>Ratio: 4.2<br>Price daily ticket: 41<br>Price 6 day ticket: 173","Jungholz<br>Ratio: 4.2<br>Price daily ticket: 32.5<br>Price 6 day ticket: 136","Modriach-Winkel Hoislifte<br>Ratio: 4.2<br>Price daily ticket: 20<br>Price 6 day ticket: 83","Serlesbahnen - Mieders<br>Ratio: 4.2<br>Price daily ticket: 32<br>Price 6 day ticket: 134","Sternstein Lifte<br>Ratio: 4.2<br>Price daily ticket: 34.5<br>Price 6 day ticket: 146","Elferlifte Neustift<br>Ratio: 4.3<br>Price daily ticket: 31.5<br>Price 6 day ticket: 134","Jauerling<br>Ratio: 4.3<br>Price daily ticket: 20.5<br>Price 6 day ticket: 89","Mönichkirchen - Mariensee<br>Ratio: 4.3<br>Price daily ticket: 37.5<br>Price 6 day ticket: 163","Skiarena Lammeralm<br>Ratio: 4.3<br>Price daily ticket: 29<br>Price 6 day ticket: 125","Sonnenkopf<br>Ratio: 4.3<br>Price daily ticket: 44<br>Price 6 day ticket: 190","Aflenzer Bürgeralm<br>Ratio: 4.4<br>Price daily ticket: 31<br>Price 6 day ticket: 135","Arralifte Harmanschlag<br>Ratio: 4.4<br>Price daily ticket: 23<br>Price 6 day ticket: 101","Hallein Dürrnberg - Zinkenlifte<br>Ratio: 4.4<br>Price daily ticket: 27.4<br>Price 6 day ticket: 120.2","Sonnberglifte Wald am Schoberpass<br>Ratio: 4.4<br>Price daily ticket: 27<br>Price 6 day ticket: 120","Stuhleck - Semmering<br>Ratio: 4.4<br>Price daily ticket: 46<br>Price 6 day ticket: 204.5","Heutal<br>Ratio: 4.5<br>Price daily ticket: 28<br>Price 6 day ticket: 126","Innsbrucker Nordkettenbahnen<br>Ratio: 4.5<br>Price daily ticket: 36.5<br>Price 6 day ticket: 164.3","Karkogel - Abtenau<br>Ratio: 4.5<br>Price daily ticket: 35.5<br>Price 6 day ticket: 159.1","Zauberberg Semmering<br>Ratio: 4.5<br>Price daily ticket: 35<br>Price 6 day ticket: 158.5","Damüls - Mellau<br>Ratio: 4.6<br>Price daily ticket: 52.5<br>Price 6 day ticket: 240","Faschina - Fontanella<br>Ratio: 4.6<br>Price daily ticket: 52.5<br>Price 6 day ticket: 240","Glungezer<br>Ratio: 4.6<br>Price daily ticket: 33<br>Price 6 day ticket: 150.5","Hochficht Böhmerwald<br>Ratio: 4.6<br>Price daily ticket: 42<br>Price 6 day ticket: 195","Obertilliach - Golzentipp<br>Ratio: 4.6<br>Price daily ticket: 37<br>Price 6 day ticket: 170","Patscherkofel<br>Ratio: 4.6<br>Price daily ticket: 39<br>Price 6 day ticket: 179.5","Veitsch Brunnalm<br>Ratio: 4.6<br>Price daily ticket: 34<br>Price 6 day ticket: 155","Annaberg<br>Ratio: 4.7<br>Price daily ticket: 36.5<br>Price 6 day ticket: 170","Gemeindealpe Mitterbach<br>Ratio: 4.7<br>Price daily ticket: 36.5<br>Price 6 day ticket: 170","Grebenzen - St. Lambrecht<br>Ratio: 4.7<br>Price daily ticket: 37<br>Price 6 day ticket: 175","Hauereck - St Kathrein am Hauenstein<br>Ratio: 4.7<br>Price daily ticket: 31<br>Price 6 day ticket: 145","Kötschach - Mauthen<br>Ratio: 4.7<br>Price daily ticket: 33<br>Price 6 day ticket: 155","Mariazeller Bürgeralpe<br>Ratio: 4.7<br>Price daily ticket: 36.5<br>Price 6 day ticket: 170","Pitztaler Gletscher<br>Ratio: 4.7<br>Price daily ticket: 52<br>Price 6 day ticket: 245","Präbichl<br>Ratio: 4.7<br>Price daily ticket: 40<br>Price 6 day ticket: 187.5","Rifflsee - Pitztal<br>Ratio: 4.7<br>Price daily ticket: 52<br>Price 6 day ticket: 245","Serfaus Fiss Ladis<br>Ratio: 4.7<br>Price daily ticket: 54<br>Price 6 day ticket: 256","Unterberg - Pernitz<br>Ratio: 4.7<br>Price daily ticket: 33<br>Price 6 day ticket: 156.5","Bad Gastein - Sportgastein<br>Ratio: 4.8<br>Price daily ticket: 57<br>Price 6 day ticket: 275.5","Bad Hofgastein - Bad Gastein - Skischaukel Schlossalm-Angertal-Stubnerkogel<br>Ratio: 4.8<br>Price daily ticket: 57<br>Price 6 day ticket: 275.5","Fendels<br>Ratio: 4.8<br>Price daily ticket: 39<br>Price 6 day ticket: 186","Fügen - Spieljoch<br>Ratio: 4.8<br>Price daily ticket: 56<br>Price 6 day ticket: 266.5","Gerlos - Zillertal Arena<br>Ratio: 4.8<br>Price daily ticket: 55.5<br>Price 6 day ticket: 266.5","Goldeck Bergbahnen<br>Ratio: 4.8<br>Price daily ticket: 42<br>Price 6 day ticket: 203","Hintertuxer Gletscher<br>Ratio: 4.8<br>Price daily ticket: 55.5<br>Price 6 day ticket: 266.5","Hochkrimml - Zillertal Arena<br>Ratio: 4.8<br>Price daily ticket: 55.5<br>Price 6 day ticket: 266.5","Hochkönig - Maria Alm - Dienten - Mühlbach<br>Ratio: 4.8<br>Price daily ticket: 55<br>Price 6 day ticket: 266","Hochzillertal<br>Ratio: 4.8<br>Price daily ticket: 56<br>Price 6 day ticket: 266.5","Imst<br>Ratio: 4.8<br>Price daily ticket: 33<br>Price 6 day ticket: 160","Kaunertaler Gletscher<br>Ratio: 4.8<br>Price daily ticket: 47<br>Price 6 day ticket: 224","Kirchdorf in Tirol<br>Ratio: 4.8<br>Price daily ticket: 29.5<br>Price 6 day ticket: 141.5","Königsleiten - Wald - Zillertal Arena<br>Ratio: 4.8<br>Price daily ticket: 55.5<br>Price 6 day ticket: 266.5","Mayrhofen<br>Ratio: 4.8<br>Price daily ticket: 55.5<br>Price 6 day ticket: 266.5","Nesselwängle<br>Ratio: 4.8<br>Price daily ticket: 41<br>Price 6 day ticket: 197.5","Schattwald - Zöblen<br>Ratio: 4.8<br>Price daily ticket: 41<br>Price 6 day ticket: 197.5","Silvretta Montafon<br>Ratio: 4.8<br>Price daily ticket: 55.5<br>Price 6 day ticket: 269","Sonnenbergbahnen Grän<br>Ratio: 4.8<br>Price daily ticket: 41<br>Price 6 day ticket: 197.5","Stubaier Gletscher<br>Ratio: 4.8<br>Price daily ticket: 50<br>Price 6 day ticket: 239","Tannheim - Neunerköpfle<br>Ratio: 4.8<br>Price daily ticket: 41<br>Price 6 day ticket: 197.5","Zahmer Kaiser - Walchsee<br>Ratio: 4.8<br>Price daily ticket: 28<br>Price 6 day ticket: 134","Zell am Ziller - Zillertal Arena<br>Ratio: 4.8<br>Price daily ticket: 55.5<br>Price 6 day ticket: 266.5","Zillertal Arena<br>Ratio: 4.8<br>Price daily ticket: 55.5<br>Price 6 day ticket: 266.5","Zillertal Gletscherwelt 3000 - Tux - Finkenberg<br>Ratio: 4.8<br>Price daily ticket: 55.5<br>Price 6 day ticket: 266.5","Achensee - Pertisau<br>Ratio: 4.9<br>Price daily ticket: 29<br>Price 6 day ticket: 142","Almenwelt Lofer<br>Ratio: 4.9<br>Price daily ticket: 45<br>Price 6 day ticket: 222","Brixen im Thale - SkiWelt<br>Ratio: 4.9<br>Price daily ticket: 53.5<br>Price 6 day ticket: 261.5","Buchensteinwand<br>Ratio: 4.9<br>Price daily ticket: 38<br>Price 6 day ticket: 188","Dorfgastein - Großarltal<br>Ratio: 4.9<br>Price daily ticket: 56<br>Price 6 day ticket: 275.5","Ellmau - SkiWelt<br>Ratio: 4.9<br>Price daily ticket: 53.5<br>Price 6 day ticket: 261.5","Galtür<br>Ratio: 4.9<br>Price daily ticket: 42.5<br>Price 6 day ticket: 207.5","Gerlitzen<br>Ratio: 4.9<br>Price daily ticket: 48.5<br>Price 6 day ticket: 236","Hochrindl - Sirnitz - Albeck<br>Ratio: 4.9<br>Price daily ticket: 35<br>Price 6 day ticket: 172","Hopfgarten im Brixental - SkiWelt<br>Ratio: 4.9<br>Price daily ticket: 53.5<br>Price 6 day ticket: 261.5","Itter - SkiWelt<br>Ratio: 4.9<br>Price daily ticket: 53.5<br>Price 6 day ticket: 261.5","Kelchsau - SkiWelt<br>Ratio: 4.9<br>Price daily ticket: 53.5<br>Price 6 day ticket: 261.5","Kitzbühel<br>Ratio: 4.9<br>Price daily ticket: 58<br>Price 6 day ticket: 286","Kitzsteinhorn Maiskogel - Kaprun<br>Ratio: 4.9<br>Price daily ticket: 56.5<br>Price 6 day ticket: 278","Petzen<br>Ratio: 4.9<br>Price daily ticket: 34<br>Price 6 day ticket: 165","Scheffau - SkiWelt<br>Ratio: 4.9<br>Price daily ticket: 53.5<br>Price 6 day ticket: 261.5","Skicircus Saalbach Hinterglemm Leogang Fieberbrunn<br>Ratio: 4.9<br>Price daily ticket: 56.5<br>Price 6 day ticket: 278","SkiWelt Wilder Kaiser - Brixental<br>Ratio: 4.9<br>Price daily ticket: 53.5<br>Price 6 day ticket: 261.5","Snow Space Salzburg -  Alpendorf in St. Johann im Pongau<br>Ratio: 4.9<br>Price daily ticket: 56<br>Price 6 day ticket: 275.5","Söll - SkiWelt<br>Ratio: 4.9<br>Price daily ticket: 53.5<br>Price 6 day ticket: 261.5","Walmendingerhorn - Ifen - Heuberg<br>Ratio: 4.9<br>Price daily ticket: 49.5<br>Price 6 day ticket: 244.5","Westendorf - SkiWelt<br>Ratio: 4.9<br>Price daily ticket: 53.5<br>Price 6 day ticket: 261.5","Wildkogel-Arena<br>Ratio: 4.9<br>Price daily ticket: 48.5<br>Price 6 day ticket: 239.5","Zell am See - Kaprun<br>Ratio: 4.9<br>Price daily ticket: 53<br>Price 6 day ticket: 260","Zell am See - Schmittenhöhe<br>Ratio: 4.9<br>Price daily ticket: 56.5<br>Price 6 day ticket: 278","Alpbach - Ski Juwel Alpbachtal Wildschönau<br>Ratio: 5<br>Price daily ticket: 49<br>Price 6 day ticket: 245.5","Bergeralm - Steinach am Brenner<br>Ratio: 5<br>Price daily ticket: 41<br>Price 6 day ticket: 205.5","Dachstein Gletscher<br>Ratio: 5<br>Price daily ticket: 55.5<br>Price 6 day ticket: 275.5","Flattnitz<br>Ratio: 5<br>Price daily ticket: 30.5<br>Price 6 day ticket: 154","Großglockner - Heiligenblut<br>Ratio: 5<br>Price daily ticket: 46<br>Price 6 day ticket: 231","Hauser Kaibling - Schladming<br>Ratio: 5<br>Price daily ticket: 55.5<br>Price 6 day ticket: 275.5","Hinterstoder<br>Ratio: 5<br>Price daily ticket: 46<br>Price 6 day ticket: 228","Hochkar<br>Ratio: 5<br>Price daily ticket: 39.5<br>Price 6 day ticket: 196","Ischgl<br>Ratio: 5<br>Price daily ticket: 52<br>Price 6 day ticket: 262","Königsberg - Hollenstein/Ybbs<br>Ratio: 5<br>Price daily ticket: 27<br>Price 6 day ticket: 136","Lackenhof - Ötscher<br>Ratio: 5<br>Price daily ticket: 39.5<br>Price 6 day ticket: 196","Niederau - Ski Juwel Alpbachtal Wildschönau<br>Ratio: 5<br>Price daily ticket: 49<br>Price 6 day ticket: 245.5","Oberau - Ski Juwel Alpbachtal Wildschönau<br>Ratio: 5<br>Price daily ticket: 49<br>Price 6 day ticket: 245.5","Radstadt - Altenmarkt<br>Ratio: 5<br>Price daily ticket: 55<br>Price 6 day ticket: 275.5","Rangger Köpfl - Oberperfuss<br>Ratio: 5<br>Price daily ticket: 34.5<br>Price 6 day ticket: 172","Reiteralm<br>Ratio: 5<br>Price daily ticket: 55.5<br>Price 6 day ticket: 275.5","Reith i. A. - Ski Juwel Alpbachtal Wildschönau<br>Ratio: 5<br>Price daily ticket: 49<br>Price 6 day ticket: 245.5","Schladming - Planai - Hochwurzen<br>Ratio: 5<br>Price daily ticket: 55.5<br>Price 6 day ticket: 275.5","See im Paznauntal<br>Ratio: 5<br>Price daily ticket: 42.5<br>Price 6 day ticket: 214","Shuttleberg Flachauwinkl - Kleinarl<br>Ratio: 5<br>Price daily ticket: 55<br>Price 6 day ticket: 275.5","Ski Juwel Alpbachtal Wildschönau<br>Ratio: 5<br>Price daily ticket: 49<br>Price 6 day ticket: 245.5","Ski Leutasch – Bergbahn Kreithlift<br>Ratio: 5<br>Price daily ticket: 32<br>Price 6 day ticket: 160","SkiStar St. Johann in Tirol<br>Ratio: 5<br>Price daily ticket: 46.5<br>Price 6 day ticket: 232.5","Zauchensee - Flachauwinkl<br>Ratio: 5<br>Price daily ticket: 55<br>Price 6 day ticket: 275.5","Ankogel - Mallnitz<br>Ratio: 5.1<br>Price daily ticket: 49<br>Price 6 day ticket: 250","Bad Kleinkirchheim<br>Ratio: 5.1<br>Price daily ticket: 49<br>Price 6 day ticket: 251","Dachstein West<br>Ratio: 5.1<br>Price daily ticket: 46.7<br>Price 6 day ticket: 237.9","Feuerkogel<br>Ratio: 5.1<br>Price daily ticket: 39.9<br>Price 6 day ticket: 201.9","Forsteralm<br>Ratio: 5.1<br>Price daily ticket: 29.5<br>Price 6 day ticket: 150.5","Freesports Arena Dachstein Krippenstein<br>Ratio: 5.1<br>Price daily ticket: 41.9<br>Price 6 day ticket: 213","Großglockner Resort Kals-Matrei<br>Ratio: 5.1<br>Price daily ticket: 49<br>Price 6 day ticket: 250","Kellerjochbahn - Schwaz - Pill<br>Ratio: 5.1<br>Price daily ticket: 32<br>Price 6 day ticket: 163","Kreischberg<br>Ratio: 5.1<br>Price daily ticket: 46.5<br>Price 6 day ticket: 237","Lachtal<br>Ratio: 5.1<br>Price daily ticket: 43<br>Price 6 day ticket: 219.5","Lienzer Bergbahnen - Zettersfeld - Hochstein<br>Ratio: 5.1<br>Price daily ticket: 49<br>Price 6 day ticket: 250","Mölltaler Gletscher<br>Ratio: 5.1<br>Price daily ticket: 49<br>Price 6 day ticket: 251","Nassfeld Hermagor<br>Ratio: 5.1<br>Price daily ticket: 49<br>Price 6 day ticket: 251","Reutte Hahnenkamm<br>Ratio: 5.1<br>Price daily ticket: 38.5<br>Price 6 day ticket: 197.5","Salzstiegl<br>Ratio: 5.1<br>Price daily ticket: 35<br>Price 6 day ticket: 178.5","Skizentrum Sillian<br>Ratio: 5.1<br>Price daily ticket: 49<br>Price 6 day ticket: 250","St. Jakob im Defereggental<br>Ratio: 5.1<br>Price daily ticket: 49<br>Price 6 day ticket: 250","Steinplatte Waidring<br>Ratio: 5.1<br>Price daily ticket: 47<br>Price 6 day ticket: 239","Stubaital - Schlick 2000<br>Ratio: 5.1<br>Price daily ticket: 40.5<br>Price 6 day ticket: 207","Weinebene<br>Ratio: 5.1<br>Price daily ticket: 30<br>Price 6 day ticket: 154","Aichelberglifte Karlstift<br>Ratio: 5.2<br>Price daily ticket: 24.5<br>Price 6 day ticket: 128","Axamer - Lizum<br>Ratio: 5.2<br>Price daily ticket: 41.5<br>Price 6 day ticket: 217","Diedamskopf<br>Ratio: 5.2<br>Price daily ticket: 46<br>Price 6 day ticket: 240","Dreiländereck<br>Ratio: 5.2<br>Price daily ticket: 37.5<br>Price 6 day ticket: 194","Hochlitten Riefensberg<br>Ratio: 5.2<br>Price daily ticket: 28.5<br>Price 6 day ticket: 147","Innerkrems<br>Ratio: 5.2<br>Price daily ticket: 44<br>Price 6 day ticket: 230","Ramsau am Dachstein<br>Ratio: 5.2<br>Price daily ticket: 39<br>Price 6 day ticket: 202.5","Schlepplifte Neuleutasch<br>Ratio: 5.2<br>Price daily ticket: 47<br>Price 6 day ticket: 245","Simonhöhe<br>Ratio: 5.2<br>Price daily ticket: 29.5<br>Price 6 day ticket: 152","Topskiregion Katschberg<br>Ratio: 5.2<br>Price daily ticket: 48<br>Price 6 day ticket: 251","Turracher Höhe<br>Ratio: 5.2<br>Price daily ticket: 48.5<br>Price 6 day ticket: 251","Vent<br>Ratio: 5.2<br>Price daily ticket: 38.5<br>Price 6 day ticket: 201","Biberwier - Marienberg<br>Ratio: 5.3<br>Price daily ticket: 48<br>Price 6 day ticket: 255.5","Ehrwalder Alm<br>Ratio: 5.3<br>Price daily ticket: 48<br>Price 6 day ticket: 255.5","Ehrwalder Wettersteinbahnen<br>Ratio: 5.3<br>Price daily ticket: 48<br>Price 6 day ticket: 255.5","Falkert - Heidialm<br>Ratio: 5.3<br>Price daily ticket: 28.5<br>Price 6 day ticket: 150","Gletscherwelt Weißsee<br>Ratio: 5.3<br>Price daily ticket: 39<br>Price 6 day ticket: 206","Hochoetz<br>Ratio: 5.3<br>Price daily ticket: 41.5<br>Price 6 day ticket: 218","Kasberg - Grünau<br>Ratio: 5.3<br>Price daily ticket: 41.5<br>Price 6 day ticket: 218","Kühtai<br>Ratio: 5.3<br>Price daily ticket: 41.5<br>Price 6 day ticket: 218","Laterns - Gapfohl<br>Ratio: 5.3<br>Price daily ticket: 38<br>Price 6 day ticket: 202","Lech Zürs am Arlberg<br>Ratio: 5.3<br>Price daily ticket: 56.5<br>Price 6 day ticket: 300","Lermoos Grubigstein<br>Ratio: 5.3<br>Price daily ticket: 48<br>Price 6 day ticket: 255.5","Loser Bergbahnen Altaussee<br>Ratio: 5.3<br>Price daily ticket: 43<br>Price 6 day ticket: 227","Muttereralm<br>Ratio: 5.3<br>Price daily ticket: 37<br>Price 6 day ticket: 195","Niederalpl<br>Ratio: 5.3<br>Price daily ticket: 34<br>Price 6 day ticket: 179","Obertauern<br>Ratio: 5.3<br>Price daily ticket: 48<br>Price 6 day ticket: 254.5","Planneralm<br>Ratio: 5.3<br>Price daily ticket: 43<br>Price 6 day ticket: 227.5","Riesneralm<br>Ratio: 5.3<br>Price daily ticket: 43<br>Price 6 day ticket: 227.5","Schladming Dachstein - Stoderzinken<br>Ratio: 5.3<br>Price daily ticket: 36.5<br>Price 6 day ticket: 195","St. Anton am Arlberg<br>Ratio: 5.3<br>Price daily ticket: 56.5<br>Price 6 day ticket: 300","Stuben am Arlberg<br>Ratio: 5.3<br>Price daily ticket: 56.5<br>Price 6 day ticket: 300","Tauplitzalm - Tauplitz<br>Ratio: 5.3<br>Price daily ticket: 43<br>Price 6 day ticket: 227.5","Venet - Landeck - Zams - Fliess<br>Ratio: 5.3<br>Price daily ticket: 40.5<br>Price 6 day ticket: 213.5","Warth - Schröcken<br>Ratio: 5.3<br>Price daily ticket: 56.5<br>Price 6 day ticket: 300","Wurzeralm<br>Ratio: 5.3<br>Price daily ticket: 43<br>Price 6 day ticket: 228","Bichlbach - Berwang<br>Ratio: 5.4<br>Price daily ticket: 47<br>Price 6 day ticket: 255.5","Brandnertal<br>Ratio: 5.4<br>Price daily ticket: 49.5<br>Price 6 day ticket: 269","Gargellen<br>Ratio: 5.4<br>Price daily ticket: 49.5<br>Price 6 day ticket: 269","Hochfügen<br>Ratio: 5.4<br>Price daily ticket: 56<br>Price 6 day ticket: 302.5","Kappl<br>Ratio: 5.4<br>Price daily ticket: 42.5<br>Price 6 day ticket: 231.5","Koralpe<br>Ratio: 5.4<br>Price daily ticket: 35<br>Price 6 day ticket: 189","Nauders<br>Ratio: 5.4<br>Price daily ticket: 43.5<br>Price 6 day ticket: 234.5","Postalm<br>Ratio: 5.4<br>Price daily ticket: 36<br>Price 6 day ticket: 194","Seefeld - Rosshütte<br>Ratio: 5.4<br>Price daily ticket: 45.5<br>Price 6 day ticket: 245","Sölden<br>Ratio: 5.4<br>Price daily ticket: 56<br>Price 6 day ticket: 302.5","Flachau - Snow Space Salzburg<br>Ratio: 5.5<br>Price daily ticket: 56<br>Price 6 day ticket: 307","Hochzeiger<br>Ratio: 5.5<br>Price daily ticket: 45<br>Price 6 day ticket: 248","Wagrain - Snow Space Salzburg<br>Ratio: 5.5<br>Price daily ticket: 56<br>Price 6 day ticket: 307","Werfenweng<br>Ratio: 5.5<br>Price daily ticket: 42.5<br>Price 6 day ticket: 235.5","Fageralm Forstau<br>Ratio: 5.6<br>Price daily ticket: 49.5<br>Price 6 day ticket: 275.5","Obergurgl - Hochgurgl<br>Ratio: 5.6<br>Price daily ticket: 54<br>Price 6 day ticket: 302.5","Rauris<br>Ratio: 5.6<br>Price daily ticket: 45<br>Price 6 day ticket: 251","Galsterbergalm<br>Ratio: 5.7<br>Price daily ticket: 48<br>Price 6 day ticket: 275.5","Fanningberg<br>Ratio: 5.8<br>Price daily ticket: 43.5<br>Price 6 day ticket: 251","Gaberl - Stubalm - Plankogel<br>Ratio: 5.8<br>Price daily ticket: 26<br>Price 6 day ticket: 150","Großeck - Speiereck<br>Ratio: 5.8<br>Price daily ticket: 43.5<br>Price 6 day ticket: 251","Hohentauern<br>Ratio: 5.8<br>Price daily ticket: 37.9<br>Price 6 day ticket: 218.3","Klippitztörl<br>Ratio: 5.8<br>Price daily ticket: 37<br>Price 6 day ticket: 215.5","Seefeld - Gschwandtkopf<br>Ratio: 5.8<br>Price daily ticket: 42.5<br>Price 6 day ticket: 245","Filzmoos<br>Ratio: 5.9<br>Price daily ticket: 46.5<br>Price 6 day ticket: 275.5","Jöchelspitze - Lechtal<br>Ratio: 6.2<br>Price daily ticket: 39<br>Price 6 day ticket: 240","Eben im Pongau - Monte Popolo<br>Ratio: 6.7<br>Price daily ticket: 39.5<br>Price 6 day ticket: 266","Bad Gastein - Graukogel<br>Ratio: 7.2<br>Price daily ticket: 38.5<br>Price 6 day ticket: 275.5","Goldegg<br>Ratio: 7.4<br>Price daily ticket: 37<br>Price 6 day ticket: 275.5"],"type":"box","name":"aut","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","y":[2.8,2.9,3.5,3.9,4.1,4.2,4.2,4.2,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.3,4.4,4.4,4.4,4.4,4.5,4.5,4.5,4.5,4.5,4.6,4.6,4.6,4.6,4.6,4.6,4.6,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.7,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.8,4.9,4.9,4.9,4.9,4.9,4.9,5,5,5,5,5,5,5,5,5,5,5,5.1,5.1,5.1,5.1,5.2,5.2,5.2,5.2,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.3,5.4,5.5,5.5,5.6,5.7,5.7,6],"boxpoints":"all","jitter":0.3,"pointpos":-1.8,"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["Beatenberg<br>Ratio: 2.8<br>Price daily ticket: 49.29<br>Price 6 day ticket: 136.71","Saas-Almagell<br>Ratio: 2.9<br>Price daily ticket: 69.75<br>Price 6 day ticket: 202.74","Fideriser Heuberge<br>Ratio: 3.5<br>Price daily ticket: 39.06<br>Price 6 day ticket: 135.78","Elsigen - Metsch - Frutigen<br>Ratio: 3.9<br>Price daily ticket: 51.15<br>Price 6 day ticket: 199.95","Les Paccots - Rathvel<br>Ratio: 4.1<br>Price daily ticket: 36.27<br>Price 6 day ticket: 148.8","Beckenried - Klewenalp<br>Ratio: 4.2<br>Price daily ticket: 47.43<br>Price 6 day ticket: 199.02","Habkern<br>Ratio: 4.2<br>Price daily ticket: 32.55<br>Price 6 day ticket: 136.71","Stoos<br>Ratio: 4.2<br>Price daily ticket: 48.36<br>Price 6 day ticket: 203.67","Avers<br>Ratio: 4.3<br>Price daily ticket: 29.76<br>Price 6 day ticket: 127.41","Degersheim<br>Ratio: 4.3<br>Price daily ticket: 27.9<br>Price 6 day ticket: 120.9","Eriz<br>Ratio: 4.3<br>Price daily ticket: 30.69<br>Price 6 day ticket: 131.13","Glacier 3000<br>Ratio: 4.3<br>Price daily ticket: 59.52<br>Price 6 day ticket: 255.75","Grüsch-Danusa<br>Ratio: 4.3<br>Price daily ticket: 51.15<br>Price 6 day ticket: 219.48","Ovronnaz<br>Ratio: 4.3<br>Price daily ticket: 49.29<br>Price 6 day ticket: 210.18","Rossberg Oberwil<br>Ratio: 4.3<br>Price daily ticket: 28.83<br>Price 6 day ticket: 122.76","Schwyz Rickenbach - Rotenflue (Mythen)<br>Ratio: 4.3<br>Price daily ticket: 43.71<br>Price 6 day ticket: 186.93","St-Luc Chandolin<br>Ratio: 4.3<br>Price daily ticket: 53.94<br>Price 6 day ticket: 232.5","Wildhaus - Toggenburg<br>Ratio: 4.3<br>Price daily ticket: 51.15<br>Price 6 day ticket: 220.41","Zermatt<br>Ratio: 4.3<br>Price daily ticket: 73.47<br>Price 6 day ticket: 314.34","Diemtigtal - Wiriehorn<br>Ratio: 4.4<br>Price daily ticket: 44.64<br>Price 6 day ticket: 196.23","Obergoms<br>Ratio: 4.4<br>Price daily ticket: 23.25<br>Price 6 day ticket: 102.3","Pizol - Heidiland<br>Ratio: 4.4<br>Price daily ticket: 51.15<br>Price 6 day ticket: 225.99","Sattel - Hochstuckli<br>Ratio: 4.4<br>Price daily ticket: 36.27<br>Price 6 day ticket: 160.89","Arosa Lenzerheide<br>Ratio: 4.5<br>Price daily ticket: 78.12<br>Price 6 day ticket: 351.54","Flumserberg - Heidiland<br>Ratio: 4.5<br>Price daily ticket: 58.59<br>Price 6 day ticket: 263.655","Mürren - Schilthorn<br>Ratio: 4.5<br>Price daily ticket: 61.38<br>Price 6 day ticket: 278.07","Sarn - Heinzenberg<br>Ratio: 4.5<br>Price daily ticket: 30.69<br>Price 6 day ticket: 138.57","Scuol Motta Naluns<br>Ratio: 4.5<br>Price daily ticket: 53.01<br>Price 6 day ticket: 239.94","Chur<br>Ratio: 4.6<br>Price daily ticket: 39.06<br>Price 6 day ticket: 180.42","Diemtigtal - Grimmialp<br>Ratio: 4.6<br>Price daily ticket: 36.27<br>Price 6 day ticket: 165.54","Diemtigtal - Springenboden<br>Ratio: 4.6<br>Price daily ticket: 26.04<br>Price 6 day ticket: 119.97","Engelberg<br>Ratio: 4.6<br>Price daily ticket: 60.45<br>Price 6 day ticket: 275.28","Hoch-Ybrig<br>Ratio: 4.6<br>Price daily ticket: 51.15<br>Price 6 day ticket: 234.36","Saas-Grund<br>Ratio: 4.6<br>Price daily ticket: 52.08<br>Price 6 day ticket: 237.15","Tschappina Heinzenberg<br>Ratio: 4.6<br>Price daily ticket: 33.48<br>Price 6 day ticket: 153.45","Amden - Arvenbüel<br>Ratio: 4.7<br>Price daily ticket: 32.55<br>Price 6 day ticket: 153.45","Bergün - Filisur<br>Ratio: 4.7<br>Price daily ticket: 39.99<br>Price 6 day ticket: 186.93","Brienz Axalp<br>Ratio: 4.7<br>Price daily ticket: 42.78<br>Price 6 day ticket: 199.95","Bumbach Schangnau<br>Ratio: 4.7<br>Price daily ticket: 30.69<br>Price 6 day ticket: 143.22","Giswil - Mörlialp<br>Ratio: 4.7<br>Price daily ticket: 39.06<br>Price 6 day ticket: 183.21","Grimentz-Zinal<br>Ratio: 4.7<br>Price daily ticket: 57.66<br>Price 6 day ticket: 269.7","Grindelwald - Wengen<br>Ratio: 4.7<br>Price daily ticket: 61.38<br>Price 6 day ticket: 287.37","Kiental<br>Ratio: 4.7<br>Price daily ticket: 31.62<br>Price 6 day ticket: 148.8","Marbach - Marbachegg<br>Ratio: 4.7<br>Price daily ticket: 36.27<br>Price 6 day ticket: 172.05","Meiringen - Hasliberg<br>Ratio: 4.7<br>Price daily ticket: 54.87<br>Price 6 day ticket: 256.68","Davos Klosters<br>Ratio: 4.8<br>Price daily ticket: 67.89<br>Price 6 day ticket: 326.43","Elm<br>Ratio: 4.8<br>Price daily ticket: 45.57<br>Price 6 day ticket: 220.41","Lenk im Simmental<br>Ratio: 4.8<br>Price daily ticket: 61.38<br>Price 6 day ticket: 292.95","Les Marécottes - Salvan - La Creusaz<br>Ratio: 4.8<br>Price daily ticket: 40.92<br>Price 6 day ticket: 195.3","Leysin - Les Mosses - La Lécherette<br>Ratio: 4.8<br>Price daily ticket: 51.15<br>Price 6 day ticket: 245.52","Melchsee - Frutt<br>Ratio: 4.8<br>Price daily ticket: 51.15<br>Price 6 day ticket: 245.52","Nendaz<br>Ratio: 4.8<br>Price daily ticket: 71.61<br>Price 6 day ticket: 346.89","Savognin<br>Ratio: 4.8<br>Price daily ticket: 53.01<br>Price 6 day ticket: 253.89","Skiregion Adelboden-Lenk<br>Ratio: 4.8<br>Price daily ticket: 61.38<br>Price 6 day ticket: 292.95","Sörenberg<br>Ratio: 4.8<br>Price daily ticket: 48.36<br>Price 6 day ticket: 232.5","Thyon - 4 Vallées<br>Ratio: 4.8<br>Price daily ticket: 71.61<br>Price 6 day ticket: 346.89","Torgon<br>Ratio: 4.8<br>Price daily ticket: 47.43<br>Price 6 day ticket: 225.99","Tschiertschen<br>Ratio: 4.8<br>Price daily ticket: 45.57<br>Price 6 day ticket: 216.69","Vercorin<br>Ratio: 4.8<br>Price daily ticket: 48.36<br>Price 6 day ticket: 232.5","Bivio<br>Ratio: 4.9<br>Price daily ticket: 39.99<br>Price 6 day ticket: 195.3","Boltigen - Jaunpass<br>Ratio: 4.9<br>Price daily ticket: 31.62<br>Price 6 day ticket: 155.31","Braunwald<br>Ratio: 4.9<br>Price daily ticket: 44.64<br>Price 6 day ticket: 219.48","Kandersteg - Sunnbüel - Oeschinen<br>Ratio: 4.9<br>Price daily ticket: 40.92<br>Price 6 day ticket: 199.95","Obersaxen Mundaun Lumnezia<br>Ratio: 4.9<br>Price daily ticket: 54.87<br>Price 6 day ticket: 269.7","Verbier<br>Ratio: 4.9<br>Price daily ticket: 70.68<br>Price 6 day ticket: 346.89","Atzmännig Goldingen<br>Ratio: 5<br>Price daily ticket: 32.55<br>Price 6 day ticket: 162.75","Champéry<br>Ratio: 5<br>Price daily ticket: 59.52<br>Price 6 day ticket: 297.6","Jaun<br>Ratio: 5<br>Price daily ticket: 38.13<br>Price 6 day ticket: 190.65","Lötschental Lauchernalp<br>Ratio: 5<br>Price daily ticket: 53.01<br>Price 6 day ticket: 266.91","Morgins<br>Ratio: 5<br>Price daily ticket: 59.52<br>Price 6 day ticket: 297.6","Saas-Balen - Skilift Bodu<br>Ratio: 5<br>Price daily ticket: 13.95<br>Price 6 day ticket: 69.75","Samnaun<br>Ratio: 5<br>Price daily ticket: 58.125<br>Price 6 day ticket: 292.485","Schwarzsee<br>Ratio: 5<br>Price daily ticket: 36.27<br>Price 6 day ticket: 181.35","St-Cergue La Dôle<br>Ratio: 5<br>Price daily ticket: 37.2<br>Price 6 day ticket: 186","Val-d'Illiez - Les Crosets - Champoussin<br>Ratio: 5<br>Price daily ticket: 59.52<br>Price 6 day ticket: 297.6","Veysonnaz<br>Ratio: 5<br>Price daily ticket: 54.87<br>Price 6 day ticket: 275.28","Cari<br>Ratio: 5.1<br>Price daily ticket: 39.99<br>Price 6 day ticket: 204.6","La Tzoumaz - Savoleyres<br>Ratio: 5.1<br>Price daily ticket: 58.59<br>Price 6 day ticket: 301.32","Saas-Fee<br>Ratio: 5.1<br>Price daily ticket: 69.75<br>Price 6 day ticket: 352.47","Sainte-Croix - Les Rasses<br>Ratio: 5.1<br>Price daily ticket: 29.76<br>Price 6 day ticket: 152.52","Belalp - Blatten - Naters<br>Ratio: 5.2<br>Price daily ticket: 53.94<br>Price 6 day ticket: 278.07","Crans Montana<br>Ratio: 5.2<br>Price daily ticket: 82.77<br>Price 6 day ticket: 432.45","Leukerbad<br>Ratio: 5.2<br>Price daily ticket: 51.15<br>Price 6 day ticket: 267.84","Rosswald - Brig<br>Ratio: 5.2<br>Price daily ticket: 38.13<br>Price 6 day ticket: 197.16","Anzère<br>Ratio: 5.3<br>Price daily ticket: 51.15<br>Price 6 day ticket: 268.77","Bruson - Val de Bagnes - Verbier<br>Ratio: 5.3<br>Price daily ticket: 47.43<br>Price 6 day ticket: 250.17","Bürchen - Törbel<br>Ratio: 5.3<br>Price daily ticket: 40.92<br>Price 6 day ticket: 218.55","Eischoll<br>Ratio: 5.3<br>Price daily ticket: 40.92<br>Price 6 day ticket: 218.55","Evolène<br>Ratio: 5.3<br>Price daily ticket: 39.06<br>Price 6 day ticket: 208.32","Flims Laax Falera<br>Ratio: 5.3<br>Price daily ticket: 82.77<br>Price 6 day ticket: 435.24","Grächen<br>Ratio: 5.3<br>Price daily ticket: 52.08<br>Price 6 day ticket: 274.35","Splügen<br>Ratio: 5.3<br>Price daily ticket: 47.43<br>Price 6 day ticket: 252.03","Unterbäch<br>Ratio: 5.3<br>Price daily ticket: 40.92<br>Price 6 day ticket: 218.55","Val Müstair - Minschuns<br>Ratio: 5.3<br>Price daily ticket: 37.2<br>Price 6 day ticket: 198.09","Arolla<br>Ratio: 5.4<br>Price daily ticket: 37.2<br>Price 6 day ticket: 199.95","Les Diablerets<br>Ratio: 5.5<br>Price daily ticket: 52.08<br>Price 6 day ticket: 288.3","Villars - Gryon<br>Ratio: 5.5<br>Price daily ticket: 52.08<br>Price 6 day ticket: 288.3","St. Antönien<br>Ratio: 5.6<br>Price daily ticket: 29.76<br>Price 6 day ticket: 167.4","Nax - Mont Noble<br>Ratio: 5.7<br>Price daily ticket: 48.36<br>Price 6 day ticket: 273.42","St. Peter - Hochwang<br>Ratio: 5.7<br>Price daily ticket: 41.85<br>Price 6 day ticket: 238.08","Vals<br>Ratio: 6<br>Price daily ticket: 30.69<br>Price 6 day ticket: 184.14"],"type":"box","name":"ch","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","y":[3.2,3.6,3.7,3.7,4,4.1,4.1,4.1,4.2,4.3,4.3,4.4,4.4,4.4,4.4,4.4,4.4,4.4,4.5,4.5,4.5,4.5,4.6,4.6,4.6,4.6,4.7,4.8,4.8,4.9,4.9,4.9,4.9,5,5,5,5,5,5,5.1,5.1,5.1,5.2,5.3,5.5,5.5,5.5,5.6,5.7,5.9,6.3,6.4,6.7,6.9,7.1,7.8,10.5],"boxpoints":"all","jitter":0.3,"pointpos":-1.8,"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"text":["Schwarzwaldregion Belchen - Münstertal<br>Ratio: 3.2<br>Price daily ticket: 26<br>Price 6 day ticket: 84","Todtmoos<br>Ratio: 3.6<br>Price daily ticket: 22<br>Price 6 day ticket: 80","Skiwelt Schöneck<br>Ratio: 3.7<br>Price daily ticket: 23<br>Price 6 day ticket: 86","Winterberg Skiliftkarussell<br>Ratio: 3.7<br>Price daily ticket: 37<br>Price 6 day ticket: 138","AktivArena am Kolben Oberammergau<br>Ratio: 4<br>Price daily ticket: 30<br>Price 6 day ticket: 120","Freyung - Geyersberg<br>Ratio: 4.1<br>Price daily ticket: 14<br>Price 6 day ticket: 58","Grainet<br>Ratio: 4.1<br>Price daily ticket: 14<br>Price 6 day ticket: 58","Kampenwand<br>Ratio: 4.1<br>Price daily ticket: 30<br>Price 6 day ticket: 122","Götschen Skizentrum<br>Ratio: 4.2<br>Price daily ticket: 26<br>Price 6 day ticket: 110","Pröller Skidreieck<br>Ratio: 4.3<br>Price daily ticket: 23<br>Price 6 day ticket: 98","Skiarena Silbersattel Steinach<br>Ratio: 4.3<br>Price daily ticket: 23<br>Price 6 day ticket: 99","Grasgehren<br>Ratio: 4.4<br>Price daily ticket: 28<br>Price 6 day ticket: 122","Großer Arber<br>Ratio: 4.4<br>Price daily ticket: 35<br>Price 6 day ticket: 154","Hörnerbahn Bolsterlang<br>Ratio: 4.4<br>Price daily ticket: 40<br>Price 6 day ticket: 177","Ofterschwang - Gunzesried<br>Ratio: 4.4<br>Price daily ticket: 40<br>Price 6 day ticket: 177","Skigebiet Schanze<br>Ratio: 4.4<br>Price daily ticket: 18<br>Price 6 day ticket: 80","Skizentrum Mitterdorf<br>Ratio: 4.4<br>Price daily ticket: 27<br>Price 6 day ticket: 119","Wintersportzentrum Sellinghausen<br>Ratio: 4.4<br>Price daily ticket: 22<br>Price 6 day ticket: 96","Eck - Riedelstein<br>Ratio: 4.5<br>Price daily ticket: 22<br>Price 6 day ticket: 100","Geisskopf<br>Ratio: 4.5<br>Price daily ticket: 25<br>Price 6 day ticket: 112","Neureichenau<br>Ratio: 4.5<br>Price daily ticket: 36<br>Price 6 day ticket: 162","Willingen<br>Ratio: 4.5<br>Price daily ticket: 31<br>Price 6 day ticket: 138","Hohenbogen<br>Ratio: 4.6<br>Price daily ticket: 25<br>Price 6 day ticket: 115","Muggenbrunn<br>Ratio: 4.6<br>Price daily ticket: 30<br>Price 6 day ticket: 139","Spieserlifte Unterjoch<br>Ratio: 4.6<br>Price daily ticket: 26.5<br>Price 6 day ticket: 122","St. Blasien - Menzenschwand<br>Ratio: 4.6<br>Price daily ticket: 26<br>Price 6 day ticket: 119","Sonnenwald - Langfurth - Schöfweg<br>Ratio: 4.7<br>Price daily ticket: 18<br>Price 6 day ticket: 85","Oberjoch<br>Ratio: 4.8<br>Price daily ticket: 40.5<br>Price 6 day ticket: 194.5","Schwärzenlifte Eschach<br>Ratio: 4.8<br>Price daily ticket: 20<br>Price 6 day ticket: 95","Bödefeld - Hunau<br>Ratio: 4.9<br>Price daily ticket: 27<br>Price 6 day ticket: 132","Fellhorn - Kanzelwand<br>Ratio: 4.9<br>Price daily ticket: 49.5<br>Price 6 day ticket: 244.5","Oberstdorf - Nebelhorn<br>Ratio: 4.9<br>Price daily ticket: 49.5<br>Price 6 day ticket: 244.5","Skidorf Postwiese Neuastenberg<br>Ratio: 4.9<br>Price daily ticket: 28<br>Price 6 day ticket: 138","Balderschwang<br>Ratio: 5<br>Price daily ticket: 34<br>Price 6 day ticket: 171","Masserberg - Heubach - Fehrenbach<br>Ratio: 5<br>Price daily ticket: 20<br>Price 6 day ticket: 99","Oberaudorf - Hocheck<br>Ratio: 5<br>Price daily ticket: 24.9<br>Price 6 day ticket: 124","Oberhof<br>Ratio: 5<br>Price daily ticket: 20<br>Price 6 day ticket: 99","Schmiedefeld am Rennsteig<br>Ratio: 5<br>Price daily ticket: 20<br>Price 6 day ticket: 99","Skigebiet Holzhau<br>Ratio: 5<br>Price daily ticket: 20<br>Price 6 day ticket: 100","Skikarussell Altastenberg<br>Ratio: 5.1<br>Price daily ticket: 26<br>Price 6 day ticket: 132","Sudelfeld<br>Ratio: 5.1<br>Price daily ticket: 41<br>Price 6 day ticket: 210","Winklmoosalm - Reit im Winkl<br>Ratio: 5.1<br>Price daily ticket: 47<br>Price 6 day ticket: 239","Oberwiesenthal - Fichtelberg<br>Ratio: 5.2<br>Price daily ticket: 28<br>Price 6 day ticket: 146","Zugspitze<br>Ratio: 5.3<br>Price daily ticket: 48<br>Price 6 day ticket: 255.5","Kranzberg - Mittenwald<br>Ratio: 5.5<br>Price daily ticket: 30<br>Price 6 day ticket: 163.5","Liftverbund Feldberg<br>Ratio: 5.5<br>Price daily ticket: 39<br>Price 6 day ticket: 215","Snow World Züschen<br>Ratio: 5.5<br>Price daily ticket: 24<br>Price 6 day ticket: 132","Garmisch Classic<br>Ratio: 5.6<br>Price daily ticket: 46<br>Price 6 day ticket: 255.5","Spitzingsee - Tegernsee<br>Ratio: 5.7<br>Price daily ticket: 37<br>Price 6 day ticket: 210","Brauneck - Wegscheid<br>Ratio: 5.9<br>Price daily ticket: 41<br>Price 6 day ticket: 242","Skiarena Steibis - Imbergbahn - Oberstaufen<br>Ratio: 6.3<br>Price daily ticket: 38<br>Price 6 day ticket: 240","Oberstdorf - Söllereck - Höllwies<br>Ratio: 6.4<br>Price daily ticket: 38.5<br>Price 6 day ticket: 244.5","Todtnauberg<br>Ratio: 6.7<br>Price daily ticket: 32<br>Price 6 day ticket: 215","Familienskigebiet Sahnehang<br>Ratio: 6.9<br>Price daily ticket: 19<br>Price 6 day ticket: 132","Hündlebahn und Skilifte Thalkirchdorf Oberstaufen<br>Ratio: 7.1<br>Price daily ticket: 34<br>Price 6 day ticket: 240","Roßfeld Oberau<br>Ratio: 7.8<br>Price daily ticket: 22<br>Price 6 day ticket: 171","Rottach-Egern - Wallberg<br>Ratio: 10.5<br>Price daily ticket: 20<br>Price 6 day ticket: 210"],"type":"box","name":"de","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="distribution-of-prices-by-location" class="section level1">
+<h1>Distribution of prices by location</h1>
+<p>When I select a skiing area, the distance to the skiing area is also a decision criterion. For this purpose I show the price levels of day tickets (adults) on a map. The size of the bubble reflects the price of the respective ski resort.</p>
+<pre class="r"><code>get_geo_code &lt;- function(location) {
+  
+  tmaptools::geocode_OSM(location,
+                         as.data.frame = TRUE) %&gt;% 
+    as_tibble()
+  
+}
+
+geo_code &lt;- pricelist_resorts_euro %&gt;%
+  dplyr::mutate(Location = purrr::map(Skigebiet, possibly(get_geo_code, NA))) %&gt;%  
+  dplyr::filter(!is.na(Location)) %&gt;% 
+  tidyr::unnest()</code></pre>
+<pre class="r"><code>leaflet::leaflet(geo_code) %&gt;% 
+  leaflet::addTiles() %&gt;%
+  leaflet::addCircles(lng = ~lon, 
+                      lat = ~lat, 
+                      fill = ~Erwachsene.Tageskarte,
+                      weight = 10,
+                      radius = ~sqrt(Erwachsene.Tageskarte) * 1000, 
+                      popup = ~paste0(Skigebiet,
+                                      &quot;&lt;br&gt;&quot;, Erwachsene.Tageskarte, &quot; EUR&quot;)) %&gt;% 
+  leaflet::setView( lng = 11
+                    , lat = 48
+                    , zoom = 6) %&gt;%
+  leaflet::setMaxBounds( lng1 = 6
+                         , lat1 = 55
+                         , lng2 = 16
+                         , lat2 = 45 )</code></pre>
+<div id="htmlwidget-4" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addCircles","args":[[47.5613113,47.5978457,51.80398865,50.766598,47.6659196,51.6213889,48.5069519,47.4656986,47.8057268,50.01313655,51.9424313,48.9752456,51.7565187,50.8256742,47.606423,51.206013,50.434609,50.4911916,47.34505775,48.4720808,48.791473,47.4596073,49.3099832,50.97170805,48.8576397,48.7974155,47.4425742,49.1125037,47.58244745,48.6767471,47.6283728,49.24032555,50.5111488,47.4629566,47.5547374,38.4496365,47.7547105,49.96703195,50.3581046,47.4513588,50.3700691,48.6906505,51.0835178,47.8682042,47.6513542,48.649208,47.8587535,48.7477228,47.627695,50.7069793,47.5164924,47.6323993,47.4953982,47.4218727,50.0017763,50.4282781,47.7438014,47.4997985,51.057631,47.6416386,49.0220827,47.652129,47.6658847,51.7077964,49.0013807,47.8384053,51.1332684,50.6194067,47.5593951,50.2835975,48.9693147,50.4520981,51.18618265,48.8414961,50.483382,48.8254271,47.5135363,47.5340828,47.6619155,47.8272071,47.5963992,50.69884575,47.6817244,50.6124122,50.8761647,47.7387447,47.8516814,49.33353265,48.6868206,47.5842234,49.3559425,48.572543,50.6671285,47.65666855,51.1904445,47.421215,49.0130274,47.423897,47.46297625,47.5697558,48.5951086,47.46147515,47.59934125,47.38149795,47.5864713,47.3993097,47.0267473,47.8643157,48.65347575,47.1943801,47.1110059,47.0620869,46.8144214,47.0691571,47.358084,47.4213264,47.3372042,46.4786829,47.1111446,47.4494565,47.4842024,47.47009705,48.5608856,47.314039,47.3465228,47.23837965,50.5164016,47.4073086,47.4167682,47.3848986,47.09856915,47.3608715,47.1489018,47.271949,47.0407041,47.6862511,47.4329886,46.945358,47.89136765,47.5304177,47.3304781,47.7120308,47.4052638,46.9194554,46.9721035,47.81001575,46.69476,47.24372605,47.9452257,47.2075977,46.7588047,47.32874625,52.4068318,47.0573809,47.1217604,47.0745459,47.1941392,47.653612,47.51439465,48.8566148,47.6998016,47.08566975,48.74140215,47.2695579,47.7108171,47.6533884,47.50720035,47.22172465,46.8226776,47.15730125,47.2911253,47.4339999,47.2759021,46.9681058,47.28612385,46.9862824,48.339768,47.8853556,51.0346785,47.05342475,47.549229,47.8016337,46.872702,47.3253983,47.57574615,47.4463585,46.9366961,46.9071889,46.6339613,50.255986,47.0994894,47.775009,46.6616767,47.2136222,47.2524874,47.8609746,47.27059575,47.3912607,47.7790309,47.1672188,46.9445012,47.2175568,47.0242293,47.5235306,46.58465625,46.89014505,47.4804477,47.6809361,46.879426,47.2494362,46.7343287,47.2088279,52.2720484,46.9100727,47.4090162,47.666775,47.1952135,47.77923285,47.3638274,47.4217532,47.2457111,47.2290446,47.4154775,47.4783555,47.0947064,47.37659935,46.96546735,47.0633337,47.5136023,47.41144885,47.07498725,47.31879,47.3310391,47.0496132,47.1443137,47.29309925,47.03503335,46.9180364,46.77949975,47.38149795,47.4981404,47.45523585,46.7507107,47.1090961,47.0744149,48.3619806,46.91573,47.5073802,47.614289,46.9934264,47.13893175,47.5741948,46.9673961,47.5030268,47.4821272,47.5959219,47.3502094,46.9156217,47.1309082,47.8717067,47.2657131,46.83372065,47.4258376,47.4623419,47.45523585,47.15113625,47.61481575,47.6312003,47.2869845,47.2713898,47.3293614,47.23393895,47.24372605,46.5290309,46.3576997,47.147837,46.2969354,46.025975,46.7548885,46.44462285,46.6932513,46.9391136,46.3256101,46.4237017,46.62509665,46.4689917,46.5921588,46.9390048,46.7198508,46.7674063,47.1251623,46.6335879,46.813708,45.1980075,46.0305776,46.1756791,46.6263978,46.855515,46.4472209,47.154808,46.3304899,46.925136,46.842102,47.3735896,46.429214,46.5678986,46.6127022,46.7045284,47.2635337,46.2936189,46.9188827,46.4882698,46.8223497,46.78758,46.1129048,46.8681945,46.8064016,47.1126716,46.825086,48.8901382,46.1638873,46.1960178,46.944364,46.4740433,46.4677348,46.7276046,47.3058423,47.0111233,47.2914416,46.6113953,46.4955441,47.8376473,46.6760352,46.5788766,45.101652,46.1338855,46.4579579,46.4536346,46.3511021,46.1123628,46.4820859,47.1482113,46.3795175,46.8345927,46.7468975,46.77452445,46.5489446,46.2376589,46.5770985,46.2267697,46.1867083,47.0890816,46.5388107,46.7318648,46.1989846,47.2495383,46.7653088,47.0567213,46.6411149,46.3045036,46.7606689,46.0938913,46.107342,46.1278436,46.826417,46.5332403,46.9442417,47.0607322,46.596957,46.7381057,46.811169,46.5530843,46.236536,43.72318,46.506942,46.8403414,46.9769494,48.8522156,46.3200061,46.692436,46.8066545,46.2852749,46.6448207,43.0962069,46.0967949,46.2571655,46.1955082,45.9967693,46.3289335,47.180949,46.0222273,46.6012885],[10.1400963,10.4961437,10.4510183771814,13.7523234,11.0519029,10.5269444,8.3720124,10.1039376,8.0345882,11.8386769434877,9.0919013,7.4503561,10.6182077,10.442226,10.8106751,8.377236,12.5875482,11.1753342,10.2226924923478,8.3106312,13.537357,11.0761662782149,7.927314,8.16149075978566,13.3938284,13.6528849,10.1761213,13.1361756,10.3212929092738,13.6647737,12.9205276,12.9517300325517,9.2272504,10.22748645,10.2182912234605,-123.1155588,12.3567134,11.8458589100506,12.4678923,11.2286303,9.9799858,12.0978669,8.0401665,8.2022783,10.0610022,8.2402479,7.9171738,13.7469709,12.2008653,10.7250321,10.4060986,13.0421526,10.0786921,10.3423461,11.8022266,12.9540657,11.7735829,10.2086257,7.9461931,10.4438496,12.8040504576371,13.0630329,11.7967506,10.5230861,12.8239209,8.1669389,8.302604,10.8028306302596,10.7776362,11.6271654,7.9913427,11.0427244693914,8.4598701742771,13.6415686,9.9446587,13.2106792,10.281931,10.4088079232917,11.8592963214826,8.0691023,11.0271651,10.5905560457457,12.037012,10.7450322394737,10.5161433,8.0013624,7.9420935,12.7745353967342,13.6489818,9.9299019,11.1441047,9.6068399,8.0869407,12.5835855,8.5149763,10.986297,13.2307617,11.7498054,11.7090897165966,15.2253504,14.7477391518411,9.84356773899937,12.6633395881881,11.9286036034828,15.9214518,9.9472919,13.1925452442252,15.3491007405176,14.7841924102867,11.3030187,13.156128220577,13.0576015,13.7983599,11.4488786292539,10.8939876360806,10.7933353,11.1786261,14.2286446,9.7465038,12.2434876,12.5835322,13.6341067319313,7.5318998,9.89420108292911,10.0255576,13.1793965756274,10.0412243,13.428974,9.9826655,10.9683460989843,11.3255273485746,13.5366589937962,13.6932252,9.9070221,10.6976632283019,13.5879695,13.5182127,14.0292408,14.7605441136026,13.6952288287944,11.7980255,13.2333223721843,13.8637932,10.1705903525371,9.9187223,15.2781654101309,13.9143318,12.0391859889009,14.5724698,11.5283837,13.4587359,13.0773849691307,12.9682671,14.3281575702571,13.6440691869832,12.6939005,9.6414349,13.0916599622574,15.6940365965961,10.529949,14.1554223,11.6654336961386,13.8986923343943,11.7762159,14.901204,12.4211771,9.98296419712384,11.0213744298223,14.0524733,10.7724326008938,11.8709821,14.4834523,10.700690365219,13.7263797,11.3990118308329,10.2745176879646,15.338003,7.1966841,7.4331957,10.3420146112073,13.3548450473954,13.9982088,10.7142784194539,11.7120141,12.422711181334,12.3911473,14.6741433,15.0349775,14.9556136069195,9.1283941,9.98332712042492,14.8013443,12.9711698643843,11.0234047,14.3682392,15.1589107616654,9.75458751633849,10.8622991836917,15.3212352,11.8638664,15.0778913606062,11.3547033148698,13.0144899515793,15.9986822775744,13.2461288648476,10.5422931875558,10.5970938317519,15.3773999,11.0387065046409,13.5569603,12.6036223,11.4606079,9.0045158,10.8767579463713,14.1979784,13.426581,15.4180947,15.8810617928928,13.4523792941286,13.6531171,11.2382827,12.9949295,14.3440361,10.6417063,14.61170368751,14.1053213548992,10.8482682492659,14.8788444,10.467262,9.81065392972527,10.4334353889417,11.1744060175187,11.2152240774059,10.5712204884632,11.4019067971784,13.3365765778759,9.97677858861359,10.0918682,14.1711827080738,11.9286036034828,12.4201855107878,12.2083453443593,12.4331946781331,10.0561808,10.2144845183017,14.8956304,12.3481003,11.7859740787934,12.5586243,11.1164192875701,10.160248642464,15.7899645,11.0070193,12.1909243,10.5426579,14.00663,15.4599247089931,13.8748718,10.6331897,-2.4159063,10.1285162,15.0060011952945,15.7864723,13.2531614,12.2083453443593,13.14375401178,12.2951663730772,15.8286956,13.4630092004631,12.7573679,12.7376171,11.8870604,12.0391859889009,8.6086045,8.047447,9.17807746030763,7.3979195,7.4810866,9.56602440796662,9.53290485400234,7.783279,8.4741614,7.9895552,8.1599477,9.7665068974325,9.6504264,7.3390803,8.9982805,8.0366206,9.0622332,7.0121741,7.0460486,7.900292,14.6701212,7.1168165,6.8687665,7.207737,9.5254066,7.1452923,9.3127749,7.52643580372213,8.386971,9.83534252517455,9.1990317,9.97734514398112,7.4836296,7.5335526,8.81577295952461,9.1233561,7.7812181,9.1718971,9.8356401,8.4043996,7.798843,7.4958022,9.7270555,9.2557079,9.2662922,8.1095816,-121.9455751,7.5841707,7.8421612,9.6596345,7.2857944,7.24227204490711,7.8646663,9.1950256,8.7871746992661,9.3282033,7.2761312,7.6716339,13.5475982,7.1839627,9.9260141,8.10193,7.2261053,7.44373960873078,6.9434565,7.1566435,7.01166451443646,6.9092392,7.1728724,7.6264761,7.9058214,8.219472172523,8.27163423431134,7.0171352,6.8581016,7.88214048456765,7.4250269,7.3051008,8.6821866,8.36323224818803,7.3699123,7.1723377,9.034158,7.3533298,8.4853246,7.4495912,8.0426994,7.416673,7.9582333,7.9247055,7.9370051,6.527118,9.874586,10.3600844,8.6611142,9.5981493,7.7240291,10.2726212,9.3236759,7.62763124523719,0.8155553,9.81204323861616,9.6541066,8.6643588,9.3418379,6.8763862,9.3609172,9.58817974288135,7.7999493,10.3381272,1.7602709,7.2285478,7.530704,7.3363267,7.1664908,7.10961269212411,9.32019221967892,7.7494002,9.9608039],[3535.53390593274,5744.56264653803,4690.41575982343,4123.10562561766,4472.13595499958,4242.64068711928,4898.97948556636,5830.9518948453,5099.01951359278,3605.55127546399,4690.41575982343,5282.0450584977,5744.56264653803,null,4847.67985741633,5196.15242270663,3535.53390593274,4358.89894354067,7035.62363973514,4123.10562561766,3741.65738677394,6782.32998312527,5000,4000,null,3741.65738677394,5291.50262212918,5916.07978309962,5656.85424949238,3082.20700148449,4898.97948556636,5000,3464.10161513775,6324.55532033676,5000,6244.9979983984,5477.22557505166,4358.89894354067,3464.10161513775,5477.22557505166,4242.64068711928,5338.53912601566,3162.27766016838,3872.98334620742,null,5000,5477.22557505166,6000,4989.98997994986,4472.13595499958,6363.96103067893,4472.13595499958,5576.73739743947,7035.62363973514,4358.89894354067,5291.50262212918,4472.13595499958,6324.55532033676,4690.41575982343,3316.6247903554,4795.83152331272,4690.41575982343,4472.13595499958,5385.1648071345,4472.13595499958,4472.13595499958,4472.13595499958,4472.13595499958,5099.01951359278,null,4690.41575982343,3464.10161513775,5099.01951359278,3162.27766016838,4000,4242.64068711928,3316.6247903554,5147.8150704935,6082.76253029822,5099.01951359278,4415.88043316392,null,6403.12423743285,5000,5477.22557505166,4690.41575982343,5656.85424949238,4242.64068711928,3872.98334620742,3741.65738677394,6164.41400296898,4358.89894354067,5567.76436283002,6855.65460040104,6082.76253029822,6928.20323027551,4000,5787.91845139511,5385.1648071345,5567.76436283002,4949.74746830583,4795.83152331272,6708.20393249937,7000,5385.1648071345,5761.94411635517,7000,6041.52298679729,4795.83152331272,6442.04936336256,6204.83682299543,7549.83443527075,7000,6403.12423743285,6928.20323027551,6855.65460040104,5522.68050859363,4795.83152331272,7035.62363973514,7314.3694191639,6164.41400296898,7449.83221287567,6833.73982530795,7245.68837309472,6782.32998312527,7483.31477354788,6123.72435695795,6284.90254498827,5873.67006223536,6928.20323027551,5612.48608016091,7035.62363973514,6595.45297913646,7245.68837309472,6244.9979983984,6316.6446789415,6819.09084849293,5522.68050859363,5431.39024560011,6473.0209330729,7483.31477354788,6123.72435695795,6928.20323027551,6519.20240520265,7035.62363973514,6041.52298679729,6964.19413859206,7449.83221287567,3872.98334620742,5744.56264653803,6480.74069840786,6082.76253029822,7035.62363973514,6082.76253029822,6595.45297913646,6782.32998312527,4690.41575982343,5234.50093132096,5567.76436283002,5291.50262212918,6782.32998312527,7449.83221287567,6480.74069840786,7483.31477354788,6284.90254498827,6403.12423743285,5338.53912601566,6442.04936336256,5916.07978309962,6708.20393249937,7483.31477354788,6156.29758864855,5744.56264653803,6633.2495807108,6041.52298679729,7211.10255092798,4527.69256906871,5700.87712549569,5291.50262212918,6519.20240520265,5958.18764390649,6442.04936336256,6855.65460040104,5656.85424949238,5431.39024560011,7615.77310586391,6082.76253029822,4795.83152331272,5916.07978309962,6819.09084849293,6123.72435695795,5196.15242270663,5744.56264653803,6442.04936336256,6557.438524302,6284.90254498827,6164.41400296898,6928.20323027551,6041.52298679729,7449.83221287567,4472.13595499958,6082.76253029822,7000,6123.72435695795,7000,6595.45297913646,6403.12423743285,5830.9518948453,7348.46922834953,6928.20323027551,6082.76253029822,6244.9979983984,5830.9518948453,7211.10255092798,6557.438524302,6000,6324.55532033676,5385.1648071345,7416.19848709566,6244.9979983984,5873.67006223536,6708.20393249937,7449.83221287567,6204.83682299543,null,6557.438524302,7211.10255092798,5916.07978309962,6403.12423743285,5882.1764679411,6519.20240520265,6519.20240520265,6745.36878161602,7348.46922834953,5656.85424949238,7416.19848709566,7449.83221287567,5735.85215988,5431.39024560011,7000,6819.09084849293,7314.3694191639,7000,6633.2495807108,7516.64818918645,4123.10562561766,7000,4898.97948556636,6855.65460040104,7071.06781186548,7516.64818918645,6782.32998312527,7483.31477354788,7314.3694191639,6403.12423743285,6557.438524302,4949.74746830583,6964.19413859206,6363.96103067893,6204.83682299543,7516.64818918645,5477.22557505166,4795.83152331272,6519.20240520265,7314.3694191639,6557.438524302,5291.50262212918,5916.07978309962,7416.19848709566,7280.10988928052,7516.64818918645,7449.83221287567,7449.83221287567,null,null,5705.26073023836,7151.92281837549,6099.18027279076,8838.55191759374,5455.27267879434,7020.68372738724,6886.9441699494,7344.38561079142,null,6323.76470150495,6323.76470150495,5623.16636780382,6681.31723539603,6540.64217030713,null,5944.74557908074,4312.77173056957,5539.85559378582,6323.76470150495,6323.76470150495,7714.92060879436,6174.94939250517,6249.7999967999,5786.19045659577,null,9097.80193233509,5369.35750346352,8239.53882204581,5282.0450584977,null,6022.45796996542,6681.31723539603,7593.41820262785,5282.0450584977,6396.87423668779,6750.55553269507,null,7774.95980697007,5539.85559378582,6249.7999967999,6249.7999967999,9097.80193233509,7654.41049330384,6249.7999967999,7714.92060879436,7593.41820262785,7216.64742106749,7151.92281837549,null,null,5705.26073023836,4821.82538049648,7151.92281837549,2727.63633939717,6174.94939250517,6396.87423668779,5623.16636780382,6022.45796996542,null,4724.40472440709,7654.41049330384,7834.53891432036,3734.96987939662,7216.64742106749,6396.87423668779,5705.26073023836,4821.82538049648,7151.92281837549,6022.45796996542,7407.42870367309,7151.92281837549,5705.26073023836,7714.92060879436,7834.53891432036,6954.13546028548,8462.26919921601,5102.94032886923,4821.82538049648,4917.3163412577,7020.68372738724,4419.27595879687,3049.59013639538,6819.09084849293,5369.35750346352,6174.94939250517,5786.19045659577,8351.64654424503,8351.64654424503,7216.64742106749,5455.27267879434,5705.26073023836,7623.97534098845,6022.45796996542,7280.79665970696,5455.27267879434,7280.79665970696,6886.9441699494,7344.38561079142,5455.27267879434,null,6469.15759585435,6954.13546028548,6954.13546028548,6886.9441699494,5786.19045659577,6750.55553269507,6396.87423668779,6099.18027279076,5539.85559378582,8407.13982279348,6954.13546028548,7407.42870367309,6323.76470150495,7216.64742106749,7151.92281837549,8571.46428563988,null],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":10,"opacity":0.5,"fill":[12.5,33,22,17,20,18,24,34,26,13,22,27.9,33,null,23.5,27,12.5,19,49.5,17,14,46,25,16,null,14,28,35,32,9.5,24,25,12,40,25,39,30,19,12,30,18,28.5,10,15,null,25,30,36,24.9,20,40.5,20,31.1,49.5,19,28,20,40,22,11,23,22,20,29,20,20,20,20,26,null,22,12,26,10,16,18,11,26.5,37,26,19.5,null,41,25,30,22,32,18,15,14,38,19,31,47,37,48,16,33.5,29,31,24.5,23,45,49,29,33.2,49,36.5,23,41.5,38.5,57,49,41,48,47,30.5,23,49.5,53.5,38,55.5,46.7,52.5,46,56,37.5,39.5,34.5,48,31.5,49.5,43.5,52.5,39,39.9,46.5,30.5,29.5,41.9,56,37.5,48,42.5,49.5,36.5,48.5,55.5,15,33,42,37,49.5,37,43.5,46,22,27.4,31,28,46,55.5,42,56,39.5,41,28.5,41.5,35,45,56,37.9,33,44,36.5,52,20.5,32.5,28,42.5,35.5,41.5,47,32,29.5,58,37,23,35,46.5,37.5,27,33,41.5,43,39.5,38,48,36.5,55.5,20,37,49,37.5,49,43.5,41,34,54,48,37,39,34,52,43,36,40,29,55,39,34.5,45,55.5,38.5,null,43,52,35,41,34.6,42.5,42.5,45.5,54,32,55,55.5,32.9,29.5,49,46.5,53.5,49,44,56.5,17,49,24,47,50,56.5,46,56,53.5,41,43,24.5,48.5,40.5,38.5,56.5,30,23,42.5,53.5,43,28,35,55,53,56.5,55.5,55.5,null,null,32.55,51.15,37.2,78.12,29.76,49.29,47.43,53.94,null,39.99,39.99,31.62,44.64,42.78,null,35.34,18.6,30.69,39.99,39.99,59.52,38.13,39.06,33.48,null,82.77,28.83,67.89,27.9,null,36.27,44.64,57.66,27.9,40.92,45.57,null,60.45,30.69,39.06,39.06,82.77,58.59,39.06,59.52,57.66,52.08,51.15,null,null,32.55,23.25,51.15,7.44,38.13,40.92,31.62,36.27,null,22.32,58.59,61.38,13.95,52.08,40.92,32.55,23.25,51.15,36.27,54.87,51.15,32.55,59.52,61.38,48.36,71.61,26.04,23.25,24.18,49.29,19.53,9.3,46.5,28.83,38.13,33.48,69.75,69.75,52.08,29.76,32.55,58.125,36.27,53.01,29.76,53.01,47.43,53.94,29.76,null,41.85,48.36,48.36,47.43,33.48,45.57,40.92,37.2,30.69,70.68,48.36,54.87,39.99,52.08,51.15,73.47,null],"fillColor":"#03F","fillOpacity":0.2},["Alpsee Bergwelt<br>12.5 EUR","Alpspitz Nesselwang<br>33 EUR","Altenau<br>22 EUR","Altenberg<br>17 EUR","Bad Kohlgrub - Hörnle<br>20 EUR","Bad Sachsa - Ravensberg<br>18 EUR","Baiersbronn<br>24 EUR","Balderschwang<br>34 EUR","Bernau im Schwarzwald<br>26 EUR","Bleaml Alm<br>13 EUR","Blomberg<br>22 EUR","Bocksberg<br>27.9 EUR","Braunlage Wurmberg<br>33 EUR","Brotterode<br>NA EUR","Buchenberg Buching<br>23.5 EUR","Bödefeld - Hunau<br>27 EUR","Carlsfeld<br>12.5 EUR","Ernstthal<br>19 EUR","Fellhorn - Kanzelwand<br>49.5 EUR","Freudenstadt Kniebis<br>17 EUR","Freyung - Geyersberg<br>14 EUR","Garmisch Classic<br>46 EUR","Geisskopf<br>25 EUR","Giller - Hilchenbach - Lützel<br>16 EUR","Grafenau<br>NA EUR","Grainet<br>14 EUR","Grasgehren<br>28 EUR","Großer Arber<br>35 EUR","Grüntenlifte<br>32 EUR","Hauzenberg - Geiersberg<br>9.5 EUR","Hochschwarzeck<br>24 EUR","Hohenbogen<br>25 EUR","Hoherodskopf<br>12 EUR","Hörnerbahn Bolsterlang<br>40 EUR","Immenstadt Mittagbahn<br>25 EUR","Jenner<br>39 EUR","Kampenwand<br>30 EUR","Klausenlifte<br>19 EUR","Klingenthal<br>12 EUR","Kranzberg - Mittenwald<br>30 EUR","Kreuzberg - Bischofsheim an der Rhön<br>18 EUR","Laber<br>28.5 EUR","Lennestadt - Hohe Bracht<br>10 EUR","Lenzkirch<br>15 EUR","Maierhöfen Flucken<br>NA EUR","Mehliskopf<br>25 EUR","Muggenbrunn<br>30 EUR","Neureichenau<br>36 EUR","Oberaudorf - Hocheck<br>24.9 EUR","Oberhof<br>20 EUR","Oberjoch<br>40.5 EUR","Obersalzberg<br>20 EUR","Oberstaufen - Hochgrat<br>31.1 EUR","Oberstdorf - Nebelhorn<br>49.5 EUR","Oberwarmensteinach - Hempelsberg und Geiersberg<br>19 EUR","Oberwiesenthal - Fichtelberg<br>28 EUR","Oedberglift Gmund<br>20 EUR","Ofterschwang - Gunzesried<br>40 EUR","Olpe Fahlenscheid<br>22 EUR","Oy-Mittelberg<br>11 EUR","Pröller Skidreieck<br>23 EUR","Roßfeld Oberau<br>22 EUR","Rottach-Egern - Wallberg<br>20 EUR","Sankt Andreasberg - Matthias-Schmidt-Berg<br>29 EUR","Sankt Englmar<br>20 EUR","Schluchsee - Fischbach<br>20 EUR","Schmallenberger Höhenlift<br>20 EUR","Schmiedefeld am Rennsteig<br>20 EUR","Schwangau - Tegelberg<br>26 EUR","Schwarzenbach am Wald<br>NA EUR","Seebach<br>22 EUR","Siegmundsburg<br>12 EUR","Skikarussell Altastenberg<br>26 EUR","Skilift Herzogsreut Hinterschmiding<br>10 EUR","Skilift Zuckerfeld<br>16 EUR","Sonnenwald - Langfurth - Schöfweg<br>18 EUR","Sonthofen<br>11 EUR","Spieserlifte Unterjoch<br>26.5 EUR","Spitzingsee - Tegernsee<br>37 EUR","St. Blasien - Menzenschwand<br>26 EUR","Steckenberg Unterammergau<br>19.5 EUR","Steinbach-Hallenberg<br>NA EUR","Sudelfeld<br>41 EUR","Suhl - Vesser - Goldlauter<br>25 EUR","Tabarz<br>30 EUR","Todtmoos<br>22 EUR","Todtnauberg<br>32 EUR","Voithenberg - Gibacht<br>18 EUR","Waldkirchen - Oberfrauenwald<br>15 EUR","Weiler - Simmerberg<br>14 EUR","Wendelstein<br>38 EUR","Wiesensteig - Bläsiberg<br>19 EUR","Willingen<br>31 EUR","Winklmoosalm - Reit im Winkl<br>47 EUR","Winterberg Skiliftkarussell<br>37 EUR","Zugspitze<br>48 EUR","Zwiesel<br>16 EUR","Achensee - Maurach<br>33.5 EUR","Achensee - Pertisau<br>29 EUR","Aflenzer Bürgeralm<br>31 EUR","Aichelberglifte Karlstift<br>24.5 EUR","Alberschwende<br>23 EUR","Almenwelt Lofer<br>45 EUR","Alpbach - Ski Juwel Alpbachtal Wildschönau<br>49 EUR","Alpl<br>29 EUR","Andelsbuch Niedere<br>33.2 EUR","Ankogel - Mallnitz<br>49 EUR","Annaberg<br>36.5 EUR","Arralifte Harmanschlag<br>23 EUR","Axamer - Lizum<br>41.5 EUR","Bad Gastein - Graukogel<br>38.5 EUR","Bad Gastein - Sportgastein<br>57 EUR","Bad Kleinkirchheim<br>49 EUR","Bergeralm - Steinach am Brenner<br>41 EUR","Biberwier - Marienberg<br>48 EUR","Bichlbach - Berwang<br>47 EUR","Birkenlift & Geigenbühellift Seefeld<br>30.5 EUR","Bodental<br>23 EUR","Brandnertal<br>49.5 EUR","Brixen im Thale - SkiWelt<br>53.5 EUR","Buchensteinwand<br>38 EUR","Dachstein Gletscher<br>55.5 EUR","Dachstein West<br>46.7 EUR","Damüls - Mellau<br>52.5 EUR","Diedamskopf<br>46 EUR","Dorfgastein - Großarltal<br>56 EUR","Dreiländereck<br>37.5 EUR","Eben im Pongau - Monte Popolo<br>39.5 EUR","Egg Schetteregg<br>34.5 EUR","Ehrwalder Alm<br>48 EUR","Elferlifte Neustift<br>31.5 EUR","Fageralm Forstau<br>49.5 EUR","Fanningberg<br>43.5 EUR","Faschina - Fontanella<br>52.5 EUR","Fendels<br>39 EUR","Feuerkogel<br>39.9 EUR","Filzmoos<br>46.5 EUR","Flattnitz<br>30.5 EUR","Forsteralm<br>29.5 EUR","Freesports Arena Dachstein Krippenstein<br>41.9 EUR","Fügen - Spieljoch<br>56 EUR","Gaissau Hintersee<br>37.5 EUR","Galsterbergalm<br>48 EUR","Galtür<br>42.5 EUR","Gargellen<br>49.5 EUR","Gemeindealpe Mitterbach<br>36.5 EUR","Gerlitzen<br>48.5 EUR","Gerlos - Zillertal Arena<br>55.5 EUR","Glasenberg - Maria Neustift<br>15 EUR","Glungezer<br>33 EUR","Goldeck Bergbahnen<br>42 EUR","Goldegg<br>37 EUR","Golm<br>49.5 EUR","Grebenzen - St. Lambrecht<br>37 EUR","Großeck - Speiereck<br>43.5 EUR","Großglockner - Heiligenblut<br>46 EUR","Gurtis<br>22 EUR","Hallein Dürrnberg - Zinkenlifte<br>27.4 EUR","Hauereck - St Kathrein am Hauenstein<br>31 EUR","Heutal<br>28 EUR","Hinterstoder<br>46 EUR","Hintertuxer Gletscher<br>55.5 EUR","Hochficht Böhmerwald<br>42 EUR","Hochfügen<br>56 EUR","Hochkar<br>39.5 EUR","Hochkössen<br>41 EUR","Hochlitten Riefensberg<br>28.5 EUR","Hochoetz<br>41.5 EUR","Hochrindl - Sirnitz - Albeck<br>35 EUR","Hochzeiger<br>45 EUR","Hochzillertal<br>56 EUR","Hohentauern<br>37.9 EUR","Imst<br>33 EUR","Innerkrems<br>44 EUR","Innsbrucker Nordkettenbahnen<br>36.5 EUR","Ischgl<br>52 EUR","Jauerling<br>20.5 EUR","Jungholz<br>32.5 EUR","Kaiserau<br>28 EUR","Kappl<br>42.5 EUR","Karkogel - Abtenau<br>35.5 EUR","Kasberg - Grünau<br>41.5 EUR","Kaunertaler Gletscher<br>47 EUR","Kellerjochbahn - Schwaz - Pill<br>32 EUR","Kirchdorf in Tirol<br>29.5 EUR","Kitzbühel<br>58 EUR","Klippitztörl<br>37 EUR","Klug Lifte - Hebalm<br>23 EUR","Koralpe<br>35 EUR","Kreischberg<br>46.5 EUR","Kristberg Silbertal<br>37.5 EUR","Königsberg - Hollenstein/Ybbs<br>27 EUR","Kötschach - Mauthen<br>33 EUR","Kühtai<br>41.5 EUR","Lachtal<br>43 EUR","Lackenhof - Ötscher<br>39.5 EUR","Laterns - Gapfohl<br>38 EUR","Lermoos Grubigstein<br>48 EUR","Mariazeller Bürgeralpe<br>36.5 EUR","Mayrhofen<br>55.5 EUR","Modriach-Winkel Hoislifte<br>20 EUR","Muttereralm<br>37 EUR","Mölltaler Gletscher<br>49 EUR","Mönichkirchen - Mariensee<br>37.5 EUR","Nassfeld Hermagor<br>49 EUR","Nauders<br>43.5 EUR","Nesselwängle<br>41 EUR","Niederalpl<br>34 EUR","Obergurgl - Hochgurgl<br>54 EUR","Obertauern<br>48 EUR","Obertilliach - Golzentipp<br>37 EUR","Patscherkofel<br>39 EUR","Petzen<br>34 EUR","Pitztaler Gletscher<br>52 EUR","Planneralm<br>43 EUR","Postalm<br>36 EUR","Präbichl<br>40 EUR","Puchberg am Schneeberg<br>29 EUR","Radstadt - Altenmarkt<br>55 EUR","Ramsau am Dachstein<br>39 EUR","Rangger Köpfl - Oberperfuss<br>34.5 EUR","Rauris<br>45 EUR","Reiteralm<br>55.5 EUR","Reutte Hahnenkamm<br>38.5 EUR","Rieseralm - Obdach<br>NA EUR","Riesneralm<br>43 EUR","Rifflsee - Pitztal<br>52 EUR","Salzstiegl<br>35 EUR","Schattwald - Zöblen<br>41 EUR","Schwarzenberg - Bödele<br>34.6 EUR","See im Paznauntal<br>42.5 EUR","Seefeld - Gschwandtkopf<br>42.5 EUR","Seefeld - Rosshütte<br>45.5 EUR","Serfaus Fiss Ladis<br>54 EUR","Serlesbahnen - Mieders<br>32 EUR","Shuttleberg Flachauwinkl - Kleinarl<br>55 EUR","Silvretta Montafon<br>55.5 EUR","Silvretta-Bielerhöhe<br>32.9 EUR","Simonhöhe<br>29.5 EUR","Ski Juwel Alpbachtal Wildschönau<br>49 EUR","SkiStar St. Johann in Tirol<br>46.5 EUR","SkiWelt Wilder Kaiser - Brixental<br>53.5 EUR","Skizentrum Sillian<br>49 EUR","Sonnenkopf<br>44 EUR","St. Anton am Arlberg<br>56.5 EUR","St. Georgen am Walde - Schorschi Lift<br>17 EUR","St. Jakob im Defereggental<br>49 EUR","Steinberg am Rofan<br>24 EUR","Steinplatte Waidring<br>47 EUR","Stubaier Gletscher<br>50 EUR","Stuben am Arlberg<br>56.5 EUR","Stuhleck - Semmering<br>46 EUR","Sölden<br>56 EUR","Söll - SkiWelt<br>53.5 EUR","Tannheim - Neunerköpfle<br>41 EUR","Tauplitzalm - Tauplitz<br>43 EUR","Teichalmlifte<br>24.5 EUR","Turracher Höhe<br>48.5 EUR","Venet - Landeck - Zams - Fliess<br>40.5 EUR","Vent<br>38.5 EUR","Warth - Schröcken<br>56.5 EUR","Weinebene<br>30 EUR","Wenigzell<br>23 EUR","Werfenweng<br>42.5 EUR","Westendorf - SkiWelt<br>53.5 EUR","Wurzeralm<br>43 EUR","Zahmer Kaiser - Walchsee<br>28 EUR","Zauberberg Semmering<br>35 EUR","Zauchensee - Flachauwinkl<br>55 EUR","Zell am See - Kaprun<br>53 EUR","Zell am See - Schmittenhöhe<br>56.5 EUR","Zell am Ziller - Zillertal Arena<br>55.5 EUR","Zillertal Arena<br>55.5 EUR","Airolo<br>NA EUR","Aletsch Arena<br>NA EUR","Amden - Arvenbüel<br>32.55 EUR","Anzère<br>51.15 EUR","Arolla<br>37.2 EUR","Arosa Lenzerheide<br>78.12 EUR","Avers<br>29.76 EUR","Beatenberg<br>49.29 EUR","Beckenried - Klewenalp<br>47.43 EUR","Belalp - Blatten - Naters<br>53.94 EUR","Bellwald<br>NA EUR","Bergün - Filisur<br>39.99 EUR","Bivio<br>39.99 EUR","Boltigen - Jaunpass<br>31.62 EUR","Braunwald<br>44.64 EUR","Brienz Axalp<br>42.78 EUR","Brigels - Breil<br>NA EUR","Bugnenets - Savagnières<br>35.34 EUR","Bulle - La Chia<br>18.6 EUR","Bumbach Schangnau<br>30.69 EUR","Cari<br>39.99 EUR","Champex - Lac<br>39.99 EUR","Champéry<br>59.52 EUR","Charmey - Vounetse<br>38.13 EUR","Chur<br>39.06 EUR","Château d'Oex - La Braye<br>33.48 EUR","Chäserrugg - Toggenburg<br>NA EUR","Crans Montana<br>82.77 EUR","Dallenwil - Wirzweli<br>28.83 EUR","Davos Klosters<br>67.89 EUR","Degersheim<br>27.9 EUR","Diavolezza - Lagalb - Pontresina<br>NA EUR","Diemtigtal - Grimmialp<br>36.27 EUR","Diemtigtal - Wiriehorn<br>44.64 EUR","Disentis 3000<br>57.66 EUR","Ebnat - Kappel<br>27.9 EUR","Eischoll<br>40.92 EUR","Elm<br>45.57 EUR","Engadin St. Moritz<br>NA EUR","Engelberg<br>60.45 EUR","Eriz<br>30.69 EUR","Evolène<br>39.06 EUR","Fideriser Heuberge<br>39.06 EUR","Flims Laax Falera<br>82.77 EUR","Flumserberg - Heidiland<br>58.59 EUR","Giswil - Mörlialp<br>39.06 EUR","Glacier 3000<br>59.52 EUR","Grimentz-Zinal<br>57.66 EUR","Grächen<br>52.08 EUR","Grüsch-Danusa<br>51.15 EUR","Gstaad<br>NA EUR","Gstaad - Saanen - Rougemont<br>NA EUR","Habkern<br>32.55 EUR","Hemberg - Bächli<br>23.25 EUR","Hoch-Ybrig<br>51.15 EUR","Jakobsbad - Kronberg<br>7.44 EUR","Jaun<br>38.13 EUR","Kandersteg - Sunnbüel - Oeschinen<br>40.92 EUR","Kiental<br>31.62 EUR","La Berra - La Roche<br>36.27 EUR","La Punt - Chamues-ch<br>NA EUR","La Robella<br>22.32 EUR","La Tzoumaz - Savoleyres<br>58.59 EUR","Lenk im Simmental<br>61.38 EUR","Les Avants - Sonloup<br>13.95 EUR","Les Diablerets<br>52.08 EUR","Les Marécottes - Salvan - La Creusaz<br>40.92 EUR","Les Pléiades<br>32.55 EUR","Les Prés d'Orvin<br>23.25 EUR","Leukerbad<br>51.15 EUR","Marbach - Marbachegg<br>36.27 EUR","Meiringen - Hasliberg<br>54.87 EUR","Melchsee - Frutt<br>51.15 EUR","Moléson - Gruyères<br>32.55 EUR","Morgins<br>59.52 EUR","Mürren - Schilthorn<br>61.38 EUR","Nax - Mont Noble<br>48.36 EUR","Nendaz<br>71.61 EUR","Neusell - Biberegg - Rothenthurm<br>26.04 EUR","Obergoms<br>23.25 EUR","Ottenleue<br>24.18 EUR","Ovronnaz<br>49.29 EUR","Ricken - Skilift Bildhaus<br>19.53 EUR","Riffenmatt<br>9.3 EUR","Rigi<br>46.5 EUR","Rossberg Oberwil<br>28.83 EUR","Rosswald - Brig<br>38.13 EUR","Rüschegg - Eywald<br>33.48 EUR","Saas-Almagell<br>69.75 EUR","Saas-Fee<br>69.75 EUR","Saas-Grund<br>52.08 EUR","Sainte-Croix - Les Rasses<br>29.76 EUR","Samedan<br>32.55 EUR","Samnaun<br>58.125 EUR","Sattel - Hochstuckli<br>36.27 EUR","Savognin<br>53.01 EUR","Schwanden - Sigriswil<br>29.76 EUR","Scuol Motta Naluns<br>53.01 EUR","Splügen<br>47.43 EUR","St-Luc Chandolin<br>53.94 EUR","St. Antönien<br>29.76 EUR","St. Moritz - Corviglia<br>NA EUR","St. Peter - Hochwang<br>41.85 EUR","Stoos<br>48.36 EUR","Sörenberg<br>48.36 EUR","Torgon<br>47.43 EUR","Tschappina Heinzenberg<br>33.48 EUR","Tschiertschen<br>45.57 EUR","Unterbäch<br>40.92 EUR","Val Müstair - Minschuns<br>37.2 EUR","Vals<br>30.69 EUR","Verbier<br>70.68 EUR","Vercorin<br>48.36 EUR","Veysonnaz<br>54.87 EUR","Vichères - Liddes<br>39.99 EUR","Villars - Gryon<br>52.08 EUR","Wildhaus - Toggenburg<br>51.15 EUR","Zermatt<br>73.47 EUR","Zuoz<br>NA EUR"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"setMaxBounds","args":[55,6,45,16]}],"limits":{"lat":[38.4496365,52.4068318],"lng":[-123.1155588,15.9986822775744]},"setView":[[48,11],6,[]]},"evals":[],"jsHooks":[]}</script>
+<p>An initial evaluation has provided information on the price structure of the ski resorts. Scope of services such as the number of kilometres of slopes was not taken into account, but is decisive when selecting a ski area. In a further evaluation I will also examine this aspect.</p>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/winter/">winter</a>
+  
+  <a class="badge badge-light" href="/tags/skiing/">skiing</a>
+  
+  <a class="badge badge-light" href="/tags/2020/">2020</a>
+  
+  <a class="badge badge-light" href="/tags/sports/">sports</a>
+  
+  <a class="badge badge-light" href="/tags/exploratory/">exploratory</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/comparing-ski-resorts/&amp;text=Comparing%20ski%20resorts" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/comparing-ski-resorts/&amp;t=Comparing%20ski%20resorts" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Comparing%20ski%20resorts&amp;body=/post/comparing-ski-resorts/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/comparing-ski-resorts/&amp;title=Comparing%20ski%20resorts" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Comparing%20ski%20resorts%20/post/comparing-ski-resorts/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/comparing-ski-resorts/&amp;title=Comparing%20ski%20resorts" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu8f66607d61f908dedb34b91a578fc13f_500012_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/">Florian Handke</a></h5>
+      <h6 class="card-subtitle">Data Scientist</h6>
+      <p class="card-text">What is there to discover?</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:handke.florian@web.de" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.xing.com/profile/Florian_Handke3/cv?sc_o=mxb_p" target="_blank" rel="noopener">
+        <i class="fab fa-xing-square"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/evaluating-the-reichenau-half-marathon/">Evaluating the Reichenau half marathon</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+  <p class="powered-by">
+    
+      <a href="/privacy/">Privacy Policy</a>
+    
+    
+       &middot; 
+      <a href="/terms/">Terms</a>
+    
+  </p>
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

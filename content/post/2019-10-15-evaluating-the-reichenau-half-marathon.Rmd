@@ -1,0 +1,371 @@
+---
+title: Evaluating the Reichenau half marathon
+author: Florian Handke
+date: '2019-10-15'
+slug: evaluating-the-reichenau-half-marathon
+categories:
+  - R
+tags:
+  - sports
+  - running
+  - reichenau
+  - '2019'
+  - half-marathon
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-01-11T00:26:46+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+![](/post/2019-10-15-evaluating-the-reichenau-half-marathon_files/running-1245640_1920.jpg){width=800px}
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+```{r, include=FALSE}
+mens_result <- tibble::tribble(
+  ~V1,                                                     ~V2, ~V3,
+  "1. 188 Lautenschlager",                   "Gabriel 1995 Männer Haupt. 01:16:56",   3,
+  "2. 24 Müller",               "Jochen 1974 M45 SV Kirchzarten 01:18:07",   2,
+  "3. 105 Schneble", "Christian 1985 M30 Team Erdinger Alkoholfrei 01:18:53",   6,
+  "4. 177 Ruehe",               "Stephan 1983 M35 BC Überlingen 01:19:30",   8,
+  "5. 154 Früh",              "Philipp 1981 M35 LSV Frauenfeld 01:21:32",   8,
+  "6. 101 Klauser",              "Christoph 1986 M30 SV Reichenau 01:22:16",   5,
+  "7. 60 Fajerski",               "Markus 1985 M30 SV Birkenhardt 01:22:49",   3,
+  "8. 50 Tedesco",                   "Mario 1981 M35 Team Hutter 01:23:21",   3,
+  "9. 191 Erdrich",                 "Thomas 1982 M35 Run for Love 01:23:39",   6,
+  "10. 121 Oechslin",      "Nico 1997 Männer Haupt. LC Schaffhausen 01:23:46",   4,
+  "11. 80 Schönholzer",          "Rene 1972 M45 Fehr-velo-racing team 01:23:59",   3,
+  "12. 100 Greiss",                 "Fabian 1985 M30 SV Reichenau 01:24:14",   1,
+  "13. 129 Fries",                            "Benedikt 1986 M30 01:24:23",   1,
+  "14. 118 Rotzinger",                              "Robert 1978 M40 01:24:33",   1,
+  "15. 138 Vogelmann",                  "Peter 1985 M30 ASC Konstanz 01:25:54",   0,
+  "16. 98 Münst",               "Manuel 1986 M30 TSV Riedlingen 01:26:00",   3,
+  "17. 168 Onea",              "Alexander 1979 M40 ASC Konstanz 01:26:34",   6,
+  "18. 171 Tressl",                              "Markus 1976 M40 01:26:34",   9,
+  "19. 86 Bader",                               "Peter 1969 M50 01:27:59",   0,
+  "20. 106 Krämer",                   "Eugen 1978 M40 TV Konstanz 01:28:05",   4,
+  "21. 87 Buhl",                "Stefan 1976 M40 LT Radolfzell 01:28:16",   6,
+  "22. 94 Wahl",               "Gerold 1967 M50 TSV Riedlingen 01:28:40",   0,
+  "23. 104 Rohling",                 "Niklas 1987 M30 ASC Konstanz 01:29:24",   8,
+  "24. 173 Fröher",                           "Alexander 1981 M35 01:29:54",   7,
+  "25. 73 Stern",                   "Felix 1965 M50 veganrunner 01:29:58",   9,
+  "26. 97 Dorner",                "Klaus 1976 M40 TSV Riedlingen 01:31:06",   7,
+  "27. 61 Schoch",               "Hansjörg 1972 M45 SV Rehetobel 01:31:15",   6,
+  "28. 93 Müller",              "Clemens 1969 M50 TSV Riedlingen 01:31:18",   0,
+  "29. 194 Smith",                      "Michael 1987 M30 MPI AB 01:32:19",   9,
+  "30. 140 Mühleck",                                "Paul 1985 M30 01:32:25",   7,
+  "31. 108 Font",            "Joaquim 1988 M30 CatSwiss Runners 01:32:34",   0,
+  "32. 78 Cimander",                  "Stefan 1979 M40 TV Konstanz 01:32:44",   7,
+  "33. 192 Aliji",                 "Bujalin 1977 M40 TV Konstanz 01:33:09",   2,
+  "34. 89 Achermann", "Simon 1982 M35 Whatsapp Runners Schaffhausen 01:33:11",   3,
+  "35. 160 Schnüriger",                "Erwin 1963 M55 STV Einsiedeln 01:33:33",   2,
+  "36. 72 Mikschik",              "Michael 1987 M30 Team beVegt.de 01:34:05",   8,
+  "37. 145 Rick",                "Michael 1989 M30 SV Reichenau 01:34:29",   3,
+  "38. 63 Cavalho",                               "Allan 1979 M40 01:34:53",   7,
+  "39. 166 Herbe",                "Andreas 1966 M50 ASC Konstanz 01:35:07",   0,
+  "40. 176 Bauer",                  "Stefan 1969 M50 TV Konstanz 01:35:23",   0,
+  "41. 51 Buschhle",                  "Jochen 1977 M40 Team Hutter 01:35:39",   5,
+  "42. 57 Perugini",               "Roberto 1974 M45 Murg-Stiftung 01:36:46",   0,
+  "43. 190 Carpy",                  "Rodrigo 1981 M35 La Espanja 01:37:14",   5,
+  "44. 159 Köller",                  "Mark 1973 M45 LT Radolfzell 01:37:35",   2,
+  "45. 107 Hoffmann",                "Julian 1981 M35 LT Radolfzell 01:37:54",   2,
+  "46. 119 Meyer-Wiefhausen",   "Wilken 1967 M50 Basketball Club Überlingen 01:38:23",   8,
+  "47. 17 Dammann",                               "Markus 1967 M50 01:38:30",   6,
+  "48. 90 Wilhelm",                               "Oliver 1968 M50 01:38:49",   3,
+  "49. 69 Kleiner",                            "Eike 1981 M35 MWGK 01:39:13",   7,
+  "50. 65 Schaefer",                              "Jacques 1969 M50 01:40:48",   8,
+  "51. 45 Waldschütz",                      "Andreas 1958 M60 Run4Fun 01:40:49",   4,
+  "52. 96 Reichelt",              "Matthias 1971 M45 TSV Riedlingen 01:41:00",   5,
+  "53. 55 Schaumberger",                  "Steffen 1974 M45 Team Hutter 01:41:17",   7,
+  "54. 135 Wylezol",                                 "Arne 1986 M30 01:41:51",   8,
+  "55. 175 Geiger",                 "John David 1990 Männer Haupt. 01:43:04",   6,
+  "56. 33 Schmid",                               "Tobias 1967 M50 01:44:03",   4,
+  "57. 155 Aurich",                  "Jörn 1971 M45 Urstromrunning 01:44:04",   3,
+  "58. 132 Reisch",          "Peter 1957 M60 Lauftreff Spaichingen 01:44:04",   8,
+  "59. 81 Trummer",                                "Alwin 1971 M45 01:44:05",   5,
+  "60. 147 Göckeritz",           "Marcel 1973 M45 Trimm Dich Konstanz 01:44:06",   1,
+  "61. 157 Knörr",                   "Jürgen 1963 M55 TV Konstanz 01:44:13",   2,
+  "62. 64 Handke",                    "Florian 1991 Männer Haupt. 01:44:45",   3,
+  "63. 44 Pfefferkorn",                                "Bernd 1967 M50 01:45:05",   0,
+  "64. 3 Prestifilippo",                   "Silvio 1975 M40 Team Hutter 01:45:18",   7,
+  "65. 11 Wille",                 "Benjamin 1988 M30 Team Hutter 01:45:19",   2,
+  "66. 53 Ermis",                    "Kemal 1981 M35 Team Hutter 01:45:19",   6,
+  "67. 26 Schwanz",                  "Stefan 1979 M40 pulsmacherei 01:46:27",   5,
+  "68. 184 Schwinghammer",              "Achim 1974 M45 Hegau Zahntechnik 01:47:26",   2,
+  "69. 48 Münch",                       "Paul 1994 Männer Haupt. 01:47:43",   3,
+  "70. 84 Vogel", "Philipp 1995 Männer Haupt. Bundeswehr Stetten 01:47:52",   7,
+  "71. 38 Wenzel",                 "Arno 1967 M50 DZ Bank Runners 01:49:04",   2,
+  "72. 23 Michels",              "Heinz 1948 M70 Spiridon Hochwald 01:49:15",   1,
+  "73. 83 Schmidt",           "Karsten 1976 M40 Bundeswehr Stetten 01:49:15",   5,
+  "74. 167 Gabriel",                         "Thomas 1978 M40 KNIME 01:49:22",   8,
+  "75. 195 Etheredge",                           "Ian 1985 M30 MPI AB 01:49:24",   4,
+  "76. 28 Förstner",                                "Heiko 1979 M40 01:49:49",   3,
+  "77. 179 Schaber-Laudien",                 "Bernhard 1968 M50 Ofterdingen 01:50:22",   0,
+  "78. 139 Laepple",                          "Christopher 1985 M30 01:50:25",   8,
+  "79. 99 Dia",          "Francesco 1967 M50 Trend Hair Zimmer 01:50:37",   5,
+  "80. 165 Muffler",                    "Klaus 1953 M65 LG Orsingen 01:51:11",   1,
+  "81. 52 Huber",                   "Manuel 1980 M35 Team Hutter 01:51:21",   9,
+  "82. 181 Koblitz",                          "Jens 1981 M35 MPI AB 01:51:25",   6,
+  "83. 109 Solabre Suarez",          "Fernando 1967 M50 Tiger Running Club 01:51:37",   5,
+  "84. 197 Reichel",                  "Carsten 1971 M45 TV Konstanz 01:52:52",   0,
+  "85. 39 Konzett",                    "Michael 1996 Männer Haupt. 01:53:09",   4,
+  "86. 158 Fischer",    "Lutz 1964 M55 Terrible Scharmützel Runners 01:53:17",   1,
+  "87. 172 Schäfer",         "Nico 1959 M60 Tuttlinger Sportfreunde 01:53:22",   6,
+  "88. 4 Seeh",                   "Thomas 1984 M35 Team Hutter 01:53:43",   7,
+  "89. 8 Henninger",                     "Toni 1979 M40 Team Hutter 01:53:44",   0,
+  "90. 9 Hipp",                 "Thorsten 1974 M45 Team Hutter 01:53:44",   4,
+  "91. 6 Schwarz",           "Marc 1991 Männer Haupt. Team Hutter 01:53:44",   7,
+  "92. 151 Haberer",                      "Marco 1997 Männer Haupt. 01:53:45",   1,
+  "93. 37 Frick",                              "Andreas 1974 M45 01:54:15",   9,
+  "94. 30 Gegenfurtner",                     "Ludwig 1995 Männer Haupt. 01:55:29",   7,
+  "95. 29 Kuczewski",                        "Tim 1993 Männer Haupt. 01:55:29",   9,
+  "96. 178 Blechmann",                             "Wolfgang 1956 M60 01:55:41",   6,
+  "97. 13 Dieth",                "Christian 1984 M35 Team Hutter 01:56:35",   4,
+  "98. 127 Robles Pidiache",                  "Jeudyl Ay 2003 Männer Haupt. 01:56:54",   0,
+  "99. 79 Demmler",       "Markus 1973 M45 Sportfreunde Obertauern 01:57:04",   0,
+  "100. 5 Storz",                     "Jens 1984 M35 Team Hutter 01:57:17",   1,
+  "101. 16 Hopf",                              "Dietmar 1965 M50 01:57:39",   2,
+  "102. 10 Schanz",                "Christoph 1984 M35 Team Hutter 01:58:10",   8,
+  "103. 161 Hohaus",                     "Julian 1999 Männer Haupt. 01:58:56",   6,
+  "104. 117 Mehrmann", "Eberhard 1955 M60 Classic Kindermoden Lauffen 01:58:59",   6,
+  "105. 110 Fischer",                                "Frank 1973 M45 01:59:12",   2,
+  "106. 137 Rauschenberger",                                "Frank 1974 M45 01:59:12",   7,
+  "107. 123 Blessing",                                 "Nico 1972 M45 01:59:45",   9,
+  "108. 136 Morgillo",                     "Oreste 1992 Männer Haupt. 02:02:03",   6,
+  "109. 170 Kaschytza",                              "Michael 1986 M30 02:02:04",   2,
+  "110. 21 Adolph-Nehrlich",                                 "Ralf 1973 M45 02:03:01",   0,
+  "111. 120 Stolz",                               "Marcus 1967 M50 02:03:06",   7,
+  "112. 131 Bethäuser",                  "Peter A. 1970 M45 SV Gamburg 02:03:29",   3,
+  "113. 182 Schössow",                                 "Rolf 1959 M60 02:03:42",   5,
+  "114. 34 Grinda",                    "Peter 1944 M75 TV Konstanz 02:03:43",   8,
+  "115. 75 Eberding",                             "Wolfgang 1968 M50 02:04:26",   4,
+  "116. 193 Billi",                               "Thomas 1962 M55 02:05:17",   0,
+  "117. 42 Schwind",                   "Heinrich 1995 Männer Haupt. 02:07:35",   7,
+  "118. 47 Bauer-Sonn",    "Dietmar 1954 M65 Diakonie Fund Racing Team 02:09:23",   8,
+  "119. 82 Lehmann",              "Maik 1985 M30 Bundeswehr Stetten 02:10:00",   5,
+  "120. 56 Pfaff",                   "Stefan 1969 M50 Team Hutter 02:10:17",   0,
+  "121. 12 Perazic",                  "Milorad 1973 M45 Team Hutter 02:10:17",   3,
+  "122. 1 Hutter",                   "Ronald 1977 M40 Team Hutter 02:10:17",   7,
+  "123. 126 Riegger",           "Tobias 1976 M40 Team Ausrufezeichen 02:11:00",   0,
+  "124. 189 Flöß",                              "Dietmar 1970 M45 02:11:01",   6,
+  "125. 115 Ragg",                                "Bruno 1955 M60 02:11:40",   4,
+  "126. 91 Eckle",          "Andreas 1962 M55 Eckle Personal GmbH 02:11:59",   9,
+  "127. 88 Rozier",                              "Gabriel 1981 M35 02:12:25",   3,
+  "128. 111 Speiermann",                             "Matthias 1988 M30 02:12:38",   4,
+  "129. 35 Hornung",                               "Walter 1955 M60 02:12:41",   3,
+  "130. 46 Baltzer",                           "Thomas 1961 M55 NKV 02:13:18",   6,
+  "131. 169 Hauger",                                "Willi 1957 M60 02:15:24",   7,
+  "132. 62 Restle",     "Jürgen 1961 M55 SG Reichenau/Waldsiedlung 02:18:30",   9,
+  "133. 146 Dietermann",          "Hartmut 1963 M55 Triflow Bad Endbach 02:19:33",   0,
+  "134. 196 Meurer",                               "Jürgen 1963 M55 02:20:18",   2,
+  "135. 128 Korsakas",                                "Jonas 1980 M35 02:22:56",   9,
+  "136. 153 Schick",                   "Siegfried 1956 M60 Balingen 02:26:33",   7
+) 
+```
+
+```{r, include=FALSE}
+womens_result <- tibble::tribble(
+  ~V1,                                                                 ~V2, ~V3,
+  "1. 102 Rothmund",                           "Andrea 1980 W35 TV Rielasingen 01:30:18",   9,
+  "2. 114 Heiskel",                  "Viola 1991 Frauen Haupt. SV Kirchzarten 01:34:58",   9,
+  "3. 162 Walter",                                           "Tanja 1978 W40 01:36:30",   5,
+  "4. 74 Nelsen",                                          "Astrid 1974 W45 01:37:46",   8,
+  "5. 68 Schiminski",                   "Annika 1998 Frauen Haupt. TSV Bisingen 01:38:19",   0,
+  "6. 112 Sandrock",                              "Eva 1981 W35 Team beVegt.de 01:38:54",   6,
+  "7. 144 Döderlein",                                           "Sonja 1980 W35 01:39:56",   8,
+  "8. 124 Moll",                             "Mirjam 1985 W30 ASC Konstanz 01:41:39",   5,
+  "9. 43 Kust",                                           "Katja 1984 W35 01:42:00",   6,
+  "10. 174 Rombach",                   "Carla 1994 Frauen Haupt. TV Furtwangen 01:43:04",   1,
+  "11. 25 Eisele",                            "Susanne 1981 W35 pulsmacherei 01:46:27",   2,
+  "12. 150 Müller",                            "Sonja 1972 W45 TSV Riedlingen 01:47:02",   9,
+  "13. 70 Wetter",                                           "Anita 1963 W55 01:48:08",   0,
+  "14. 164 Koch",                               "Gina 1988 W30 ASC Konstanz 01:48:26",   7,
+  "15. 152 Hahn",             "Esther 1963 W55 Frauenturnverein Allerswilen 01:48:54",   4,
+  "16. 163 Markgraf",                              "Sabine 1975 W40 TV Konstanz 01:49:34",   9,
+  "17. 134 Gulde",                                         "Kathrin 1983 W35 01:50:50",   1,
+  "18. 116 Hoch",                                          "Carola 1987 W30 01:51:02",   6,
+  "19. 141 Schönholzer", "Raja 2002 Frauen Haupt. TriClubBodensee/fehr-velo Racing 01:52:10",   6,
+  "20. 71 Windisch-Skelton",                                         "Hendric 1987 W30 01:52:28",   7,
+  "21. 186 Neuschel",                                 "Donna 1991 Frauen Haupt. 01:52:32",   2,
+  "22. 185 Ammann-Honda",                                           "Asami 1974 W45 01:53:08",   9,
+  "23. 149 Necker",                    "Erna 1961 W55 Lauftreff Waldmössingen 01:53:14",   2,
+  "24. 156 Cormier",                             "Katie 1979 W40 LT Radolfzell 01:54:27",   7,
+  "25. 59 Bonell",                                       "Christine 1976 W40 01:54:42",   0,
+  "26. 36 Rittmeister",                                       "Ruth 1980 W35 BaYo 01:55:14",   5,
+  "27. 66 Jöhnk",                           "Lea 1989 W30 Laufwerk Würzburg 01:56:26",   3,
+  "28. 15 Hopf",                                            "Elke 1966 W50 01:56:29",   6,
+  "29. 49 Mattes",                     "Laura 1991 Frauen Haupt. Team Hutter 01:58:10",   5,
+  "30. 54 Schaumberger",                              "Steffi 1978 W40 Team Hutter 01:58:34",   0,
+  "31. 180 Keicher",                           "Lara 1992 Frauen Haupt. MPI AB 01:59:43",   9,
+  "32. 133 Kehren",                      "Katharina 1983 W35 SV Mergelstetten 01:59:46",   1,
+  "33. 142 Wellm",                           "Michaela 1964 W55 SV Reichenau 02:01:44",   2,
+  "34. 19 Gökdemir",                                           "Nazli 1989 W30 02:02:48",   4,
+  "35. 183 Preter",                          "Gabi 1973 W45 Hegau Zahntechnik 02:02:48",   8,
+  "36. 27 Maire",                           "Tania Gemma 1997 Frauen Haupt. 02:04:00",   9,
+  "37. 103 Serpi",                               "Melissa 1990 Frauen Haupt. 02:08:05",   8,
+  "38. 113 Regber",                                         "Annette 1969 W50 02:08:12",   4,
+  "39. 20 Mangold",                                          "Malena 1989 W30 02:10:18",   2,
+  "40. 122 Schiebel",                                   "Eva 1990 Frauen Haupt. 02:10:54",   2,
+  "41. 125 Riegger",                        "Sina 1988 W30 Team Ausrufezeichen 02:10:59",   6,
+  "42. 92 Korsake",                                        "Kristina 1981 W35 02:22:56",   7,
+  "43. 14 Sadlon",                                          "Marina 1977 W40 02:26:32",   7
+)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+Last week I ran my first half marathon on the island Reichenau near Konstanz. You don't win any prizes with 62nd place, but that wasn't my goal either. Since the organizer put the results of the race online, I took a closer look at the data.  I show the results in the following post.
+
+The data I evaluate in this blog post are freely accessible at [SV Reichenau](https://www.svreichenau.de/images/leichtathletik/Strassenlauf/Ergenislisten/2019_Halbmarathon.pdf). 
+Since I don't want to spread the names of the runners, I will extract them in this context, but not process them further.
+
+As in the past, I like to use the `datapasta` package for fast data extraction. In this case, however, I was happy too early. The individual attributes are not separated and have to be separated first.
+
+The record of me as an example:
+
+```{r}
+dplyr::glimpse(mens_result %>% 
+          filter(str_detect(V1, "Handke")))
+```
+
+The following packages were also used:
+
+```{r}
+library(tidyverse)
+library(plotly)
+library(lubridate)
+library(sunburstR)
+```
+
+So let's get started: 
+
+The first string contains the placement, the start number and the last name. Since the three attributes are separated by spaces, `stringr::str_split()` can be used to separate them relatively easily.
+
+The second string is a bit more complicated. This contains the first name, the year of birth, the age group and the end time.
+
+Since the first names are partly afflicted with double names, it is no longer possible to work with the separation by blanks. Behind the Regex coding `(?<=[a-zA-Z])\\s*(?=[0-9])` nothing else hides itself like: Extract all characters with upper and lower case letters until the next number comes.
+
+Since the year of birth is the first number in the string, the first number can be extracted with `stringr::str_extract()`. `str_extract()` always returns the first hit. If you want to extract all matching results, you can do this with `str_extract_all()`.
+
+The time reached represents the last eight characters in the string. Here `str_extract` helps us again.
+
+During the grouping four patterns can be identified:
+
+* M + a corresponding age group
+
+* W + a corresponding age group
+
+* as well as the respective main groups for men and women
+
+Finally, we calculate an estimated age. Since we only have information about the year of birth, differences may occur during the year.
+
+```{r}
+
+allover_results <- womens_result %>% 
+  mutate(Gender = "female") %>% 
+  bind_rows(mens_result %>% 
+              mutate(Gender = "male")) %>% 
+  mutate(First_String = map(V1, function(x) {
+    split <- unlist(str_split(x, "\\s+"))
+    tibble(Place = as.numeric(split[1]),
+           Startnumber = split[2],
+           Surname = split[3])
+  }),
+  FirstName = map_chr(V2, function(x) {
+    unlist(strsplit(x, 
+                    split = "(?<=[a-zA-Z])\\s*(?=[0-9])", 
+                    perl = TRUE))[[1]]
+  }),
+  Birth = as.numeric(str_extract(V2, "[0-9]+")),
+  Time = lubridate::hms(as.character(str_sub(V2,-8,-1))),
+  Class = map_chr(V2, function(x) {
+    unlist(str_extract(x, 
+                       pattern = c("M[0-9]+",
+                                   "W[0-9]+",
+                                   "Männer Haupt.",
+                                   "Frauen Haupt."))) %>% 
+      .[!is.na(.)]
+  })) %>% 
+  unnest() %>% 
+  select(Place, Startnumber, Gender, Birth, Time, Class) %>% 
+  mutate(Age_approx = 2019 - Birth,
+         Time = as.numeric(as.duration(Time), "minutes"))
+
+```
+
+## How is the age of the runners distributed?
+
+During the run I noticed that most runners are in middle age. With the data we can now find out exactly how age is distributed. We select a histogram that shows the age groups on the x-axis and the corresponding number on the y-axis.
+
+It turns out that the majority of women (9) runners are between 35 and 39 years old. For men, the age group from 45 to 49 years with 22 runners is the top.
+
+```{r}
+allover_results %>% 
+  plot_ly(alpha = 0.6,
+          x = ~Age_approx,
+          color = ~Gender,
+          type = "histogram") %>%
+  layout(barmode = "overlay")
+```
+
+This picture also shows up again when we refer to the data of the organizer and present it in a so-called sunburst diagram. In this diagram we can show several parameters such as gender and age group.
+
+```{r}
+allover_results %>% 
+  mutate(seqs=paste(Gender,Class,sep="-")) %>% 
+  group_by(seqs) %>% 
+  summarise(Count = n()) %>% 
+  ungroup() %>% 
+  select(seqs, Count) %>% 
+  sunburst(count = TRUE)
+```
+
+## How does the speed of the runners relate to the achieved placement? 
+
+To visualize this, we plot the achieved placement on the x-axis and the end time on the y-axis. In addition, a distinction is made between women and men. 
+
+It turns out that the time between the placements almost follows a certain linearity. In the case of men, the time difference between the individual places is smaller than in the case of women.
+
+```{r}
+allover_results %>% 
+  plot_ly(x = ~Place,
+          y = ~Time, 
+          colors = "Set1") %>% 
+  add_lines(color = ~Gender) %>% 
+  add_markers(data = allover_results %>% 
+                filter(Gender == "male",
+                       Place == 62),
+              x = ~Place,
+              y = ~Time,
+              name = "It's me :)") %>% 
+  layout(yaxis = list(title = "Time [Min.]"))
+```
+
+
+## At what age are the runners best?
+
+In the following graphic we want to see in which graphic the runners are fastest. Since we are looking at the whole base we choose a box plot and create groupings for the estimated date by performing an integer division of 10. 
+
+It turns out that both men and women in the age group 30 to 40 years represent the fastest runners. The median is about 111 minutes for women and 95 minutes for men.
+
+```{r}
+allover_results %>% 
+  mutate(Group = (Age_approx %/% 10) * 10,
+         Group = paste0(Group, "-", Group + 10)) %>% 
+  plot_ly(x = ~Group, 
+          y = ~Time, 
+          color = ~Gender,
+          type = "box") %>% 
+  layout(boxmode = "group")
+```
+

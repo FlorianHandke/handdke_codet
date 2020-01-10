@@ -1,0 +1,153 @@
+---
+title: Comparing house prices
+subtitle: Part 1 -  Downloading the data
+author: Florian Handke
+date: '2019-09-01'
+slug: comparing-house-prices
+categories:
+  - R
+tags:
+  - rvest
+  - purrr
+  - scraping
+summary: ''
+authors: []
+lastmod: '2020-01-10T19:25:55+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+<p><img src="/post/2019-09-01-comparing-house/architecture-1477041_1280.jpg" width="800" /></p>
+<p>The price of houses is widely discussed these days in germany:</p>
+<p>Real estate prices have risen nationwide in recent years. This is also shown by the present house price index of the Federal Statistical Office, which, starting from 2015 (index = 100), was around 116.3 points in 2018. Thus, prices have increased by 16.3 percent compared to the base year 2015. Nevertheless, there are regional differences in the development of real estate prices. <a href="https://de.statista.com/statistik/daten/studie/70265/umfrage/haeuserpreisindex-in-deutschland-seit-2000/">statista</a></p>
+<p>Houses are becoming more expensive almost everywhere in Europe - especially in Germany. This was calculated by Eurostat, the European Statistics Office. While in the euro zone prices for residential buildings rose by 4.5 percent in the first quarter, the figure in Germany was as high as 5.3 percent. In the EU as a whole, an average of 4.7 percent more had to be paid for a house than in the first quarter of 2017.
+<a href="https://www.handelsblatt.com/finanzen/immobilien/europaeischer-vergleich-hauspreise-in-deutschland-ueberdurchschnittlich-stark-gestiegen/22788824.html?ticket=ST-6190196-5Wioef2UO3o6HZwheSC6-ap1">handelsblatt</a></p>
+<p>Since I live in Baden-Wuerttemberg, I am mainly interested in the regional house price:</p>
+<ul>
+<li><p>What is the gradient of the city/country?</p></li>
+<li><p>Where are the houses cheapest per square meter?</p></li>
+<li><p>Where are the most expensive houses?</p></li>
+</ul>
+<p>I will shed light on all these factors in the coming blog posts. For this I want to examine house prices of a real estate portal.</p>
+<p>In my first post I will create the data basis for further analyses. For this purpose, I will obtain the data in R by means of webscraping. As already in my previous posts the R parcel rvest will be used.</p>
+<p>In further posts I will then examine the data further.</p>
+<p>To scrapn the data, we will use a few packages with useful functions:</p>
+<ul>
+<li><p><strong>rvest</strong> to scrape the data from the website</p></li>
+<li><p><strong>tidyverse</strong> which includes magrittr (piping), stringr (string manipulation), dplyr (data wraggling), purrr (calling functions)…</p></li>
+<li><p><strong>glue</strong> to glue strings :)</p></li>
+</ul>
+<pre class="r"><code>library(rvest)
+library(tidyverse)
+library(glue)</code></pre>
+<div id="helper-functions" class="section level2">
+<h2>Helper Functions</h2>
+<p>The package purrr allows us to call functions within a dataframe and pass arguments to them. In this case we do not really need it, but i love working with it…</p>
+<p>To get the data I built a loop to scrape the data and a helper function to get the information attributes.</p>
+<p>Due to inconsistent data we need a helper function (SplitIt). This function checks individual arguments and merges them into a tibble. Missing arguments are replaced by an NA.</p>
+<pre class="r"><code>## Helper function
+## Price, LivingArea, Rooms, and SiteArea are no necessary arguments. therefore we need to check if they are existant.
+
+SplitIt &lt;- function(string) {
+  
+  ## Splitting the string into the different arguments
+  
+  string_split &lt;- unlist(str_split(string, &quot;(?&lt;=Kaufpreis|Wohnflaeche|Zi.)&quot;))
+  
+  ## Combine everything to a tibble. If the argument is missing fill a NA. Afterwards replace the name with &quot;&quot;
+  
+  tibble(Price = ifelse(any(str_detect(string_split, &quot;Kaufpreis&quot;)),
+                        string_split[str_detect(string_split, &quot;Kaufpreis&quot;)],
+                        NA) %&gt;% str_replace(&quot;Kaufpreis&quot;, &quot;&quot;),
+         LivingArea = ifelse(any(str_detect(string_split, &quot;Wohnflaeche&quot;)),
+                             string_split[str_detect(string_split, &quot;Wohnflaeche&quot;)],
+                             NA) %&gt;% str_replace(&quot;Wohnflaeche&quot;, &quot;&quot;),
+         Rooms = ifelse(any(str_detect(string_split, &quot;Zi.&quot;)),
+                        first(string_split[str_detect(string_split, &quot;Zi.&quot;)]),
+                        NA) %&gt;% str_replace(&quot;Zi.&quot;, &quot;&quot;),
+         SiteArea = ifelse(any(str_detect(string_split, &quot;Grundstueck&quot;)),
+                           string_split[str_detect(string_split, &quot;Grundstueck&quot;)],
+                           NA) %&gt;% str_replace(&quot;Grundstueck&quot;, &quot;&quot;))
+  
+}</code></pre>
+</div>
+<div id="executing-the-for-loop" class="section level2">
+<h2>Executing the for loop</h2>
+<p>The data is saved as a tibble for further processing. Then it can be passed to the helper function (SplitIt) via purrr::map(). The helper function then returns data as tibble.</p>
+<pre class="r"><code>## To get to our landing page we simulate our first page argument with 1
+
+page &lt;- 1
+
+## glue the url to get pagination
+
+startpage &lt;- read_html(glue(url))
+
+pagination &lt;- startpage %&gt;% 
+  html_nodes(&quot;.select.font-standard &gt; option&quot;) %&gt;% 
+  html_text() %&gt;% 
+  as.numeric() %&gt;% 
+  .[!is.na(.)]
+
+HousingData &lt;- tibble()
+
+## Looping over all pages
+
+for (i in seq_along(pagination)) {
+  
+  page &lt;- i
+  
+  ## glue the url for a single page
+  
+  singlepage &lt;- read_html(glue(url))
+  
+  ## Predefining the relevant node
+  
+  first_lvl_node &lt;- singlepage %&gt;% 
+    html_nodes(paste0(&quot;.listings-content-area &gt; .react &gt; &quot;,
+                      &quot;div &gt; div &gt; ul &gt; li &gt; div &gt; article &gt; &quot;,
+                      &quot;div:nth-of-type(1) &gt; div:nth-of-type(2)&quot;))
+  
+  ## Creating the Result for one page
+  
+  PageResult &lt;- 
+    tibble(Title = first_lvl_node %&gt;% 
+             html_nodes(paste0(&quot;div &gt; a &gt; h5&quot;)) %&gt;% 
+             html_text(),
+           Location = first_lvl_node %&gt;% 
+             html_nodes(paste0(&quot;div &gt; div:nth-of-type(2) &gt; div &gt; button&quot;)) %&gt;% 
+             html_text(),
+           RestData = first_lvl_node %&gt;% 
+             html_nodes(&quot;div &gt; div:nth-of-type(3) &gt; div &gt; div:nth-of-type(1)&quot;) %&gt;% 
+             html_text()) %&gt;% 
+    mutate(RestData = str_replace(RestData,&quot;Wohnfläche&quot;, &quot;Wohnflaeche&quot;), ## stringr does not recognize umlauts
+           RestData = str_replace(RestData,&quot;Grundstück&quot;, &quot;Grundstueck&quot;),
+           SplitString = map(RestData, SplitIt)) %&gt;% 
+    unnest() %&gt;% 
+    select(-RestData)
+  
+  ## Combing all results
+  
+  HousingData &lt;- HousingData %&gt;% 
+    bind_rows(PageResult)
+  
+}</code></pre>
+<p>And our rsult looks like this. It conatains 6025 rows which equals the number of houses hosted on the portal</p>
+<pre class="r"><code>head(HousingData)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   Title                 Location           Price  LivingArea Rooms SiteArea
+##   &lt;chr&gt;                 &lt;chr&gt;              &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;   
+## 1 NEUSchönes 3-FH für ~ Ketsch, Rhein-Nec~ 699.0~ 276 m²     &quot;10 &quot; 480 m²  
+## 2 Schöne Doppelhaushäl~ Kehl, Ortenaukreis 399.0~ 110 m²     &quot;4 &quot;  299 m²  
+## 3 NEUIhr neues Wohnglü~ Sindelfingen, Böb~ 520.0~ 175 m²     &quot;7 &quot;  238 m²  
+## 4 NEUElegantes und Mod~ Untertürkheim, St~ 998.0~ 140 m²     &quot;5,5~ 397 m²  
+## 5 NEUNeu bauen oder sa~ Bad Cannstatt, St~ 520.0~ 105 m²     &quot;6 &quot;  307 m²  
+## 6 NEUKernen im Remstal~ Hölderlinstraße 7~ 1.190~ 287,86 m²  &quot;12,~ 785 m²</code></pre>
+<p>The data looks great and I am curious to see what information and insights we can generate from it.</p>
+<p>In my next post I will examine the data more closely and perform a desriptive analysis.</p>
+</div>

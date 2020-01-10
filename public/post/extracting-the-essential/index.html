@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Florian Handke">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Reading large texts takes time. Sometimes it would be useful to extract essential sentences of a text to get a first impression of the whole. Therefore we will scrap a text from the web, do some string manipulation, tokenize it and finally extract the most important sentences by using Google Pagerank algorithm.
+To do so I will use the following R packages
+rvest
+stringr
+udpipe
+textrank">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/extracting-the-essential/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/extracting-the-essential/">
+
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Handkecodet">
+  <meta property="og:url" content="/post/extracting-the-essential/">
+  <meta property="og:title" content="Extracting the essential | Handkecodet">
+  <meta property="og:description" content="Reading large texts takes time. Sometimes it would be useful to extract essential sentences of a text to get a first impression of the whole. Therefore we will scrap a text from the web, do some string manipulation, tokenize it and finally extract the most important sentences by using Google Pagerank algorithm.
+To do so I will use the following R packages
+rvest
+stringr
+udpipe
+textrank"><meta property="og:image" content="/img/me">
+  <meta property="twitter:image" content="/img/me"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-07-27T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2020-01-10T19:10:03&#43;01:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/extracting-the-essential/"
+  },
+  "headline": "Extracting the essential",
+  
+  "datePublished": "2019-07-27T00:00:00Z",
+  "dateModified": "2020-01-10T19:10:03+01:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Florian Handke"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Handkecodet",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img//"
+    }
+  },
+  "description": "Reading large texts takes time. Sometimes it would be useful to extract essential sentences of a text to get a first impression of the whole. Therefore we will scrap a text from the web, do some string manipulation, tokenize it and finally extract the most important sentences by using Google Pagerank algorithm.\nTo do so I will use the following R packages\n\rrvest\n\rstringr\n\rudpipe\n\rtextrank"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Extracting the essential | Handkecodet</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Handkecodet</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Handkecodet</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#hero"><span>Welcome</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#biography"><span>Biography</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Extracting the essential</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    Jan 10, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/categories/r/">R</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+
+<p><img src="/post/2019-07-27-extracting-the-essential_files/romain-vignes-ywqa9IZB-dU-unsplash.jpg" width="800" /></p>
+<p>Reading large texts takes time. Sometimes it would be useful to extract essential sentences of a text to get a first impression of the whole. Therefore we will scrap a text from the web, do some string manipulation, tokenize it and finally extract the most important sentences by using Google Pagerank algorithm.</p>
+<p>To do so I will use the following R packages</p>
+<ul>
+<li><p><code>rvest</code></p></li>
+<li><p><code>stringr</code></p></li>
+<li><p><code>udpipe</code></p></li>
+<li><p><code>textrank</code></p></li>
+</ul>
+<p>In our example, we will use a text of the <a href="https://www.thebureauinvestigates.com/">The Bureau of investegative journalism</a> by <a href="https://www.thebureauinvestigates.com/profile/madlendavies">Madlen Davies</a> and <a href="https://www.thebureauinvestigates.com/profile/Benstockton">Ben Stockton</a> from July 22 2019. The article describes the ban of a antibioticum in Indian farms to fatten up animals. Fatten up animals is - according to the WHO - a major cause of the world’s growing antibiotic resistance crisis.</p>
+<p>You can find the full article <a href="https://www.thebureauinvestigates.com/stories/2019-07-22/india-bans-use-of-last-hope-antibiotic-colistin-on-farms">here</a>.</p>
+<p>To scrape the text from the website we will use the <a href="https://cran.r-project.org/web/packages/rvest/rvest.pdf">rvest</a> package which makes it easy to get all the data we want. It also provides assistance to use pipes from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package which is always a good choice. :)</p>
+<pre class="r"><code>library(rvest)</code></pre>
+<p>Scraping the data we simply define the relevant URL and a node which indicates a corresponding CSS selector. Because we only want the text of our article, we choose <code>p</code> as our relevant node. The <a href="https://html.com/tags/p/#ixzz5utCwr0gg">p</a> element is used to identify blocks of paragraph text in HTML.</p>
+<p>There is a wide variety of nodes we can define but do not need in this context. For exmaple we could scrape tables, rating, pictures and so on.</p>
+<pre class="r"><code>url &lt;- &#39;https://www.thebureauinvestigates.com/stories/2019-07-22/india-bans-use-of-last-hope-antibiotic-colistin-on-farms&#39;
+
+webpage &lt;- read_html(url)
+
+text &lt;- webpage %&gt;% 
+  html_nodes(&quot;p&quot;) %&gt;% 
+  html_text() </code></pre>
+<p>In the next step we will do a little string manipulation to</p>
+<ul>
+<li><p>split our text in sentences (<code>str_split</code>)</p></li>
+<li><p>get rid of some symbols we do not wanna have (<code>str_trim</code>) and whitespace at the begin and ending (<code>str_trim</code>)</p></li>
+</ul>
+<pre class="r"><code>library(stringr)</code></pre>
+<pre class="r"><code>text &lt;- unlist(strsplit(text, &quot;\\. &quot;)) %&gt;% 
+  str_replace_all(pattern = &quot;\n&quot;, replacement = &quot; &quot;) %&gt;%
+  str_replace_all(pattern = &quot;[\\^]&quot;, replacement = &quot; &quot;) %&gt;%
+  str_replace_all(pattern = &quot;\&quot;&quot;, replacement = &quot; &quot;) %&gt;%
+  str_replace_all(pattern = &quot;\\s+&quot;, replacement = &quot; &quot;) %&gt;%
+  str_trim(side = &quot;both&quot;) </code></pre>
+<p>Our text has now a total number of <strong>776 words</strong>.</p>
+<p>Next thing we wanna do is tokenizing and tagging our text. Therefore we use the <a href="https://cran.r-project.org/web/packages/udpipe/index.html">udpipe</a> package.</p>
+<pre class="r"><code>library(udpipe)</code></pre>
+<p>To do so we need a udpipe-model in english language.</p>
+<pre class="r"><code>udmodel &lt;- udpipe_download_model(&quot;english&quot;)
+udmodel &lt;- udpipe_load_model(udmodel$file_model)</code></pre>
+<p>Once we loaded the model we can annotate our sentences by calling <code>udpipe_annotate()</code> and transforming it to a dataframe.</p>
+<pre class="r"><code>df_text &lt;- udpipe_annotate(udmodel, text) %&gt;% 
+  as.data.frame(text)
+
+head(df_text)</code></pre>
+<pre><code>##   doc_id paragraph_id sentence_id                        sentence token_id
+## 1   doc1            1           1 We tell the stories that matter        1
+## 2   doc1            1           1 We tell the stories that matter        2
+## 3   doc1            1           1 We tell the stories that matter        3
+## 4   doc1            1           1 We tell the stories that matter        4
+## 5   doc1            1           1 We tell the stories that matter        5
+## 6   doc1            1           1 We tell the stories that matter        6
+##     token  lemma upos xpos                                      feats
+## 1      We     we PRON  PRP Case=Nom|Number=Plur|Person=1|PronType=Prs
+## 2    tell   tell VERB  VBP           Mood=Ind|Tense=Pres|VerbForm=Fin
+## 3     the    the  DET   DT                  Definite=Def|PronType=Art
+## 4 stories  story NOUN  NNS                                Number=Plur
+## 5    that   that PRON  WDT                               PronType=Rel
+## 6  matter matter  ADV   RB                                       &lt;NA&gt;
+##   head_token_id   dep_rel deps            misc
+## 1             2     nsubj &lt;NA&gt;            &lt;NA&gt;
+## 2             0      root &lt;NA&gt;            &lt;NA&gt;
+## 3             4       det &lt;NA&gt;            &lt;NA&gt;
+## 4             2       obj &lt;NA&gt;            &lt;NA&gt;
+## 5             6     nsubj &lt;NA&gt;            &lt;NA&gt;
+## 6             4 acl:relcl &lt;NA&gt; SpacesAfter=\\n</code></pre>
+<p>To find the most important senteces we will use a graph based ranking model by using an unsupervised method.</p>
+<p>Textrank constructs a graph where “the verticles of a the graph represent each sentence in our text and the edges between sentences are based on content overlap, namely by calculating the number of words that two sentences have in common.”</p>
+<p>Textrank then uses <a href="https://www.cs.princeton.edu/~chazelle/courses/BIB/pagerank.htm">PageRank</a> to identify the most important sentences of a text. PageRank is also used by Google Search to rank web pages.</p>
+<p>If you are interested in more details please read the <a href="https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf">paper</a>.</p>
+<pre class="r"><code>library(textrank)</code></pre>
+<p>Textrank needs a dataframe with sentences and a dataframe with words which are part of these sentences.</p>
+<p>Here we only take nouns and adjectives for finding overlaps between sentences.</p>
+<pre class="r"><code>df_text$textrank_id &lt;- unique_identifier(df_text, c(&quot;doc_id&quot;, &quot;paragraph_id&quot;, &quot;sentence_id&quot;))
+sentences &lt;- unique(df_text[, c(&quot;textrank_id&quot;, &quot;sentence&quot;)])
+terminology &lt;- subset(df_text, upos %in% c(&quot;NOUN&quot;, &quot;ADJ&quot;))
+terminology &lt;- terminology[, c(&quot;textrank_id&quot;, &quot;lemma&quot;)]
+head(terminology)</code></pre>
+<pre><code>##    textrank_id   lemma
+## 4            1   story
+## 9           12  defend
+## 10          12 quality
+## 13          12   spark
+## 14          12  change
+## 34          37   story</code></pre>
+<p>By applying our sentences and terminology into <code>textrank_sentences()</code> they will be applied to Google’s Pagerank.</p>
+<pre class="r"><code>textrank &lt;- textrank_sentences(data = sentences, terminology = terminology)</code></pre>
+<p>We can now extract the top n most relevant sentences where n defines the number of sentences which should be mentioned.</p>
+<pre class="r"><code>important_sentences &lt;- summary(textrank, 
+                               n = 4,
+                               keep.sentence.order = TRUE)
+cat(important_sentences, sep = &quot;\n&quot;)</code></pre>
+<pre><code>## The Indian government has banned the use of a “last hope” antibiotic on farms to try to halt the spread of some of the world’s most deadly superbugs, after a Bureau investigation revealed it was being widely used to fatten livestock.
+## The use of antibiotics to fatten up animals — known as “growth promotion” — is a major cause of the world&#39;s growing antibiotic resistance crisis
+## He said the ban indicates that “the Indian government is convinced that colistin is a last resort antibiotic, colistin resistance is increasing in clinical practice and colistin is extensively used in poultry and aqua farming as a growth promoting agent” and such practice should stop.
+## The discovery of a colistin-resistant gene that can pass between bacteria, conferring resistance to bugs never exposed to the drug, sent shockwaves through the medical world in 2015</code></pre>
+<p>We redouced our text from <strong>776 to 139</strong> words by using natural language processing in combination with Google Pagerank.</p>
+<p>Do you understand the core message of the text by reading only the summary?</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/rvest/">rvest</a>
+  
+  <a class="badge badge-light" href="/tags/udpipe/">udpipe</a>
+  
+  <a class="badge badge-light" href="/tags/textrank/">textrank</a>
+  
+  <a class="badge badge-light" href="/tags/pagerank/">Pagerank</a>
+  
+  <a class="badge badge-light" href="/tags/natural-language-processing/">Natural language processing</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/extracting-the-essential/&amp;text=Extracting%20the%20essential" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/extracting-the-essential/&amp;t=Extracting%20the%20essential" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Extracting%20the%20essential&amp;body=/post/extracting-the-essential/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/extracting-the-essential/&amp;title=Extracting%20the%20essential" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Extracting%20the%20essential%20/post/extracting-the-essential/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/extracting-the-essential/&amp;title=Extracting%20the%20essential" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu8f66607d61f908dedb34b91a578fc13f_500012_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/">Florian Handke</a></h5>
+      <h6 class="card-subtitle">Data Scientist</h6>
+      <p class="card-text">What is there to discover?</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:handke.florian@web.de" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.xing.com/profile/Florian_Handke3/cv?sc_o=mxb_p" target="_blank" rel="noopener">
+        <i class="fab fa-xing-square"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.a0d331bcd05dbe8b31e244f796710f08.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+  <p class="powered-by">
+    
+      <a href="/privacy/">Privacy Policy</a>
+    
+    
+       &middot; 
+      <a href="/terms/">Terms</a>
+    
+  </p>
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+---
+title: Comparing ski resorts
+author: Florian Handke
+date: '2020-01-11'
+slug: comparing-ski-resorts
+categories:
+  - R
+tags:
+  - winter
+  - skiing
+  - '2020'
+  - sports
+  - exploratory
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-01-11T00:29:45+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+![](/post/2020-01-11-comparing-ski-resorts_files/wintry-2068298_1920.jpg){width=800px}
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+The ski season has just started. Therefore I was interested to know how the prices for different tickets are. So I compared and analyzed the prices of different ski resorts in Germany, Austria and Switzerland. [https://www.skiinfo.de](skiinfo.de) maintains a database with the prices of various ski areas in the categories day ticket and 6-day ticket. Each for adults and children.
+
+I have not checked the listed prices and possible additional services e.g. in multi-day tickets have not been checked by me.
+
+Therefore I import the HTML tables listed on skiinfo.de and transfer them into a processable table. This requires some adjustments, like converting non-existing data cells or transforming prices into numeric values. Additionally, all prices in Swiss Francs are converted into Euro. The current (09.01.2020) exchange rate of 0.93 EURO per 1 CHF is used for this.
+
+```{r loading data}
+de_ski_prices <- as.data.frame(
+  xml2::read_html("https://www.skiinfo.de/deutschland/skipaesse.html") %>% 
+    rvest::html_table(fill=TRUE)) %>% 
+  tibble::as_tibble() %>% 
+  dplyr::mutate(Country = "de")
+
+aut_ski_prices <- as.data.frame(
+  xml2::read_html("https://www.skiinfo.de/osterreich/skipaesse.html") %>% 
+    rvest::html_table(fill=TRUE)) %>% 
+  tibble::as_tibble() %>% 
+  dplyr::mutate(Country = "aut")
+
+ch_ski_prices <- as.data.frame(
+  xml2::read_html("https://www.skiinfo.de/schweiz/skipaesse.html") %>% 
+    rvest::html_table(fill=TRUE)) %>% 
+  tibble::as_tibble() %>% 
+  dplyr::mutate(Country = "ch")
+
+pricelist_resorts <- tibble::tibble() %>% 
+  dplyr::bind_rows(de_ski_prices) %>% 
+  dplyr::bind_rows(aut_ski_prices) %>% 
+  dplyr::bind_rows(ch_ski_prices) %>% 
+  dplyr::select(-'Var.6') %>% 
+  dplyr::mutate_at(vars(2:5), ~ stringr::str_remove(., "€|CHF")) %>% 
+  dplyr::mutate_all(~ stringr::str_trim(.)) %>% 
+  dplyr::mutate_all(~ replace(., . == "-", NA)) %>% 
+  dplyr::mutate_at(vars(2:5), ~ as.numeric(.))
+```
+
+```{r}
+pricelist_resorts_euro <- pricelist_resorts %>% 
+  dplyr::filter(Country != "ch") %>% 
+  dplyr::bind_rows(pricelist_resorts %>% 
+                     dplyr::filter(Country == "ch") %>% 
+                     dplyr::mutate_at(vars(2:5), ~ . * 0.93)) %>% 
+  dplyr::mutate_at(vars(2:5), ~ replace(., . == 0, NA))
+```
+
+First we want to examine how the data is structured. How many ski resorts are there per country and how do the individual prices compare. Simple bars and box plot diagrams are suitable for this.
+
+# Number of ski areas per country
+
+As shown in the diagram, most ski resorts are located in Austria (223) followed by Switzerland (154) and Germany (148).
+
+```{r}
+pricelist_resorts_euro %>% 
+  dplyr::group_by(Country) %>% 
+  dplyr::summarise(Count = dplyr::n()) %>% 
+  dplyr::ungroup() %>% 
+  plotly::plot_ly(x = ~Count,
+                  y = ~Country,
+                  type = "bar")
+```
+
+# Price behaviour per ticket class
+
+Now we want to compare the price behaviour of the different ticket classes in the individual ski areas. It is important to note that not every ski resort offers multi-day tickets. 163 of the 525 ski resorts only offer day tickets. German ski resorts account for 91 of these. A possible reason for this could be smaller ski resorts in Germany.
+
+The diagram shows that the price level in German ski resorts is lower in relation to the median than in neighbouring Switzerland and Austria. Whereby these have a similar price level across all categories. Outliers are the Swiss ski resorts Flims Laax Falera (435.24 EURO) and Crans Montana (432.45 EURO) for multi-day tickets.
+
+```{r, warning = FALSE}
+pricelist_resorts_euro %>% 
+  tidyr::gather(-c(Skigebiet, Country), key = "Category", value = "Price") %>% 
+  plotly::plot_ly(x = ~Category, 
+                  y = ~Price, 
+                  color = ~Country, 
+                  type = "box") %>%
+  plotly::layout(boxmode = "group")
+```
+
+# Price ratio of one-day to 6-day tickets
+
+What is the price ratio between single and multi-day tickets. In the best case this is a maximum of six times the price of a single ticket. This ratio is shown in the following diagram. The median for all three countries has a ratio of approx. 5, which means that in most ski resorts, one day is given free of charge when buying a multi-day ticket.
+
+All ski areas with a ratio greater than 6 are not profitable in relation to the pure piste pass. Further additional services would therefore have to be integrated in order to be attractive for potential customers at all.
+
+In the case of Rottach Egern with a ratio of 10.5, for example, the multi-day ticket includes a combined ticket for a larger ski region.
+
+```{r}
+ratio_6_days <- pricelist_resorts_euro %>% 
+  dplyr::select(Skigebiet, Country, Erwachsene.6.Tage, Erwachsene.Tageskarte) %>% 
+  tidyr::drop_na(Erwachsene.6.Tage) %>% 
+  dplyr::mutate(Ratio = round(Erwachsene.6.Tage / Erwachsene.Tageskarte, 1)) %>% 
+  dplyr::arrange(Ratio) 
+
+ratio_6_days %>% 
+  plotly::plot_ly(color = ~Country, y = ~Ratio, 
+                  type = "box", 
+                  boxpoints = "all", 
+                  jitter = 0.3,
+                  pointpos = -1.8,
+                  hoverinfo = "text",
+                  text = ~paste0(Skigebiet,
+                                 "<br>Ratio: ", Ratio,
+                                 "<br>Price daily ticket: ", Erwachsene.Tageskarte,
+                                 "<br>Price 6 day ticket: ", Erwachsene.6.Tage))
+```
+
+# Distribution of prices by location
+
+When I select a skiing area, the distance to the skiing area is also a decision criterion. For this purpose I show the price levels of day tickets (adults) on a map. The size of the bubble reflects the price of the respective ski resort.
+
+```{r, eval = FALSE}
+get_geo_code <- function(location) {
+  
+  tmaptools::geocode_OSM(location,
+                         as.data.frame = TRUE) %>% 
+    as_tibble()
+  
+}
+
+geo_code <- pricelist_resorts_euro %>%
+  dplyr::mutate(Location = purrr::map(Skigebiet, possibly(get_geo_code, NA))) %>%  
+  dplyr::filter(!is.na(Location)) %>% 
+  tidyr::unnest()
+
+```
+
+```{r, eval = FALSE, include=FALSE}
+saveRDS(geo_code, file = "geocode_ski_resorts.Rds")
+```
+
+```{r, include=FALSE}
+geo_code <- readRDS("C:/Users/User/Documents/academic-kickstart/geocode_ski_resorts.Rds") %>% 
+  tibble::as_tibble() %>% 
+  dplyr::filter(!is.na(Location)) %>% 
+  tidyr::unnest()
+```
+
+```{r}
+leaflet::leaflet(geo_code) %>% 
+  leaflet::addTiles() %>%
+  leaflet::addCircles(lng = ~lon, 
+                      lat = ~lat, 
+                      fill = ~Erwachsene.Tageskarte,
+                      weight = 10,
+                      radius = ~sqrt(Erwachsene.Tageskarte) * 1000, 
+                      popup = ~paste0(Skigebiet,
+                                      "<br>", Erwachsene.Tageskarte, " EUR")) %>% 
+  leaflet::setView( lng = 11
+                    , lat = 48
+                    , zoom = 6) %>%
+  leaflet::setMaxBounds( lng1 = 6
+                         , lat1 = 55
+                         , lng2 = 16
+                         , lat2 = 45 )
+```
+
+An initial evaluation has provided information on the price structure of the ski resorts. Scope of services such as the number of kilometres of slopes was not taken into account, but is decisive when selecting a ski area. In a further evaluation I will also examine this aspect.

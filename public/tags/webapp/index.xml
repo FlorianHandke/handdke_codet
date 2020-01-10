@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>webapp | Handkecodet</title>
+    <link>/tags/webapp/</link>
+      <atom:link href="/tags/webapp/index.xml" rel="self" type="application/rss+xml" />
+    <description>webapp</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 10 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/me</url>
+      <title>webapp</title>
+      <link>/tags/webapp/</link>
+    </image>
+    
+    <item>
+      <title>Extracting the essential [V2]</title>
+      <link>/post/extracting-the-essential-v2/</link>
+      <pubDate>Fri, 10 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>/post/extracting-the-essential-v2/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;img src=&#34;/post/2020-01-10-extracting-the-essential-v2_files/krzysztof-niewolny-lb2zsLL7ilQ-unsplash.jpg&#34; width=&#34;800&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This week I told Oliver about my first blog post. He said if it wasn’t also possible for him to examine any text according to the principle that I showed in my July 27 post.&lt;/p&gt;
+&lt;p&gt;But of course there are! With R you can create webapps that allow an improved user interaction.&lt;/p&gt;
+&lt;p&gt;In order to realize the idea from the post, we will build a simple user interface, where the user can define a URL, based on which the text analysis will be done.&lt;/p&gt;
+&lt;p&gt;For this we use &lt;a href=&#34;https://shiny.rstudio.com/&#34;&gt;R Shiny&lt;/a&gt;. A library for creating webapps, dashboards and interactive documents.&lt;/p&gt;
+&lt;p&gt;After that we will host the app via &lt;a href=&#34;https://www.shinyapps.io/&#34;&gt;shinyapps.io&lt;/a&gt; and make it freely accessible for users. With Sshinyapps.io up to 5 webapps with an active runtime of 25 hours can be hosted in the freeware version. Since we don’t want to program a productive app that is to be used by a large number of users, this is completely sufficient.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(shiny)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Shiny provides a wide variety of different input and output options. In addition, there are other packages available (e.g. &lt;a href=&#34;https://rstudio.github.io/shinydashboard/&#34;&gt;shinydashboard&lt;/a&gt;, &lt;a href=&#34;https://github.com/dreamRs/shinyWidgets&#34;&gt;shinyWidgets&lt;/a&gt;, …) with extended functionality or a nicer look, but we won’t use them in this context.&lt;/p&gt;
+&lt;p&gt;Shiny apps are usually split in two:
+* The ui part defines the user interface of the app.
+* The server part defines the logic including various database queries, calculations etc.&lt;/p&gt;
+&lt;p&gt;The use of cheatsheets is always a good practice. A &lt;a href=&#34;https://shiny.rstudio.com/images/shiny-cheatsheet.pdf&#34;&gt;cheatsheet&lt;/a&gt; is also available for Shiny.&lt;/p&gt;
+&lt;div id=&#34;defining-the-ui&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Defining the UI&lt;/h2&gt;
+&lt;p&gt;Our UI will have a fairly simple structure. It is divided into a sidebar panel where the user makes his input and a main panel where the result is displayed.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Define UI for our application 
+ui &amp;lt;- fluidPage(
+   
+   # Application title
+   titlePanel(&amp;quot;Extracting the essential app&amp;quot;),
+   
+   # Sidebar with a text input for the URL, an additional HTML argument and a start button
+   sidebarLayout(
+      sidebarPanel(
+         textInput(inputId = &amp;quot;textInput_Define_URL&amp;quot;,
+                   label = &amp;quot;Define your URL:&amp;quot;),
+         br(),
+         p(&amp;quot;You can additionally define a HTML argument which defines the HTML dependency.&amp;quot;),
+         textInput(inputId = &amp;quot;textInput_HTML_Argument&amp;quot;,
+                   label = &amp;quot;HTML argument:&amp;quot;,
+                   value = &amp;quot;p&amp;quot;,
+                   placeholder = &amp;quot;e.g. p&amp;quot;),
+         br(),
+         actionButton(inputId = &amp;quot;actionButton_Start_Analysis&amp;quot;,
+                      label = &amp;quot;Start Analysis&amp;quot;)
+      ),
+      
+      # Show the result of textrank
+      mainPanel(
+         textOutput(&amp;quot;textrank_result&amp;quot;)
+      )
+   )
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;defining-the-server&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Defining the &lt;em&gt;server&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;As mentioned before, the server contains the logic of the app. We just have to convert the code from the last post into a form that can be processed by shiny.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)
+library(stringr)
+library(udpipe)
+library(textrank)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In order to make the app easier, we will limit ourselves to English texts for the time being. For this we load the corresponding udpipe model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;udmodel &amp;lt;- udpipe_download_model(&amp;quot;english&amp;quot;)
+udmodel &amp;lt;- udpipe_load_model(udmodel$file_model)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;server &amp;lt;- function(input, output) {
+  
+  evaluate_textrank &amp;lt;- eventReactive(input$actionButton_Start_Analysis, {
+    
+    # Scraping the selected URL with the selected HTML argument
+    
+    url &amp;lt;- input$textInput_HTML_Argument
+    
+    webpage &amp;lt;- read_html(url)
+    
+    text &amp;lt;- webpage %&amp;gt;% 
+      html_nodes(input$textInput_HTML_Argument) %&amp;gt;% 
+      html_text() 
+    
+    # Do string manipulation
+    
+    text &amp;lt;- unlist(strsplit(text, &amp;quot;\\. &amp;quot;)) %&amp;gt;% 
+      str_replace_all(pattern = &amp;quot;\n&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+      str_replace_all(pattern = &amp;quot;[\\^]&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+      str_replace_all(pattern = &amp;quot;\&amp;quot;&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+      str_replace_all(pattern = &amp;quot;\\s+&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+      str_trim(side = &amp;quot;both&amp;quot;) 
+    
+    # Annotate the text
+    
+    df_text &amp;lt;- udpipe_annotate(udmodel, text) %&amp;gt;% 
+      as.data.frame(text)
+    
+    # Perform textrank
+    
+    df_text$textrank_id &amp;lt;- unique_identifier(df_text, c(&amp;quot;doc_id&amp;quot;, &amp;quot;paragraph_id&amp;quot;, &amp;quot;sentence_id&amp;quot;))
+    sentences &amp;lt;- unique(df_text[, c(&amp;quot;textrank_id&amp;quot;, &amp;quot;sentence&amp;quot;)])
+    terminology &amp;lt;- subset(df_text, upos %in% c(&amp;quot;NOUN&amp;quot;, &amp;quot;ADJ&amp;quot;))
+    terminology &amp;lt;- terminology[, c(&amp;quot;textrank_id&amp;quot;, &amp;quot;lemma&amp;quot;)]
+    
+    textrank &amp;lt;- textrank_sentences(data = sentences, terminology = terminology)
+    
+    important_sentences &amp;lt;- summary(textrank, 
+                               n = 4,
+                               keep.sentence.order = TRUE)
+    
+    return(important_sentences)
+
+  })
+  
+  output$textrank_result &amp;lt;- renderText({
+    req(evaluate_textrank())
+    
+    cat(evaluate_textrank(), sep = &amp;quot;\n&amp;quot;)
+  })
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The final app is called inside R via &lt;em&gt;shinyApp()&lt;/em&gt; with the components from ui and server.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Run the application 
+shinyApp(ui = ui, server = server)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The full procedure for hosting the app on shinyapps.io can be found in the clear &lt;a href=&#34;https://docs.rstudio.com/shinyapps.io/&#34;&gt;user documentation&lt;/a&gt; of shinyapps.io. I will give you a brief insight here.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;host-your-app&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Host your app&lt;/h2&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;First we load the &lt;a href=&#34;https://github.com/rstudio/rsconnect&#34;&gt;rsconnect&lt;/a&gt; package&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rsconnect)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;2&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Register via &lt;a href=&#34;https://www.shinyapps.io/&#34;&gt;shinyapps.io&lt;/a&gt; and create an account. Choose the free version. Here you will get a token that RStudio uses to connect to shinyapps.io and host your account. Pass this token into the function &lt;em&gt;setAccountInfo()&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rsconnect::setAccountInfo(name=&amp;quot;&amp;lt;ACCOUNT&amp;gt;&amp;quot;, token=&amp;quot;&amp;lt;TOKEN&amp;gt;&amp;quot;, secret=&amp;quot;&amp;lt;SECRET&amp;gt;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;3&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;The app can now be deployed either via the function &lt;em&gt;deployApp()&lt;/em&gt; or via the Publish button in RStudio&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;deployApp()&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;R Shiny in combination with shinyapps.io offers a very good possibility to develop webapps. The kit used here for Shiny-apps is by far not exhausted yet. Maybe in a future post I will go into the different possibilities that Shiny still offers.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://florianswebapps.shinyapps.io/extracting_the_essential/&#34;&gt;Here&lt;/a&gt; you can reach the app.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
