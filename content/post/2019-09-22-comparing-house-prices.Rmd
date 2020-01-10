@@ -1,0 +1,186 @@
+---
+title: Comparing house prices
+author: Florian handke
+date: '2019-09-22'
+slug: comparing-house-prices
+categories:
+  - R
+tags:
+  - dplyr
+  - plotly
+  - scraping
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-01-11T00:21:47+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+![](/post/2019-09-22-comparing-house/nature-1547302_1920.jpg){width=800px}
+
+In the first post the data were collected. Now we want to get a first impression of the collected data. What is the structure of the data, how are they distributed and, most importantly, do they still need pre-processing?
+
+In the following I will present the data in different ways. In technical jargon this is called [descriptive analytics](https://www.gartner.com/it-glossary/descriptive-analytics/). The following evaluations are only an excerpt of what is possible and do not claim to be complete.
+
+
+```{r, warning=FALSE, message = FALSE}
+library(plotly)
+library(tidyverse)
+library(readr)
+library(fs)
+```
+
+After I collected the data in my last post, it was saved in a local .rds file. This provides a high performance way to store data that is processed with R. With the readr package the file can be loaded via `read_rds()`.
+
+```{r, warning=FALSE, message = FALSE}
+HousingData <- readr::read_rds(dir_ls("~/Documents/handdke_codet",
+                                      recurse = TRUE) %>% 
+                                 path_abs() %>% 
+                                 str_subset("HousingData.Rds"))
+```
+
+With the dplyr function `glimpse()`, you can quickly create an overview of individual table columns. You get the data type as well as an extract of the data in form of the first columns. If we look at the last four columns, we notice that they are all of type character and contain certain additions such as the currency or the area unit. In order to evaluate the data later, however, it is absolutely necessary to have all data in an appropriate format. Accordingly, all unnecessary attributes must be removed and then converted into a `numeric` or `double` format.
+
+```{r, warning=FALSE, message = FALSE}
+glimpse(HousingData)
+```
+
+```{r, warning=FALSE, message = FALSE}
+HousingData_clean <- HousingData %>% 
+  as_tibble() %>% 
+  mutate(Price = as.numeric(str_replace_all(
+    str_remove_all(Price, "[€.]"), ",", ".")),
+    LivingArea = as.numeric(str_replace_all(
+      str_remove_all(LivingArea, "[m².]"), ",", ".")),
+    Rooms = as.numeric(str_replace(Rooms, ",", ".")),
+    SiteArea = as.numeric(str_replace_all(
+      str_remove_all(SiteArea, "[m².]"), ",", "."))) 
+```
+
+```{r, include=FALSE, warning=FALSE, message = FALSE}
+HousingData_clean <- HousingData_clean %>% 
+  filter(Price < 50000000)
+```
+
+After the cleanup, all data is now available in the desired, processable format. Additionally we can use the base-function `summary()` to get a first impression about the distribution of the numerical values.
+
+```{r, warning=FALSE, message = FALSE}
+glimpse(HousingData_clean)
+summary(HousingData_clean)
+```
+
+We look at advertisements for the different counties in Baden Würtemberg. To determine if the number of advertisements per county varies, we group the data per county and sum them up. In the chart below we can see that the Rhine-Neckar district has the most advertisements with 417, followed by Karlsruhe (277) and Esslingen (258). The fewest advertisements are for Tübingen (82) and Emmendingen (47).
+
+```{r fig.height=8, warning=FALSE, message = FALSE, fig.width=10}
+HousingData_clean %>% 
+  group_by(County) %>% 
+  summarise(Count = n()) %>% 
+  ungroup() %>% 
+  plot_ly(x = ~Count,
+          y = ~reorder(County, Count)) %>% 
+  add_bars() %>% 
+  layout(xaxis = list(title = "No of Houses"),
+         yaxis = list(title = "County"))
+```
+
+To make the first summary with `summary()` even more detailed, we can create a boxplot for each attribute. For this I like to use the plotly package, because interactive SVG graphics can be created. If you want to know more about boxplots, you can find out more [here](https://towardsdatascience.com/understanding-boxplots-5e2df7bcbd51).
+
+To create our final plot, we create a single plot (p1, p2, p3 and p4) for every attribute and combine them via subplot.
+
+```{r, warning=FALSE, message = FALSE}
+p1 <- HousingData_clean %>% 
+  drop_na(Price) %>% 
+  plot_ly(y = ~Price, type = "box", name = "Price [€]") %>% 
+  layout(showlegend = FALSE)
+
+p2 <- HousingData_clean %>% 
+  plot_ly(y = ~LivingArea, type = "box", name = "Living Area [sqm]") %>% 
+  layout(showlegend = FALSE)  
+
+p3 <- HousingData_clean %>% 
+  plot_ly(y = ~SiteArea, type = "box", name = "Site Area [sqm]") %>% 
+  layout(showlegend = FALSE) 
+
+p4 <- HousingData_clean %>% 
+  plot_ly(y = ~Rooms, type = "box", name = "Rooms [no]") %>% 
+  layout(showlegend = FALSE) 
+
+subplot(p1, p2, p3, p4)
+```
+
+Individual attributes can be viewed in more detail. For example, a box plot can be created for each county and displayed in comparison to the others.
+
+```{r, warning=FALSE, message = FALSE, fig.height=8, fig.width=10}
+HousingData_clean %>% 
+  drop_na(Price) %>% 
+  plot_ly(x = ~Price, color = ~County, type = "box")
+```
+
+The price is often the determining factor after evaluation. However, this logic is often too brief. We want to know how the price relates to the attributes living area, site area and number of rooms.
+
+We will also apply a linear regression to the data to see how the individual parameters behave throughout. This is achieved by the `lm()` function. The relevant values are extracted using `fitted()`.
+
+```{r, warning=FALSE, message = FALSE, fig.width=10, fig.height=8}
+
+predefine_xaxis <- list(title = "Price [€]")
+
+p1 <- HousingData_clean %>% 
+  drop_na(Price) %>% 
+  plot_ly(x = ~Price,
+          y = ~LivingArea) %>% 
+  add_markers(color = ~County,
+              alpha = 0.5,
+              legendgroup = ~County, 
+              showlegend = T) %>% 
+  add_lines(y = ~fitted(lm(LivingArea ~ Price)),
+            line = list(color = '#07A4B5'),
+            name = "LM", 
+            legendgroup = "LM",
+            showlegend = T) %>% 
+  layout(xaxis = predefine_xaxis,
+         yaxis = list(title = "Living Area [sqm]"))
+
+p2 <- HousingData_clean %>% 
+  drop_na(Price) %>% 
+  plot_ly(x = ~Price,
+          y = ~SiteArea) %>% 
+  add_markers(color = ~County,
+              alpha = 0.5,
+              legendgroup = ~County, 
+              showlegend = F) %>% 
+  add_lines(y = ~fitted(lm(SiteArea ~ Price)),
+            line = list(color = '#07A4B5'),
+            name = "LM", 
+            legendgroup = "LM",
+            showlegend = F) %>% 
+  layout(xaxis = predefine_xaxis,
+         yaxis = list(title = "Site Area [sqm]"))
+
+p3 <- HousingData_clean %>% 
+  drop_na(Price) %>% 
+  plot_ly(x = ~Price,
+          y = ~Rooms) %>% 
+  add_markers(color = ~County,
+              alpha = 0.5,
+              legendgroup = ~County, 
+              showlegend = F) %>% 
+  add_lines(y = ~fitted(lm(Rooms ~ Price)),
+            line = list(color = '#07A4B5'),
+            name = "LM", 
+            legendgroup = "LM",
+            showlegend = F) %>% 
+  layout(xaxis = predefine_xaxis,
+         yaxis = list(title = "Rooms [no]"))
+
+subplot(p1, p2, p3, plotly_empty(), 
+        nrows = 2,
+        shareX = TRUE, titleY = TRUE) 
+```
+
+This post gave us a first insight into the data. This impression is decisive when it comes to gaining added value from data in the form of reliable findings.
+

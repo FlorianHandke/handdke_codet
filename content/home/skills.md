@@ -18,18 +18,36 @@ subtitle = ""
   icon = "r-project"
   icon_pack = "fab"
   name = "R"
-  description = "90%"
+  description = ""
   
 [[feature]]
   icon = "chart-line"
   icon_pack = "fas"
   name = "Statistics"
-  description = "100%"  
+  description = ""  
   
 [[feature]]
-  icon = "camera-retro"
+  icon = "utensils"
   icon_pack = "fas"
-  name = "Photography"
-  description = "10%"
+  name = "Cooking"
+  description = ""
+  
+[[feature]]
+  icon = "running"
+  icon_pack = "fas"
+  name = "Jogging"
+  description = ""
+  
+[[feature]]
+  icon = "skiing"
+  icon_pack = "fas"
+  name = "Skiing"
+  description = ""
+  
+[[feature]]
+  icon = "wrench"
+  icon_pack = "fas"
+  name = "Handicraft"
+  description = ""
 
 +++

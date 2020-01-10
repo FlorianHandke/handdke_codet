@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>rvest | Handkecodet</title>
+    <link>/tags/rvest/</link>
+      <atom:link href="/tags/rvest/index.xml" rel="self" type="application/rss+xml" />
+    <description>rvest</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 10 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/me</url>
+      <title>rvest</title>
+      <link>/tags/rvest/</link>
+    </image>
+    
+    <item>
+      <title>Extracting the essential [V2]</title>
+      <link>/post/extracting-the-essential-v2/</link>
+      <pubDate>Fri, 10 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>/post/extracting-the-essential-v2/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;img src=&#34;/post/2020-01-10-extracting-the-essential-v2_files/krzysztof-niewolny-lb2zsLL7ilQ-unsplash.jpg&#34; width=&#34;800&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This week I told Oliver about my first blog post. He said if it wasn’t also possible for him to examine any text according to the principle that I showed in my July 27 post.&lt;/p&gt;
+&lt;p&gt;But of course there are! With R you can create webapps that allow an improved user interaction.&lt;/p&gt;
+&lt;p&gt;In order to realize the idea from the post, we will build a simple user interface, where the user can define a URL, based on which the text analysis will be done.&lt;/p&gt;
+&lt;p&gt;For this we use &lt;a href=&#34;https://shiny.rstudio.com/&#34;&gt;R Shiny&lt;/a&gt;. A library for creating webapps, dashboards and interactive documents.&lt;/p&gt;
+&lt;p&gt;After that we will host the app via &lt;a href=&#34;https://www.shinyapps.io/&#34;&gt;shinyapps.io&lt;/a&gt; and make it freely accessible for users. With Sshinyapps.io up to 5 webapps with an active runtime of 25 hours can be hosted in the freeware version. Since we don’t want to program a productive app that is to be used by a large number of users, this is completely sufficient.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(shiny)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Shiny provides a wide variety of different input and output options. In addition, there are other packages available (e.g. &lt;a href=&#34;https://rstudio.github.io/shinydashboard/&#34;&gt;shinydashboard&lt;/a&gt;, &lt;a href=&#34;https://github.com/dreamRs/shinyWidgets&#34;&gt;shinyWidgets&lt;/a&gt;, …) with extended functionality or a nicer look, but we won’t use them in this context.&lt;/p&gt;
+&lt;p&gt;Shiny apps are usually split in two:
+* The ui part defines the user interface of the app.
+* The server part defines the logic including various database queries, calculations etc.&lt;/p&gt;
+&lt;p&gt;The use of cheatsheets is always a good practice. A &lt;a href=&#34;https://shiny.rstudio.com/images/shiny-cheatsheet.pdf&#34;&gt;cheatsheet&lt;/a&gt; is also available for Shiny.&lt;/p&gt;
+&lt;div id=&#34;defining-the-ui&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Defining the UI&lt;/h2&gt;
+&lt;p&gt;Our UI will have a fairly simple structure. It is divided into a sidebar panel where the user makes his input and a main panel where the result is displayed.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Define UI for our application 
+ui &amp;lt;- fluidPage(
+   
+   # Application title
+   titlePanel(&amp;quot;Extracting the essential app&amp;quot;),
+   
+   # Sidebar with a text input for the URL, an additional HTML argument and a start button
+   sidebarLayout(
+      sidebarPanel(
+         textInput(inputId = &amp;quot;textInput_Define_URL&amp;quot;,
+                   label = &amp;quot;Define your URL:&amp;quot;),
+         br(),
+         p(&amp;quot;You can additionally define a HTML argument which defines the HTML dependency.&amp;quot;),
+         textInput(inputId = &amp;quot;textInput_HTML_Argument&amp;quot;,
+                   label = &amp;quot;HTML argument:&amp;quot;,
+                   value = &amp;quot;p&amp;quot;,
+                   placeholder = &amp;quot;e.g. p&amp;quot;),
+         br(),
+         actionButton(inputId = &amp;quot;actionButton_Start_Analysis&amp;quot;,
+                      label = &amp;quot;Start Analysis&amp;quot;)
+      ),
+      
+      # Show the result of textrank
+      mainPanel(
+         textOutput(&amp;quot;textrank_result&amp;quot;)
+      )
+   )
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;defining-the-server&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Defining the &lt;em&gt;server&lt;/em&gt;&lt;/h2&gt;
+&lt;p&gt;As mentioned before, the server contains the logic of the app. We just have to convert the code from the last post into a form that can be processed by shiny.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)
+library(stringr)
+library(udpipe)
+library(textrank)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In order to make the app easier, we will limit ourselves to English texts for the time being. For this we load the corresponding udpipe model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;udmodel &amp;lt;- udpipe_download_model(&amp;quot;english&amp;quot;)
+udmodel &amp;lt;- udpipe_load_model(udmodel$file_model)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;server &amp;lt;- function(input, output) {
+  
+  evaluate_textrank &amp;lt;- eventReactive(input$actionButton_Start_Analysis, {
+    
+    # Scraping the selected URL with the selected HTML argument
+    
+    url &amp;lt;- input$textInput_HTML_Argument
+    
+    webpage &amp;lt;- read_html(url)
+    
+    text &amp;lt;- webpage %&amp;gt;% 
+      html_nodes(input$textInput_HTML_Argument) %&amp;gt;% 
+      html_text() 
+    
+    # Do string manipulation
+    
+    text &amp;lt;- unlist(strsplit(text, &amp;quot;\\. &amp;quot;)) %&amp;gt;% 
+      str_replace_all(pattern = &amp;quot;\n&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+      str_replace_all(pattern = &amp;quot;[\\^]&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+      str_replace_all(pattern = &amp;quot;\&amp;quot;&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+      str_replace_all(pattern = &amp;quot;\\s+&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+      str_trim(side = &amp;quot;both&amp;quot;) 
+    
+    # Annotate the text
+    
+    df_text &amp;lt;- udpipe_annotate(udmodel, text) %&amp;gt;% 
+      as.data.frame(text)
+    
+    # Perform textrank
+    
+    df_text$textrank_id &amp;lt;- unique_identifier(df_text, c(&amp;quot;doc_id&amp;quot;, &amp;quot;paragraph_id&amp;quot;, &amp;quot;sentence_id&amp;quot;))
+    sentences &amp;lt;- unique(df_text[, c(&amp;quot;textrank_id&amp;quot;, &amp;quot;sentence&amp;quot;)])
+    terminology &amp;lt;- subset(df_text, upos %in% c(&amp;quot;NOUN&amp;quot;, &amp;quot;ADJ&amp;quot;))
+    terminology &amp;lt;- terminology[, c(&amp;quot;textrank_id&amp;quot;, &amp;quot;lemma&amp;quot;)]
+    
+    textrank &amp;lt;- textrank_sentences(data = sentences, terminology = terminology)
+    
+    important_sentences &amp;lt;- summary(textrank, 
+                               n = 4,
+                               keep.sentence.order = TRUE)
+    
+    return(important_sentences)
+
+  })
+  
+  output$textrank_result &amp;lt;- renderText({
+    req(evaluate_textrank())
+    
+    cat(evaluate_textrank(), sep = &amp;quot;\n&amp;quot;)
+  })
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The final app is called inside R via &lt;em&gt;shinyApp()&lt;/em&gt; with the components from ui and server.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Run the application 
+shinyApp(ui = ui, server = server)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The full procedure for hosting the app on shinyapps.io can be found in the clear &lt;a href=&#34;https://docs.rstudio.com/shinyapps.io/&#34;&gt;user documentation&lt;/a&gt; of shinyapps.io. I will give you a brief insight here.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;host-your-app&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Host your app&lt;/h2&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;First we load the &lt;a href=&#34;https://github.com/rstudio/rsconnect&#34;&gt;rsconnect&lt;/a&gt; package&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rsconnect)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;2&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Register via &lt;a href=&#34;https://www.shinyapps.io/&#34;&gt;shinyapps.io&lt;/a&gt; and create an account. Choose the free version. Here you will get a token that RStudio uses to connect to shinyapps.io and host your account. Pass this token into the function &lt;em&gt;setAccountInfo()&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rsconnect::setAccountInfo(name=&amp;quot;&amp;lt;ACCOUNT&amp;gt;&amp;quot;, token=&amp;quot;&amp;lt;TOKEN&amp;gt;&amp;quot;, secret=&amp;quot;&amp;lt;SECRET&amp;gt;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&#34;3&#34; style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;The app can now be deployed either via the function &lt;em&gt;deployApp()&lt;/em&gt; or via the Publish button in RStudio&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;deployApp()&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;R Shiny in combination with shinyapps.io offers a very good possibility to develop webapps. The kit used here for Shiny-apps is by far not exhausted yet. Maybe in a future post I will go into the different possibilities that Shiny still offers.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://florianswebapps.shinyapps.io/extracting_the_essential/&#34;&gt;Here&lt;/a&gt; you can reach the app.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Comparing house prices</title>
+      <link>/post/comparing-house-prices/</link>
+      <pubDate>Sun, 01 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>/post/comparing-house-prices/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;img src=&#34;/post/2019-09-01-comparing-house/architecture-1477041_1280.jpg&#34; width=&#34;800&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The price of houses is widely discussed these days in germany:&lt;/p&gt;
+&lt;p&gt;Real estate prices have risen nationwide in recent years. This is also shown by the present house price index of the Federal Statistical Office, which, starting from 2015 (index = 100), was around 116.3 points in 2018. Thus, prices have increased by 16.3 percent compared to the base year 2015. Nevertheless, there are regional differences in the development of real estate prices. &lt;a href=&#34;https://de.statista.com/statistik/daten/studie/70265/umfrage/haeuserpreisindex-in-deutschland-seit-2000/&#34;&gt;statista&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Houses are becoming more expensive almost everywhere in Europe - especially in Germany. This was calculated by Eurostat, the European Statistics Office. While in the euro zone prices for residential buildings rose by 4.5 percent in the first quarter, the figure in Germany was as high as 5.3 percent. In the EU as a whole, an average of 4.7 percent more had to be paid for a house than in the first quarter of 2017.
+&lt;a href=&#34;https://www.handelsblatt.com/finanzen/immobilien/europaeischer-vergleich-hauspreise-in-deutschland-ueberdurchschnittlich-stark-gestiegen/22788824.html?ticket=ST-6190196-5Wioef2UO3o6HZwheSC6-ap1&#34;&gt;handelsblatt&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Since I live in Baden-Wuerttemberg, I am mainly interested in the regional house price:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;What is the gradient of the city/country?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Where are the houses cheapest per square meter?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Where are the most expensive houses?&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I will shed light on all these factors in the coming blog posts. For this I want to examine house prices of a real estate portal.&lt;/p&gt;
+&lt;p&gt;In my first post I will create the data basis for further analyses. For this purpose, I will obtain the data in R by means of webscraping. As already in my previous posts the R parcel rvest will be used.&lt;/p&gt;
+&lt;p&gt;In further posts I will then examine the data further.&lt;/p&gt;
+&lt;p&gt;To scrapn the data, we will use a few packages with useful functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;rvest&lt;/strong&gt; to scrape the data from the website&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;tidyverse&lt;/strong&gt; which includes magrittr (piping), stringr (string manipulation), dplyr (data wraggling), purrr (calling functions)…&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;glue&lt;/strong&gt; to glue strings :)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)
+library(tidyverse)
+library(glue)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;helper-functions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Helper Functions&lt;/h2&gt;
+&lt;p&gt;The package purrr allows us to call functions within a dataframe and pass arguments to them. In this case we do not really need it, but i love working with it…&lt;/p&gt;
+&lt;p&gt;To get the data I built a loop to scrape the data and a helper function to get the information attributes.&lt;/p&gt;
+&lt;p&gt;Due to inconsistent data we need a helper function (SplitIt). This function checks individual arguments and merges them into a tibble. Missing arguments are replaced by an NA.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Helper function
+## Price, LivingArea, Rooms, and SiteArea are no necessary arguments. therefore we need to check if they are existant.
+
+SplitIt &amp;lt;- function(string) {
+  
+  ## Splitting the string into the different arguments
+  
+  string_split &amp;lt;- unlist(str_split(string, &amp;quot;(?&amp;lt;=Kaufpreis|Wohnflaeche|Zi.)&amp;quot;))
+  
+  ## Combine everything to a tibble. If the argument is missing fill a NA. Afterwards replace the name with &amp;quot;&amp;quot;
+  
+  tibble(Price = ifelse(any(str_detect(string_split, &amp;quot;Kaufpreis&amp;quot;)),
+                        string_split[str_detect(string_split, &amp;quot;Kaufpreis&amp;quot;)],
+                        NA) %&amp;gt;% str_replace(&amp;quot;Kaufpreis&amp;quot;, &amp;quot;&amp;quot;),
+         LivingArea = ifelse(any(str_detect(string_split, &amp;quot;Wohnflaeche&amp;quot;)),
+                             string_split[str_detect(string_split, &amp;quot;Wohnflaeche&amp;quot;)],
+                             NA) %&amp;gt;% str_replace(&amp;quot;Wohnflaeche&amp;quot;, &amp;quot;&amp;quot;),
+         Rooms = ifelse(any(str_detect(string_split, &amp;quot;Zi.&amp;quot;)),
+                        first(string_split[str_detect(string_split, &amp;quot;Zi.&amp;quot;)]),
+                        NA) %&amp;gt;% str_replace(&amp;quot;Zi.&amp;quot;, &amp;quot;&amp;quot;),
+         SiteArea = ifelse(any(str_detect(string_split, &amp;quot;Grundstueck&amp;quot;)),
+                           string_split[str_detect(string_split, &amp;quot;Grundstueck&amp;quot;)],
+                           NA) %&amp;gt;% str_replace(&amp;quot;Grundstueck&amp;quot;, &amp;quot;&amp;quot;))
+  
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;executing-the-for-loop&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Executing the for loop&lt;/h2&gt;
+&lt;p&gt;The data is saved as a tibble for further processing. Then it can be passed to the helper function (SplitIt) via purrr::map(). The helper function then returns data as tibble.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## To get to our landing page we simulate our first page argument with 1
+
+page &amp;lt;- 1
+
+## glue the url to get pagination
+
+startpage &amp;lt;- read_html(glue(url))
+
+pagination &amp;lt;- startpage %&amp;gt;% 
+  html_nodes(&amp;quot;.select.font-standard &amp;gt; option&amp;quot;) %&amp;gt;% 
+  html_text() %&amp;gt;% 
+  as.numeric() %&amp;gt;% 
+  .[!is.na(.)]
+
+HousingData &amp;lt;- tibble()
+
+## Looping over all pages
+
+for (i in seq_along(pagination)) {
+  
+  page &amp;lt;- i
+  
+  ## glue the url for a single page
+  
+  singlepage &amp;lt;- read_html(glue(url))
+  
+  ## Predefining the relevant node
+  
+  first_lvl_node &amp;lt;- singlepage %&amp;gt;% 
+    html_nodes(paste0(&amp;quot;.listings-content-area &amp;gt; .react &amp;gt; &amp;quot;,
+                      &amp;quot;div &amp;gt; div &amp;gt; ul &amp;gt; li &amp;gt; div &amp;gt; article &amp;gt; &amp;quot;,
+                      &amp;quot;div:nth-of-type(1) &amp;gt; div:nth-of-type(2)&amp;quot;))
+  
+  ## Creating the Result for one page
+  
+  PageResult &amp;lt;- 
+    tibble(Title = first_lvl_node %&amp;gt;% 
+             html_nodes(paste0(&amp;quot;div &amp;gt; a &amp;gt; h5&amp;quot;)) %&amp;gt;% 
+             html_text(),
+           Location = first_lvl_node %&amp;gt;% 
+             html_nodes(paste0(&amp;quot;div &amp;gt; div:nth-of-type(2) &amp;gt; div &amp;gt; button&amp;quot;)) %&amp;gt;% 
+             html_text(),
+           RestData = first_lvl_node %&amp;gt;% 
+             html_nodes(&amp;quot;div &amp;gt; div:nth-of-type(3) &amp;gt; div &amp;gt; div:nth-of-type(1)&amp;quot;) %&amp;gt;% 
+             html_text()) %&amp;gt;% 
+    mutate(RestData = str_replace(RestData,&amp;quot;Wohnfläche&amp;quot;, &amp;quot;Wohnflaeche&amp;quot;), ## stringr does not recognize umlauts
+           RestData = str_replace(RestData,&amp;quot;Grundstück&amp;quot;, &amp;quot;Grundstueck&amp;quot;),
+           SplitString = map(RestData, SplitIt)) %&amp;gt;% 
+    unnest() %&amp;gt;% 
+    select(-RestData)
+  
+  ## Combing all results
+  
+  HousingData &amp;lt;- HousingData %&amp;gt;% 
+    bind_rows(PageResult)
+  
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And our rsult looks like this. It conatains 6025 rows which equals the number of houses hosted on the portal&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(HousingData)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 6
+##   Title                 Location           Price  LivingArea Rooms SiteArea
+##   &amp;lt;chr&amp;gt;                 &amp;lt;chr&amp;gt;              &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;      &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;   
+## 1 NEUSchönes 3-FH für ~ Ketsch, Rhein-Nec~ 699.0~ 276 m²     &amp;quot;10 &amp;quot; 480 m²  
+## 2 Schöne Doppelhaushäl~ Kehl, Ortenaukreis 399.0~ 110 m²     &amp;quot;4 &amp;quot;  299 m²  
+## 3 NEUIhr neues Wohnglü~ Sindelfingen, Böb~ 520.0~ 175 m²     &amp;quot;7 &amp;quot;  238 m²  
+## 4 NEUElegantes und Mod~ Untertürkheim, St~ 998.0~ 140 m²     &amp;quot;5,5~ 397 m²  
+## 5 NEUNeu bauen oder sa~ Bad Cannstatt, St~ 520.0~ 105 m²     &amp;quot;6 &amp;quot;  307 m²  
+## 6 NEUKernen im Remstal~ Hölderlinstraße 7~ 1.190~ 287,86 m²  &amp;quot;12,~ 785 m²&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The data looks great and I am curious to see what information and insights we can generate from it.&lt;/p&gt;
+&lt;p&gt;In my next post I will examine the data more closely and perform a desriptive analysis.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Extracting the essential</title>
+      <link>/post/extracting-the-essential/</link>
+      <pubDate>Sat, 27 Jul 2019 00:00:00 +0000</pubDate>
+      <guid>/post/extracting-the-essential/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;img src=&#34;/post/2019-07-27-extracting-the-essential_files/romain-vignes-ywqa9IZB-dU-unsplash.jpg&#34; width=&#34;800&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Reading large texts takes time. Sometimes it would be useful to extract essential sentences of a text to get a first impression of the whole. Therefore we will scrap a text from the web, do some string manipulation, tokenize it and finally extract the most important sentences by using Google Pagerank algorithm.&lt;/p&gt;
+&lt;p&gt;To do so I will use the following R packages&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;rvest&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;stringr&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;udpipe&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;textrank&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In our example, we will use a text of the &lt;a href=&#34;https://www.thebureauinvestigates.com/&#34;&gt;The Bureau of investegative journalism&lt;/a&gt; by &lt;a href=&#34;https://www.thebureauinvestigates.com/profile/madlendavies&#34;&gt;Madlen Davies&lt;/a&gt; and &lt;a href=&#34;https://www.thebureauinvestigates.com/profile/Benstockton&#34;&gt;Ben Stockton&lt;/a&gt; from July 22 2019. The article describes the ban of a antibioticum in Indian farms to fatten up animals. Fatten up animals is - according to the WHO - a major cause of the world’s growing antibiotic resistance crisis.&lt;/p&gt;
+&lt;p&gt;You can find the full article &lt;a href=&#34;https://www.thebureauinvestigates.com/stories/2019-07-22/india-bans-use-of-last-hope-antibiotic-colistin-on-farms&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To scrape the text from the website we will use the &lt;a href=&#34;https://cran.r-project.org/web/packages/rvest/rvest.pdf&#34;&gt;rvest&lt;/a&gt; package which makes it easy to get all the data we want. It also provides assistance to use pipes from the &lt;a href=&#34;https://magrittr.tidyverse.org/&#34;&gt;magrittr&lt;/a&gt; package which is always a good choice. :)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Scraping the data we simply define the relevant URL and a node which indicates a corresponding CSS selector. Because we only want the text of our article, we choose &lt;code&gt;p&lt;/code&gt; as our relevant node. The &lt;a href=&#34;https://html.com/tags/p/#ixzz5utCwr0gg&#34;&gt;p&lt;/a&gt; element is used to identify blocks of paragraph text in HTML.&lt;/p&gt;
+&lt;p&gt;There is a wide variety of nodes we can define but do not need in this context. For exmaple we could scrape tables, rating, pictures and so on.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;url &amp;lt;- &amp;#39;https://www.thebureauinvestigates.com/stories/2019-07-22/india-bans-use-of-last-hope-antibiotic-colistin-on-farms&amp;#39;
+
+webpage &amp;lt;- read_html(url)
+
+text &amp;lt;- webpage %&amp;gt;% 
+  html_nodes(&amp;quot;p&amp;quot;) %&amp;gt;% 
+  html_text() &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the next step we will do a little string manipulation to&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;split our text in sentences (&lt;code&gt;str_split&lt;/code&gt;)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;get rid of some symbols we do not wanna have (&lt;code&gt;str_trim&lt;/code&gt;) and whitespace at the begin and ending (&lt;code&gt;str_trim&lt;/code&gt;)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(stringr)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;text &amp;lt;- unlist(strsplit(text, &amp;quot;\\. &amp;quot;)) %&amp;gt;% 
+  str_replace_all(pattern = &amp;quot;\n&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+  str_replace_all(pattern = &amp;quot;[\\^]&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+  str_replace_all(pattern = &amp;quot;\&amp;quot;&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+  str_replace_all(pattern = &amp;quot;\\s+&amp;quot;, replacement = &amp;quot; &amp;quot;) %&amp;gt;%
+  str_trim(side = &amp;quot;both&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our text has now a total number of &lt;strong&gt;776 words&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Next thing we wanna do is tokenizing and tagging our text. Therefore we use the &lt;a href=&#34;https://cran.r-project.org/web/packages/udpipe/index.html&#34;&gt;udpipe&lt;/a&gt; package.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(udpipe)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To do so we need a udpipe-model in english language.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;udmodel &amp;lt;- udpipe_download_model(&amp;quot;english&amp;quot;)
+udmodel &amp;lt;- udpipe_load_model(udmodel$file_model)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Once we loaded the model we can annotate our sentences by calling &lt;code&gt;udpipe_annotate()&lt;/code&gt; and transforming it to a dataframe.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df_text &amp;lt;- udpipe_annotate(udmodel, text) %&amp;gt;% 
+  as.data.frame(text)
+
+head(df_text)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   doc_id paragraph_id sentence_id                        sentence token_id
+## 1   doc1            1           1 We tell the stories that matter        1
+## 2   doc1            1           1 We tell the stories that matter        2
+## 3   doc1            1           1 We tell the stories that matter        3
+## 4   doc1            1           1 We tell the stories that matter        4
+## 5   doc1            1           1 We tell the stories that matter        5
+## 6   doc1            1           1 We tell the stories that matter        6
+##     token  lemma upos xpos                                      feats
+## 1      We     we PRON  PRP Case=Nom|Number=Plur|Person=1|PronType=Prs
+## 2    tell   tell VERB  VBP           Mood=Ind|Tense=Pres|VerbForm=Fin
+## 3     the    the  DET   DT                  Definite=Def|PronType=Art
+## 4 stories  story NOUN  NNS                                Number=Plur
+## 5    that   that PRON  WDT                               PronType=Rel
+## 6  matter matter  ADV   RB                                       &amp;lt;NA&amp;gt;
+##   head_token_id   dep_rel deps            misc
+## 1             2     nsubj &amp;lt;NA&amp;gt;            &amp;lt;NA&amp;gt;
+## 2             0      root &amp;lt;NA&amp;gt;            &amp;lt;NA&amp;gt;
+## 3             4       det &amp;lt;NA&amp;gt;            &amp;lt;NA&amp;gt;
+## 4             2       obj &amp;lt;NA&amp;gt;            &amp;lt;NA&amp;gt;
+## 5             6     nsubj &amp;lt;NA&amp;gt;            &amp;lt;NA&amp;gt;
+## 6             4 acl:relcl &amp;lt;NA&amp;gt; SpacesAfter=\\n&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To find the most important senteces we will use a graph based ranking model by using an unsupervised method.&lt;/p&gt;
+&lt;p&gt;Textrank constructs a graph where “the verticles of a the graph represent each sentence in our text and the edges between sentences are based on content overlap, namely by calculating the number of words that two sentences have in common.”&lt;/p&gt;
+&lt;p&gt;Textrank then uses &lt;a href=&#34;https://www.cs.princeton.edu/~chazelle/courses/BIB/pagerank.htm&#34;&gt;PageRank&lt;/a&gt; to identify the most important sentences of a text. PageRank is also used by Google Search to rank web pages.&lt;/p&gt;
+&lt;p&gt;If you are interested in more details please read the &lt;a href=&#34;https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf&#34;&gt;paper&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(textrank)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Textrank needs a dataframe with sentences and a dataframe with words which are part of these sentences.&lt;/p&gt;
+&lt;p&gt;Here we only take nouns and adjectives for finding overlaps between sentences.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df_text$textrank_id &amp;lt;- unique_identifier(df_text, c(&amp;quot;doc_id&amp;quot;, &amp;quot;paragraph_id&amp;quot;, &amp;quot;sentence_id&amp;quot;))
+sentences &amp;lt;- unique(df_text[, c(&amp;quot;textrank_id&amp;quot;, &amp;quot;sentence&amp;quot;)])
+terminology &amp;lt;- subset(df_text, upos %in% c(&amp;quot;NOUN&amp;quot;, &amp;quot;ADJ&amp;quot;))
+terminology &amp;lt;- terminology[, c(&amp;quot;textrank_id&amp;quot;, &amp;quot;lemma&amp;quot;)]
+head(terminology)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    textrank_id   lemma
+## 4            1   story
+## 9           12  defend
+## 10          12 quality
+## 13          12   spark
+## 14          12  change
+## 34          37   story&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;By applying our sentences and terminology into &lt;code&gt;textrank_sentences()&lt;/code&gt; they will be applied to Google’s Pagerank.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;textrank &amp;lt;- textrank_sentences(data = sentences, terminology = terminology)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can now extract the top n most relevant sentences where n defines the number of sentences which should be mentioned.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;important_sentences &amp;lt;- summary(textrank, 
+                               n = 4,
+                               keep.sentence.order = TRUE)
+cat(important_sentences, sep = &amp;quot;\n&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The Indian government has banned the use of a “last hope” antibiotic on farms to try to halt the spread of some of the world’s most deadly superbugs, after a Bureau investigation revealed it was being widely used to fatten livestock.
+## The use of antibiotics to fatten up animals — known as “growth promotion” — is a major cause of the world&amp;#39;s growing antibiotic resistance crisis
+## He said the ban indicates that “the Indian government is convinced that colistin is a last resort antibiotic, colistin resistance is increasing in clinical practice and colistin is extensively used in poultry and aqua farming as a growth promoting agent” and such practice should stop.
+## The discovery of a colistin-resistant gene that can pass between bacteria, conferring resistance to bugs never exposed to the drug, sent shockwaves through the medical world in 2015&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We redouced our text from &lt;strong&gt;776 to 139&lt;/strong&gt; words by using natural language processing in combination with Google Pagerank.&lt;/p&gt;
+&lt;p&gt;Do you understand the core message of the text by reading only the summary?&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -18,12 +18,12 @@
   </url>
   
   <url>
-    <loc>/</loc>
+    <loc>/talk/example/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/talk/example/</loc>
+    <loc>/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
   </url>
   
@@ -33,8 +33,153 @@
   </url>
   
   <url>
+    <loc>/tags/2020/</loc>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/comparing-ski-resorts/</loc>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/exploratory/</loc>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/</loc>
-    <lastmod>2019-09-05T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/skiing/</loc>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/sports/</loc>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/winter/</loc>
+    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/extracting-the-essential-v2/</loc>
+    <lastmod>2020-01-10T19:20:04+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/natural-language-processing/</loc>
+    <lastmod>2020-01-10T19:20:04+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/pagerank/</loc>
+    <lastmod>2020-01-10T19:20:04+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rvest/</loc>
+    <lastmod>2020-01-10T19:25:55+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/shiny/</loc>
+    <lastmod>2020-01-10T19:20:04+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/textrank/</loc>
+    <lastmod>2020-01-10T19:20:04+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/udpipe/</loc>
+    <lastmod>2020-01-10T19:20:04+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/webapp/</loc>
+    <lastmod>2020-01-10T19:20:04+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/2019/</loc>
+    <lastmod>2020-01-11T00:26:46+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/evaluating-the-reichenau-half-marathon/</loc>
+    <lastmod>2020-01-11T00:26:46+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/half-marathon/</loc>
+    <lastmod>2020-01-11T00:26:46+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/reichenau/</loc>
+    <lastmod>2020-01-11T00:26:46+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/running/</loc>
+    <lastmod>2020-01-11T00:26:46+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/comparing-house-prices/</loc>
+    <lastmod>2020-01-11T00:21:47+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/dplyr/</loc>
+    <lastmod>2020-01-11T00:21:47+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/plotly/</loc>
+    <lastmod>2020-01-11T00:21:47+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/scraping/</loc>
+    <lastmod>2020-01-11T00:21:47+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/comparing-house-prices/</loc>
+    <lastmod>2020-01-10T19:25:55+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/purrr/</loc>
+    <lastmod>2020-01-10T19:25:55+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/extracting-the-essential/</loc>
+    <lastmod>2020-01-10T19:10:03+01:00</lastmod>
   </url>
   
   <url>
@@ -48,38 +193,8 @@
   </url>
   
   <url>
-    <loc>/publication_types/3/</loc>
-    <lastmod>2019-04-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/publication/preprint/</loc>
-    <lastmod>2019-04-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/authors/</loc>
     <lastmod>2019-09-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/publication_types/</loc>
-    <lastmod>2019-04-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/publication/</loc>
-    <lastmod>2019-04-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/source-themes/</loc>
-    <lastmod>2019-04-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2019-04-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -143,28 +258,8 @@
   </url>
   
   <url>
-    <loc>/categories/</loc>
-    <lastmod>2019-04-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/categories/demo/</loc>
     <lastmod>2019-04-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/publication_types/2/</loc>
-    <lastmod>2015-09-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/publication/journal-article/</loc>
-    <lastmod>2015-09-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/authors/robert-ford/</loc>
-    <lastmod>2015-09-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -174,11 +269,6 @@
   
   <url>
     <loc>/tags/plot/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
     <lastmod>2015-07-23T21:13:14-05:00</lastmod>
   </url>
   
@@ -193,17 +283,15 @@
   </url>
   
   <url>
-    <loc>/publication_types/1/</loc>
-    <lastmod>2013-07-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/publication/conference-paper/</loc>
-    <lastmod>2013-07-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/courses/</loc>
+  </url>
+  
+  <url>
+    <loc>/publication_types/</loc>
+  </url>
+  
+  <url>
+    <loc>/publication/</loc>
   </url>
   
 </urlset>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>purrr | Handkecodet</title>
+    <link>/tags/purrr/</link>
+      <atom:link href="/tags/purrr/index.xml" rel="self" type="application/rss+xml" />
+    <description>purrr</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 01 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/me</url>
+      <title>purrr</title>
+      <link>/tags/purrr/</link>
+    </image>
+    
+    <item>
+      <title>Comparing house prices</title>
+      <link>/post/comparing-house-prices/</link>
+      <pubDate>Sun, 01 Sep 2019 00:00:00 +0000</pubDate>
+      <guid>/post/comparing-house-prices/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;img src=&#34;/post/2019-09-01-comparing-house/architecture-1477041_1280.jpg&#34; width=&#34;800&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The price of houses is widely discussed these days in germany:&lt;/p&gt;
+&lt;p&gt;Real estate prices have risen nationwide in recent years. This is also shown by the present house price index of the Federal Statistical Office, which, starting from 2015 (index = 100), was around 116.3 points in 2018. Thus, prices have increased by 16.3 percent compared to the base year 2015. Nevertheless, there are regional differences in the development of real estate prices. &lt;a href=&#34;https://de.statista.com/statistik/daten/studie/70265/umfrage/haeuserpreisindex-in-deutschland-seit-2000/&#34;&gt;statista&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Houses are becoming more expensive almost everywhere in Europe - especially in Germany. This was calculated by Eurostat, the European Statistics Office. While in the euro zone prices for residential buildings rose by 4.5 percent in the first quarter, the figure in Germany was as high as 5.3 percent. In the EU as a whole, an average of 4.7 percent more had to be paid for a house than in the first quarter of 2017.
+&lt;a href=&#34;https://www.handelsblatt.com/finanzen/immobilien/europaeischer-vergleich-hauspreise-in-deutschland-ueberdurchschnittlich-stark-gestiegen/22788824.html?ticket=ST-6190196-5Wioef2UO3o6HZwheSC6-ap1&#34;&gt;handelsblatt&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Since I live in Baden-Wuerttemberg, I am mainly interested in the regional house price:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;What is the gradient of the city/country?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Where are the houses cheapest per square meter?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Where are the most expensive houses?&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I will shed light on all these factors in the coming blog posts. For this I want to examine house prices of a real estate portal.&lt;/p&gt;
+&lt;p&gt;In my first post I will create the data basis for further analyses. For this purpose, I will obtain the data in R by means of webscraping. As already in my previous posts the R parcel rvest will be used.&lt;/p&gt;
+&lt;p&gt;In further posts I will then examine the data further.&lt;/p&gt;
+&lt;p&gt;To scrapn the data, we will use a few packages with useful functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;rvest&lt;/strong&gt; to scrape the data from the website&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;tidyverse&lt;/strong&gt; which includes magrittr (piping), stringr (string manipulation), dplyr (data wraggling), purrr (calling functions)…&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;glue&lt;/strong&gt; to glue strings :)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(rvest)
+library(tidyverse)
+library(glue)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;helper-functions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Helper Functions&lt;/h2&gt;
+&lt;p&gt;The package purrr allows us to call functions within a dataframe and pass arguments to them. In this case we do not really need it, but i love working with it…&lt;/p&gt;
+&lt;p&gt;To get the data I built a loop to scrape the data and a helper function to get the information attributes.&lt;/p&gt;
+&lt;p&gt;Due to inconsistent data we need a helper function (SplitIt). This function checks individual arguments and merges them into a tibble. Missing arguments are replaced by an NA.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Helper function
+## Price, LivingArea, Rooms, and SiteArea are no necessary arguments. therefore we need to check if they are existant.
+
+SplitIt &amp;lt;- function(string) {
+  
+  ## Splitting the string into the different arguments
+  
+  string_split &amp;lt;- unlist(str_split(string, &amp;quot;(?&amp;lt;=Kaufpreis|Wohnflaeche|Zi.)&amp;quot;))
+  
+  ## Combine everything to a tibble. If the argument is missing fill a NA. Afterwards replace the name with &amp;quot;&amp;quot;
+  
+  tibble(Price = ifelse(any(str_detect(string_split, &amp;quot;Kaufpreis&amp;quot;)),
+                        string_split[str_detect(string_split, &amp;quot;Kaufpreis&amp;quot;)],
+                        NA) %&amp;gt;% str_replace(&amp;quot;Kaufpreis&amp;quot;, &amp;quot;&amp;quot;),
+         LivingArea = ifelse(any(str_detect(string_split, &amp;quot;Wohnflaeche&amp;quot;)),
+                             string_split[str_detect(string_split, &amp;quot;Wohnflaeche&amp;quot;)],
+                             NA) %&amp;gt;% str_replace(&amp;quot;Wohnflaeche&amp;quot;, &amp;quot;&amp;quot;),
+         Rooms = ifelse(any(str_detect(string_split, &amp;quot;Zi.&amp;quot;)),
+                        first(string_split[str_detect(string_split, &amp;quot;Zi.&amp;quot;)]),
+                        NA) %&amp;gt;% str_replace(&amp;quot;Zi.&amp;quot;, &amp;quot;&amp;quot;),
+         SiteArea = ifelse(any(str_detect(string_split, &amp;quot;Grundstueck&amp;quot;)),
+                           string_split[str_detect(string_split, &amp;quot;Grundstueck&amp;quot;)],
+                           NA) %&amp;gt;% str_replace(&amp;quot;Grundstueck&amp;quot;, &amp;quot;&amp;quot;))
+  
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;executing-the-for-loop&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Executing the for loop&lt;/h2&gt;
+&lt;p&gt;The data is saved as a tibble for further processing. Then it can be passed to the helper function (SplitIt) via purrr::map(). The helper function then returns data as tibble.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## To get to our landing page we simulate our first page argument with 1
+
+page &amp;lt;- 1
+
+## glue the url to get pagination
+
+startpage &amp;lt;- read_html(glue(url))
+
+pagination &amp;lt;- startpage %&amp;gt;% 
+  html_nodes(&amp;quot;.select.font-standard &amp;gt; option&amp;quot;) %&amp;gt;% 
+  html_text() %&amp;gt;% 
+  as.numeric() %&amp;gt;% 
+  .[!is.na(.)]
+
+HousingData &amp;lt;- tibble()
+
+## Looping over all pages
+
+for (i in seq_along(pagination)) {
+  
+  page &amp;lt;- i
+  
+  ## glue the url for a single page
+  
+  singlepage &amp;lt;- read_html(glue(url))
+  
+  ## Predefining the relevant node
+  
+  first_lvl_node &amp;lt;- singlepage %&amp;gt;% 
+    html_nodes(paste0(&amp;quot;.listings-content-area &amp;gt; .react &amp;gt; &amp;quot;,
+                      &amp;quot;div &amp;gt; div &amp;gt; ul &amp;gt; li &amp;gt; div &amp;gt; article &amp;gt; &amp;quot;,
+                      &amp;quot;div:nth-of-type(1) &amp;gt; div:nth-of-type(2)&amp;quot;))
+  
+  ## Creating the Result for one page
+  
+  PageResult &amp;lt;- 
+    tibble(Title = first_lvl_node %&amp;gt;% 
+             html_nodes(paste0(&amp;quot;div &amp;gt; a &amp;gt; h5&amp;quot;)) %&amp;gt;% 
+             html_text(),
+           Location = first_lvl_node %&amp;gt;% 
+             html_nodes(paste0(&amp;quot;div &amp;gt; div:nth-of-type(2) &amp;gt; div &amp;gt; button&amp;quot;)) %&amp;gt;% 
+             html_text(),
+           RestData = first_lvl_node %&amp;gt;% 
+             html_nodes(&amp;quot;div &amp;gt; div:nth-of-type(3) &amp;gt; div &amp;gt; div:nth-of-type(1)&amp;quot;) %&amp;gt;% 
+             html_text()) %&amp;gt;% 
+    mutate(RestData = str_replace(RestData,&amp;quot;Wohnfläche&amp;quot;, &amp;quot;Wohnflaeche&amp;quot;), ## stringr does not recognize umlauts
+           RestData = str_replace(RestData,&amp;quot;Grundstück&amp;quot;, &amp;quot;Grundstueck&amp;quot;),
+           SplitString = map(RestData, SplitIt)) %&amp;gt;% 
+    unnest() %&amp;gt;% 
+    select(-RestData)
+  
+  ## Combing all results
+  
+  HousingData &amp;lt;- HousingData %&amp;gt;% 
+    bind_rows(PageResult)
+  
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And our rsult looks like this. It conatains 6025 rows which equals the number of houses hosted on the portal&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(HousingData)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 6
+##   Title                 Location           Price  LivingArea Rooms SiteArea
+##   &amp;lt;chr&amp;gt;                 &amp;lt;chr&amp;gt;              &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;      &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;   
+## 1 NEUSchönes 3-FH für ~ Ketsch, Rhein-Nec~ 699.0~ 276 m²     &amp;quot;10 &amp;quot; 480 m²  
+## 2 Schöne Doppelhaushäl~ Kehl, Ortenaukreis 399.0~ 110 m²     &amp;quot;4 &amp;quot;  299 m²  
+## 3 NEUIhr neues Wohnglü~ Sindelfingen, Böb~ 520.0~ 175 m²     &amp;quot;7 &amp;quot;  238 m²  
+## 4 NEUElegantes und Mod~ Untertürkheim, St~ 998.0~ 140 m²     &amp;quot;5,5~ 397 m²  
+## 5 NEUNeu bauen oder sa~ Bad Cannstatt, St~ 520.0~ 105 m²     &amp;quot;6 &amp;quot;  307 m²  
+## 6 NEUKernen im Remstal~ Hölderlinstraße 7~ 1.190~ 287,86 m²  &amp;quot;12,~ 785 m²&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The data looks great and I am curious to see what information and insights we can generate from it.&lt;/p&gt;
+&lt;p&gt;In my next post I will examine the data more closely and perform a desriptive analysis.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

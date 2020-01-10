@@ -1,0 +1,125 @@
+---
+title: Extracting the essential
+author: ''
+date: '2019-07-27'
+slug: extracting-the-essential
+categories: ["R"]
+tags:
+  - rvest
+  - udpipe
+  - textrank
+  - Pagerank
+  - Natural language processing
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-01-10T19:10:03+01:00'
+featured: no
+image:
+  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/ywqa9IZB-dU)'
+  focal_point: ""
+  placement: 2
+  preview_only: false
+projects: []
+---
+
+
+
+<p><img src="/post/2019-07-27-extracting-the-essential_files/romain-vignes-ywqa9IZB-dU-unsplash.jpg" width="800" /></p>
+<p>Reading large texts takes time. Sometimes it would be useful to extract essential sentences of a text to get a first impression of the whole. Therefore we will scrap a text from the web, do some string manipulation, tokenize it and finally extract the most important sentences by using Google Pagerank algorithm.</p>
+<p>To do so I will use the following R packages</p>
+<ul>
+<li><p><code>rvest</code></p></li>
+<li><p><code>stringr</code></p></li>
+<li><p><code>udpipe</code></p></li>
+<li><p><code>textrank</code></p></li>
+</ul>
+<p>In our example, we will use a text of the <a href="https://www.thebureauinvestigates.com/">The Bureau of investegative journalism</a> by <a href="https://www.thebureauinvestigates.com/profile/madlendavies">Madlen Davies</a> and <a href="https://www.thebureauinvestigates.com/profile/Benstockton">Ben Stockton</a> from July 22 2019. The article describes the ban of a antibioticum in Indian farms to fatten up animals. Fatten up animals is - according to the WHO - a major cause of the world’s growing antibiotic resistance crisis.</p>
+<p>You can find the full article <a href="https://www.thebureauinvestigates.com/stories/2019-07-22/india-bans-use-of-last-hope-antibiotic-colistin-on-farms">here</a>.</p>
+<p>To scrape the text from the website we will use the <a href="https://cran.r-project.org/web/packages/rvest/rvest.pdf">rvest</a> package which makes it easy to get all the data we want. It also provides assistance to use pipes from the <a href="https://magrittr.tidyverse.org/">magrittr</a> package which is always a good choice. :)</p>
+<pre class="r"><code>library(rvest)</code></pre>
+<p>Scraping the data we simply define the relevant URL and a node which indicates a corresponding CSS selector. Because we only want the text of our article, we choose <code>p</code> as our relevant node. The <a href="https://html.com/tags/p/#ixzz5utCwr0gg">p</a> element is used to identify blocks of paragraph text in HTML.</p>
+<p>There is a wide variety of nodes we can define but do not need in this context. For exmaple we could scrape tables, rating, pictures and so on.</p>
+<pre class="r"><code>url &lt;- &#39;https://www.thebureauinvestigates.com/stories/2019-07-22/india-bans-use-of-last-hope-antibiotic-colistin-on-farms&#39;
+
+webpage &lt;- read_html(url)
+
+text &lt;- webpage %&gt;% 
+  html_nodes(&quot;p&quot;) %&gt;% 
+  html_text() </code></pre>
+<p>In the next step we will do a little string manipulation to</p>
+<ul>
+<li><p>split our text in sentences (<code>str_split</code>)</p></li>
+<li><p>get rid of some symbols we do not wanna have (<code>str_trim</code>) and whitespace at the begin and ending (<code>str_trim</code>)</p></li>
+</ul>
+<pre class="r"><code>library(stringr)</code></pre>
+<pre class="r"><code>text &lt;- unlist(strsplit(text, &quot;\\. &quot;)) %&gt;% 
+  str_replace_all(pattern = &quot;\n&quot;, replacement = &quot; &quot;) %&gt;%
+  str_replace_all(pattern = &quot;[\\^]&quot;, replacement = &quot; &quot;) %&gt;%
+  str_replace_all(pattern = &quot;\&quot;&quot;, replacement = &quot; &quot;) %&gt;%
+  str_replace_all(pattern = &quot;\\s+&quot;, replacement = &quot; &quot;) %&gt;%
+  str_trim(side = &quot;both&quot;) </code></pre>
+<p>Our text has now a total number of <strong>776 words</strong>.</p>
+<p>Next thing we wanna do is tokenizing and tagging our text. Therefore we use the <a href="https://cran.r-project.org/web/packages/udpipe/index.html">udpipe</a> package.</p>
+<pre class="r"><code>library(udpipe)</code></pre>
+<p>To do so we need a udpipe-model in english language.</p>
+<pre class="r"><code>udmodel &lt;- udpipe_download_model(&quot;english&quot;)
+udmodel &lt;- udpipe_load_model(udmodel$file_model)</code></pre>
+<p>Once we loaded the model we can annotate our sentences by calling <code>udpipe_annotate()</code> and transforming it to a dataframe.</p>
+<pre class="r"><code>df_text &lt;- udpipe_annotate(udmodel, text) %&gt;% 
+  as.data.frame(text)
+
+head(df_text)</code></pre>
+<pre><code>##   doc_id paragraph_id sentence_id                        sentence token_id
+## 1   doc1            1           1 We tell the stories that matter        1
+## 2   doc1            1           1 We tell the stories that matter        2
+## 3   doc1            1           1 We tell the stories that matter        3
+## 4   doc1            1           1 We tell the stories that matter        4
+## 5   doc1            1           1 We tell the stories that matter        5
+## 6   doc1            1           1 We tell the stories that matter        6
+##     token  lemma upos xpos                                      feats
+## 1      We     we PRON  PRP Case=Nom|Number=Plur|Person=1|PronType=Prs
+## 2    tell   tell VERB  VBP           Mood=Ind|Tense=Pres|VerbForm=Fin
+## 3     the    the  DET   DT                  Definite=Def|PronType=Art
+## 4 stories  story NOUN  NNS                                Number=Plur
+## 5    that   that PRON  WDT                               PronType=Rel
+## 6  matter matter  ADV   RB                                       &lt;NA&gt;
+##   head_token_id   dep_rel deps            misc
+## 1             2     nsubj &lt;NA&gt;            &lt;NA&gt;
+## 2             0      root &lt;NA&gt;            &lt;NA&gt;
+## 3             4       det &lt;NA&gt;            &lt;NA&gt;
+## 4             2       obj &lt;NA&gt;            &lt;NA&gt;
+## 5             6     nsubj &lt;NA&gt;            &lt;NA&gt;
+## 6             4 acl:relcl &lt;NA&gt; SpacesAfter=\\n</code></pre>
+<p>To find the most important senteces we will use a graph based ranking model by using an unsupervised method.</p>
+<p>Textrank constructs a graph where “the verticles of a the graph represent each sentence in our text and the edges between sentences are based on content overlap, namely by calculating the number of words that two sentences have in common.”</p>
+<p>Textrank then uses <a href="https://www.cs.princeton.edu/~chazelle/courses/BIB/pagerank.htm">PageRank</a> to identify the most important sentences of a text. PageRank is also used by Google Search to rank web pages.</p>
+<p>If you are interested in more details please read the <a href="https://web.eecs.umich.edu/~mihalcea/papers/mihalcea.emnlp04.pdf">paper</a>.</p>
+<pre class="r"><code>library(textrank)</code></pre>
+<p>Textrank needs a dataframe with sentences and a dataframe with words which are part of these sentences.</p>
+<p>Here we only take nouns and adjectives for finding overlaps between sentences.</p>
+<pre class="r"><code>df_text$textrank_id &lt;- unique_identifier(df_text, c(&quot;doc_id&quot;, &quot;paragraph_id&quot;, &quot;sentence_id&quot;))
+sentences &lt;- unique(df_text[, c(&quot;textrank_id&quot;, &quot;sentence&quot;)])
+terminology &lt;- subset(df_text, upos %in% c(&quot;NOUN&quot;, &quot;ADJ&quot;))
+terminology &lt;- terminology[, c(&quot;textrank_id&quot;, &quot;lemma&quot;)]
+head(terminology)</code></pre>
+<pre><code>##    textrank_id   lemma
+## 4            1   story
+## 9           12  defend
+## 10          12 quality
+## 13          12   spark
+## 14          12  change
+## 34          37   story</code></pre>
+<p>By applying our sentences and terminology into <code>textrank_sentences()</code> they will be applied to Google’s Pagerank.</p>
+<pre class="r"><code>textrank &lt;- textrank_sentences(data = sentences, terminology = terminology)</code></pre>
+<p>We can now extract the top n most relevant sentences where n defines the number of sentences which should be mentioned.</p>
+<pre class="r"><code>important_sentences &lt;- summary(textrank, 
+                               n = 4,
+                               keep.sentence.order = TRUE)
+cat(important_sentences, sep = &quot;\n&quot;)</code></pre>
+<pre><code>## The Indian government has banned the use of a “last hope” antibiotic on farms to try to halt the spread of some of the world’s most deadly superbugs, after a Bureau investigation revealed it was being widely used to fatten livestock.
+## The use of antibiotics to fatten up animals — known as “growth promotion” — is a major cause of the world&#39;s growing antibiotic resistance crisis
+## He said the ban indicates that “the Indian government is convinced that colistin is a last resort antibiotic, colistin resistance is increasing in clinical practice and colistin is extensively used in poultry and aqua farming as a growth promoting agent” and such practice should stop.
+## The discovery of a colistin-resistant gene that can pass between bacteria, conferring resistance to bugs never exposed to the drug, sent shockwaves through the medical world in 2015</code></pre>
+<p>We redouced our text from <strong>776 to 139</strong> words by using natural language processing in combination with Google Pagerank.</p>
+<p>Do you understand the core message of the text by reading only the summary?</p>
