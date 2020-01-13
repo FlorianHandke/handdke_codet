@@ -38,7 +38,7 @@ library(fs)
 After I collected the data in my last post, it was saved in a local .rds file. This provides a high performance way to store data that is processed with R. With the readr package the file can be loaded via `read_rds()`.
 
 ```{r, warning=FALSE, message = FALSE}
-HousingData <- readr::read_rds(dir_ls("~/Documents/handdke_codet",
+HousingData <- readr::read_rds(dir_ls("~/Documents/handdke_codet/static",
                                       recurse = TRUE) %>% 
                                  path_abs() %>% 
                                  str_subset("HousingData.Rds"))
