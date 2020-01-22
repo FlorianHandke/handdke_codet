@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Statistic | Handkecodet</title>
+    <link>/categories/statistic/</link>
+      <atom:link href="/categories/statistic/index.xml" rel="self" type="application/rss+xml" />
+    <description>Statistic</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 20 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/me</url>
+      <title>Statistic</title>
+      <link>/categories/statistic/</link>
+    </image>
+    
+    <item>
+      <title>Lying with statistics</title>
+      <link>/post/lying-with-statistics/</link>
+      <pubDate>Mon, 20 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>/post/lying-with-statistics/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;img src=&#34;/post/2020-01-22-lying-with-statistics_files/games-dice-4715127_1920.jpg&#34; width=&#34;800&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;According to a &lt;a href=&#34;https://www.oxfordmartin.ox.ac.uk/downloads/academic/The_Future_of_Employment.pdf&#34;&gt;study&lt;/a&gt; from 2013, almost half of all jobs will be replaced by artificial intelligence by 2030. Sounds dramatic, and it would be, if the basis of this statement had not been completely out of the blue.&lt;/p&gt;
+&lt;p&gt;The number of job losses (47%) comes from a study by economist Carl enedikt Frey and computer scientist Michael Osborne of Oxford University.&lt;/p&gt;
+&lt;p&gt;In their study, they asked 10 experts (robotics and computer experts) how a selection of 70 professions could be automated and then extrapolated their results to 700 more professions.&lt;/p&gt;
+&lt;p&gt;This finding is now known under the synonym “The Technology Trap”, but was initially published and disseminated by well-known newspapers (FAZ, Süddeutsche Zeitung, Zeit, etc.) without questioning the basics of the study.&lt;/p&gt;
+&lt;p&gt;In the following I will go into detail about exactly these traps. The basis for this is the book by &lt;a href=&#34;https://www.goodreads.com/book/show/51291.How_to_Lie_with_Statistics&#34;&gt;Darrell Huff, How to lie with statistics&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;build-in-bias&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Build-in bias&lt;/h1&gt;
+&lt;p&gt;The build in bias describes exactly the mistake Osborne and Frey made in their study. The foundation of the study is on shaky ground.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;How big is the population of the study?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;What does the population represent?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Is the population representative?&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In the 1936 U.S. presidential election, a pre-election telephone poll was conducted to evaluate the chances of the candidates Landon and Roosevelt. Landon was ahead with 370 to 161 votes. The problem here: In those days, mostly rich people had their own phones. Other groups were not included. As we know today, the election was won by Roosevelt.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;A report based on sampling must use a representative sample, which is one from which every source of bias has been removed.&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;well-chosen-average&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Well chosen average&lt;/h1&gt;
+&lt;p&gt;In the field of statistics, the concept of average is very vague. Behind it can be the arithmetic mean, the median or the mode. You can play with these terms and use them to influence the statement of a study in such a way that certain characteristics are more prominent or others are weakened.&lt;/p&gt;
+&lt;p&gt;For normally distributed data data, the arithmetic mean, media and mode are the same. As soon as this is no longer the case, you provide deeper insights into data.&lt;/p&gt;
+&lt;p&gt;Suppose a company announces that the average monthly salary of its employees is $5700. If the company has a large gap in the salary structure, it is likely to use the arithmetic mean for the specification. This means that there are few top earners who pull up the average. If you look at the median or the mode, however, you will notice that most of the people in the company are the ones who earn the least, namely $2000 and the median is $3000. Median is the middle number in a sorted list of numbers&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/2020-01-22-lying-with-statistics_files/huff1.jpg&#34; alt=&#34;Darrell Huff - How to lie with statistics&#34; width=&#34;800&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Darrell Huff - How to lie with statistics&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;standard-and-probable-error&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Standard and probable error&lt;/h1&gt;
+&lt;p&gt;In various media one reads again and again something about the intelligence of important personalities, researchers or politicians. Irrespective of what the test’s statement is and which components it does not include, the individual values marked IQ are simply not meaningful. Assume that the intelligence of two people is compared: Person A has an IQ of 98 and Person B has an IQ of 101. Apparently, Person B is smarter than Person A. Like any other product of the sampling method IQ is a figure with a statistical error. Assuming the probable error is 3 points. Then person A would have an IQ of 95 to 101 with a 50% chance and person B would have an IQ of 98 to 104. So we see that such values cannot be considered as single, but more as a range. It could well be that person A is more tubby than person B.&lt;/p&gt;
+&lt;p&gt;In statistics, more often than not, probable error is the standard error. With a simple standard deviation, ~68.2% of the values must lie within the normally distributed values. If you want to take a closer look, you can do so via wikipedia &lt;a href=&#34;https://en.wikipedia.org/wiki/Standard_error&#34;&gt;wikipedia&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I hope my short version could help to shed some light on the statistical traps that are sometimes buzzing around.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

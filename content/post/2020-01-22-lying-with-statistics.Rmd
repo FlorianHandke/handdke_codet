@@ -1,0 +1,65 @@
+---
+title: Lying with statistics
+author: Florian Handke
+date: '2020-01-20'
+slug: lying-with-statistics
+categories:
+  - Statistic
+tags:
+  - '2020'
+  - statistics
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-01-20T19:27:38+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+![](/post/2020-01-22-lying-with-statistics_files/games-dice-4715127_1920.jpg){width=800px}
+
+According to a [study](https://www.oxfordmartin.ox.ac.uk/downloads/academic/The_Future_of_Employment.pdf) from 2013, almost half of all jobs will be replaced by artificial intelligence by 2030. Sounds dramatic, and it would be, if the basis of this statement had not been completely out of the blue.
+
+The number of job losses (47%) comes from a study by economist Carl enedikt Frey and computer scientist Michael Osborne of Oxford University.
+
+In their study, they asked 10 experts (robotics and computer experts) how a selection of 70 professions could be automated and then extrapolated their results to 700 more professions.
+
+This finding is now known under the synonym "The Technology Trap", but was initially published and disseminated by well-known newspapers (FAZ, Süddeutsche Zeitung, Zeit, etc.) without questioning the basics of the study.
+
+In the following I will go into detail about exactly these traps. The basis for this is the book by [Darrell Huff, How to lie with statistics](https://www.goodreads.com/book/show/51291.How_to_Lie_with_Statistics).
+
+# Build-in bias
+
+The build in bias describes exactly the mistake Osborne and Frey made in their study. The foundation of the study is on shaky ground. 
+
+ * How big is the population of the study?
+ 
+ * What does the population represent?
+ 
+ * Is the population representative? 
+ 
+In the 1936 U.S. presidential election, a pre-election telephone poll was conducted to evaluate the chances of the candidates Landon and Roosevelt. Landon was ahead with 370 to 161 votes. The problem here: In those days, mostly rich people had their own phones. Other groups were not included. As we know today, the election was won by Roosevelt.
+
+**A report based on sampling must use a representative sample, which is one from which every source of bias has been removed.**
+
+# Well chosen average
+
+In the field of statistics, the concept of average is very vague. Behind it can be the arithmetic mean, the median or the mode. You can play with these terms and use them to influence the statement of a study in such a way that certain characteristics are more prominent or others are weakened.
+
+For normally distributed data data, the arithmetic mean, media and mode are the same. As soon as this is no longer the case, you provide deeper insights into data.
+
+Suppose a company announces that the average monthly salary of its employees is $5700. If the company has a large gap in the salary structure, it is likely to use the arithmetic mean for the specification. This means that there are few top earners who pull up the average. If you look at the median or the mode, however, you will notice that most of the people in the company are the ones who earn the least, namely $2000 and the median is $3000. Median is the middle number in a sorted list of numbers
+
+![Darrell Huff - How to lie with statistics](/post/2020-01-22-lying-with-statistics_files/huff1.jpg){width=800px}
+
+# Standard and probable error
+
+In various media one reads again and again something about the intelligence of important personalities, researchers or politicians. Irrespective of what the test's statement is and which components it does not include, the individual values marked IQ are simply not meaningful. Assume that the intelligence of two people is compared: Person A has an IQ of 98 and Person B has an IQ of 101. Apparently, Person B is smarter than Person A. Like any other product of the sampling method IQ is a figure with a statistical error. Assuming the probable error is 3 points. Then person A would have an IQ of 95 to 101 with a 50% chance and person B would have an IQ of 98 to 104. So we see that such values cannot be considered as single, but more as a range. It could well be that person A is more tubby than person B. 
+
+In statistics, more often than not, probable error is the standard error. With a simple standard deviation, ~68.2% of the values must lie within the normally distributed values. If you want to take a closer look, you can do so via wikipedia [wikipedia](https://en.wikipedia.org/wiki/Standard_error).
+
+I hope my short version could help to shed some light on the statistical traps that are sometimes buzzing around.
