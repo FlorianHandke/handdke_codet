@@ -5,12 +5,88 @@
     <link>/tags/exploratory/</link>
       <atom:link href="/tags/exploratory/index.xml" rel="self" type="application/rss+xml" />
     <description>exploratory</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 11 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 04 Feb 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/me</url>
       <title>exploratory</title>
       <link>/tags/exploratory/</link>
     </image>
+    
+    <item>
+      <title>Analysing corona virus data</title>
+      <link>/post/analysing-corona-virus-data/</link>
+      <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/post/analysing-corona-virus-data/</guid>
+      <description>
+
+
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/post/2020-02-04-corona-virus_files/1000x-1.jpg&#34; alt=&#34;bloomberg.com; 2020-01-31&#34; width=&#34;800&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;bloomberg.com; 2020-01-31&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Due to recent events I will take a look at the development of the corona virus. For this I have a data set from kaggle. Based on this data set, which is updated daily, I want to make a prognosis of further infection.&lt;/p&gt;
+&lt;p&gt;Since it is a very short time series, the prognosis should always be treated with caution. Regressors that influence the further development are not included.&lt;/p&gt;
+&lt;p&gt;For the forecast I will mainly work with the fable package. This allows the forecast of data in the format tbl.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(fs)
+library(readr)
+library(lubridate)
+library(stringr)
+
+path &amp;lt;- dir_ls(&amp;quot;~/Documents/handdke_codet/static&amp;quot;,
+                                      recurse = TRUE) %&amp;gt;% 
+                                 path_abs() %&amp;gt;% 
+                                 str_subset(&amp;quot;2019_nCoV_data&amp;quot;)
+
+data &amp;lt;- read_csv(path)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;glimpse(data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Observations: 700
+## Variables: 8
+## $ Sno              &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,...
+## $ Date             &amp;lt;date&amp;gt; 2020-01-22, 2020-01-22, 2020-01-22, 2020-01-22, 2...
+## $ `Province/State` &amp;lt;chr&amp;gt; &amp;quot;Anhui&amp;quot;, &amp;quot;Beijing&amp;quot;, &amp;quot;Chongqing&amp;quot;, &amp;quot;Fujian&amp;quot;, &amp;quot;Gansu&amp;quot;...
+## $ Country          &amp;lt;chr&amp;gt; &amp;quot;China&amp;quot;, &amp;quot;China&amp;quot;, &amp;quot;China&amp;quot;, &amp;quot;China&amp;quot;, &amp;quot;China&amp;quot;, &amp;quot;Chin...
+## $ `Last Update`    &amp;lt;dttm&amp;gt; 2020-01-22 12:00:00, 2020-01-22 12:00:00, 2020-01...
+## $ Confirmed        &amp;lt;dbl&amp;gt; 1, 14, 6, 1, 0, 26, 2, 1, 4, 1, 0, 5, 0, 444, 4, 0...
+## $ Deaths           &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ Recovered        &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the first step, the data is aggregated per day and then converted into a so-called tsibble, which enables a tidy evaluation of the forecast.&lt;/p&gt;
+&lt;p&gt;For the forecast I create two simple models: An ets converted by log() and a regular ets model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tsibble)
+library(fable)
+library(forecast)
+library(feasts)
+
+sum_data &amp;lt;- data %&amp;gt;% 
+  group_by(Date) %&amp;gt;% 
+  summarise(Count_Confirmed = sum(Confirmed)) %&amp;gt;% 
+  ungroup() %&amp;gt;% 
+  as_tsibble(index = Date)
+
+forecast &amp;lt;- sum_data %&amp;gt;% 
+  model(ets_log = ETS(log(Count_Confirmed)),
+        ets = ETS(Count_Confirmed)) %&amp;gt;% 
+  forecast(h = 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The results show the significant difference of the logarithmic model. The logarithmic model reflects the trend much better.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+library(ggthemes)
+
+sum_data %&amp;gt;% 
+  ggplot() +
+  geom_line(aes(x = Date, y = Count_Confirmed), 
+            color = &amp;quot;black&amp;quot;, size = 2) +
+  geom_line(data = forecast, 
+            aes(x = Date, y = Count_Confirmed, color = .model), 
+            size = 2) +
+  xlab(&amp;quot;Date&amp;quot;) +
+  ylab(&amp;quot;Confirmed&amp;quot;) +
+  ggtitle(&amp;quot;Forecasting confirmed corona virus infections&amp;quot;) +
+  guides(colour = guide_legend(title = &amp;quot;Forecast&amp;quot;)) +
+  theme_fivethirtyeight()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-04-analysing-corona-virus-data_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;In this post I wanted to describe the basic possibilities of the fable package. What else is possible with the fable package, I will describe in future posts.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Comparing ski resorts</title>

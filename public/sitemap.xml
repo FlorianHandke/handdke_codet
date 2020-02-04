@@ -34,21 +34,51 @@
   
   <url>
     <loc>/tags/2020/</loc>
-    <lastmod>2020-01-20T19:27:38+01:00</lastmod>
+    <lastmod>2020-02-04T19:46:39+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/analysing-corona-virus-data/</loc>
+    <lastmod>2020-02-04T19:46:39+01:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-01-20T19:27:38+01:00</lastmod>
+    <lastmod>2020-02-04T19:46:39+01:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/lying-with-statistics/</loc>
-    <lastmod>2020-01-20T19:27:38+01:00</lastmod>
+    <loc>/tags/corona/</loc>
+    <lastmod>2020-02-04T19:46:39+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/exploratory/</loc>
+    <lastmod>2020-02-04T19:46:39+01:00</lastmod>
   </url>
   
   <url>
     <loc>/post/</loc>
+    <lastmod>2020-02-04T19:46:39+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-02-04T19:46:39+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-02-04T19:46:39+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/virus/</loc>
+    <lastmod>2020-02-04T19:46:39+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/lying-with-statistics/</loc>
     <lastmod>2020-01-20T19:27:38+01:00</lastmod>
   </url>
   
@@ -63,22 +93,7 @@
   </url>
   
   <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-01-20T19:27:38+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/post/comparing-ski-resorts/</loc>
-    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/exploratory/</loc>
-    <lastmod>2020-01-11T00:29:45+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
     <lastmod>2020-01-11T00:29:45+01:00</lastmod>
   </url>
   

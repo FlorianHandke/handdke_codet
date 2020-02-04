@@ -1,0 +1,93 @@
+---
+title: Analysing corona virus data
+author: Florian Handke
+date: '2020-02-04'
+slug: analysing-corona-virus-data
+categories:
+  - R
+tags:
+  - '2020'
+  - corona
+  - virus
+  - exploratory
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-02-04T19:46:39+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+<div class="figure">
+<img src="/post/2020-02-04-corona-virus_files/1000x-1.jpg" alt="bloomberg.com; 2020-01-31" width="800" />
+<p class="caption">bloomberg.com; 2020-01-31</p>
+</div>
+<p>Due to recent events I will take a look at the development of the corona virus. For this I have a data set from kaggle. Based on this data set, which is updated daily, I want to make a prognosis of further infection.</p>
+<p>Since it is a very short time series, the prognosis should always be treated with caution. Regressors that influence the further development are not included.</p>
+<p>For the forecast I will mainly work with the fable package. This allows the forecast of data in the format tbl.</p>
+<pre class="r"><code>library(tidyverse)
+library(fs)
+library(readr)
+library(lubridate)
+library(stringr)
+
+path &lt;- dir_ls(&quot;~/Documents/handdke_codet/static&quot;,
+                                      recurse = TRUE) %&gt;% 
+                                 path_abs() %&gt;% 
+                                 str_subset(&quot;2019_nCoV_data&quot;)
+
+data &lt;- read_csv(path)</code></pre>
+<pre class="r"><code>glimpse(data)</code></pre>
+<pre><code>## Observations: 700
+## Variables: 8
+## $ Sno              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,...
+## $ Date             &lt;date&gt; 2020-01-22, 2020-01-22, 2020-01-22, 2020-01-22, 2...
+## $ `Province/State` &lt;chr&gt; &quot;Anhui&quot;, &quot;Beijing&quot;, &quot;Chongqing&quot;, &quot;Fujian&quot;, &quot;Gansu&quot;...
+## $ Country          &lt;chr&gt; &quot;China&quot;, &quot;China&quot;, &quot;China&quot;, &quot;China&quot;, &quot;China&quot;, &quot;Chin...
+## $ `Last Update`    &lt;dttm&gt; 2020-01-22 12:00:00, 2020-01-22 12:00:00, 2020-01...
+## $ Confirmed        &lt;dbl&gt; 1, 14, 6, 1, 0, 26, 2, 1, 4, 1, 0, 5, 0, 444, 4, 0...
+## $ Deaths           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ Recovered        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...</code></pre>
+<p>In the first step, the data is aggregated per day and then converted into a so-called tsibble, which enables a tidy evaluation of the forecast.</p>
+<p>For the forecast I create two simple models: An ets converted by log() and a regular ets model.</p>
+<pre class="r"><code>library(tsibble)
+library(fable)
+library(forecast)
+library(feasts)
+
+sum_data &lt;- data %&gt;% 
+  group_by(Date) %&gt;% 
+  summarise(Count_Confirmed = sum(Confirmed)) %&gt;% 
+  ungroup() %&gt;% 
+  as_tsibble(index = Date)
+
+forecast &lt;- sum_data %&gt;% 
+  model(ets_log = ETS(log(Count_Confirmed)),
+        ets = ETS(Count_Confirmed)) %&gt;% 
+  forecast(h = 10)</code></pre>
+<p>The results show the significant difference of the logarithmic model. The logarithmic model reflects the trend much better.</p>
+<pre class="r"><code>library(ggplot2)
+library(ggthemes)
+
+sum_data %&gt;% 
+  ggplot() +
+  geom_line(aes(x = Date, y = Count_Confirmed), 
+            color = &quot;black&quot;, size = 2) +
+  geom_line(data = forecast, 
+            aes(x = Date, y = Count_Confirmed, color = .model), 
+            size = 2) +
+  xlab(&quot;Date&quot;) +
+  ylab(&quot;Confirmed&quot;) +
+  ggtitle(&quot;Forecasting confirmed corona virus infections&quot;) +
+  guides(colour = guide_legend(title = &quot;Forecast&quot;)) +
+  theme_fivethirtyeight()</code></pre>
+<p><img src="/post/2020-02-04-analysing-corona-virus-data_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>In this post I wanted to describe the basic possibilities of the fable package. What else is possible with the fable package, I will describe in future posts.</p>

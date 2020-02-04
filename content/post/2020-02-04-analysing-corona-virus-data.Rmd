@@ -1,0 +1,104 @@
+---
+title: Analysing corona virus data
+author: Florian Handke
+date: '2020-02-04'
+slug: analysing-corona-virus-data
+categories:
+  - R
+tags:
+  - '2020'
+  - corona
+  - virus
+  - exploratory
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-02-04T19:46:39+01:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+editor_options: 
+  chunk_output_type: console
+---
+
+![bloomberg.com; 2020-01-31](/post/2020-02-04-corona-virus_files/1000x-1.jpg){width=800px}
+
+Due to recent events I will take a look at the development of the corona virus. For this I have a data set from kaggle. Based on this data set, which is updated daily, I want to make a prognosis of further infection.
+
+Since it is a very short time series, the prognosis should always be treated with caution. Regressors that influence the further development are not included. 
+
+For the forecast I will mainly work with the fable package. This allows the forecast of data in the format tbl.
+
+```{r, warning=FALSE, message = FALSE}
+library(tidyverse)
+library(fs)
+library(readr)
+library(lubridate)
+library(stringr)
+
+path <- dir_ls("~/Documents/handdke_codet/static",
+                                      recurse = TRUE) %>% 
+                                 path_abs() %>% 
+                                 str_subset("2019_nCoV_data")
+
+data <- read_csv(path)
+
+```
+
+```{r, include = FALSE}
+data$Date <- as.Date(strptime(data$Date, format = "%m/%d/%Y %H:%M:%S"))
+```
+
+```{r}
+glimpse(data)
+```
+
+In the first step, the data is aggregated per day and then converted into a so-called tsibble, which enables a tidy evaluation of the forecast.
+
+For the forecast I create two simple models: An ets converted by log() and a regular ets model.
+
+```{r, warning = FALSE, message = FALSE}
+
+library(tsibble)
+library(fable)
+library(forecast)
+library(feasts)
+
+sum_data <- data %>% 
+  group_by(Date) %>% 
+  summarise(Count_Confirmed = sum(Confirmed)) %>% 
+  ungroup() %>% 
+  as_tsibble(index = Date)
+
+forecast <- sum_data %>% 
+  model(ets_log = ETS(log(Count_Confirmed)),
+        ets = ETS(Count_Confirmed)) %>% 
+  forecast(h = 10)
+
+```
+
+The results show the significant difference of the logarithmic model. The logarithmic model reflects the trend much better.
+
+```{r, warning = FALSE, message = FALSE}
+
+library(ggplot2)
+library(ggthemes)
+
+sum_data %>% 
+  ggplot() +
+  geom_line(aes(x = Date, y = Count_Confirmed), 
+            color = "black", size = 2) +
+  geom_line(data = forecast, 
+            aes(x = Date, y = Count_Confirmed, color = .model), 
+            size = 2) +
+  xlab("Date") +
+  ylab("Confirmed") +
+  ggtitle("Forecasting confirmed corona virus infections") +
+  guides(colour = guide_legend(title = "Forecast")) +
+  theme_fivethirtyeight()
+```
+
+In this post I wanted to describe the basic possibilities of the fable package. What else is possible with the fable package, I will describe in future posts.

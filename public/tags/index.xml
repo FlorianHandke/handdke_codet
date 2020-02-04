@@ -5,7 +5,7 @@
     <link>/tags/</link>
       <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 20 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 04 Feb 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/me</url>
       <title>Tags</title>
@@ -15,8 +15,32 @@
     <item>
       <title>2020</title>
       <link>/tags/2020/</link>
-      <pubDate>Mon, 20 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
       <guid>/tags/2020/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>corona</title>
+      <link>/tags/corona/</link>
+      <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/corona/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>exploratory</title>
+      <link>/tags/exploratory/</link>
+      <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/exploratory/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>virus</title>
+      <link>/tags/virus/</link>
+      <pubDate>Tue, 04 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/virus/</guid>
       <description></description>
     </item>
     
@@ -25,14 +49,6 @@
       <link>/tags/statistics/</link>
       <pubDate>Mon, 20 Jan 2020 00:00:00 +0000</pubDate>
       <guid>/tags/statistics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>exploratory</title>
-      <link>/tags/exploratory/</link>
-      <pubDate>Sat, 11 Jan 2020 00:00:00 +0000</pubDate>
-      <guid>/tags/exploratory/</guid>
       <description></description>
     </item>
     

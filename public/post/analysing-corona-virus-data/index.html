@@ -28,10 +28,12 @@
   
     
   
-  <meta name="description" content="Data Scientist">
+  <meta name="description" content="bloomberg.com; 2020-01-31
+Due to recent events I will take a look at the development of the corona virus. For this I have a data set from kaggle. Based on this data set, which is updated daily, I want to make a prognosis of further infection.
+Since it is a very short time series, the prognosis should always be treated with caution. Regressors that influence the further development are not included.">
 
   
-  <link rel="alternate" hreflang="en-us" href="/categories/r/">
+  <link rel="alternate" hreflang="en-us" href="/post/analysing-corona-virus-data/">
 
   
 
@@ -210,14 +212,12 @@
 
 
   
-  <link rel="alternate" href="/categories/r/index.xml" type="application/rss+xml" title="Handkecodet">
-  
 
   <link rel="manifest" href="/index.webmanifest">
   <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
   <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
 
-  <link rel="canonical" href="/categories/r/">
+  <link rel="canonical" href="/post/analysing-corona-virus-data/">
 
   
   
@@ -230,18 +230,67 @@
   <meta property="twitter:card" content="summary_large_image">
   
   <meta property="og:site_name" content="Handkecodet">
-  <meta property="og:url" content="/categories/r/">
-  <meta property="og:title" content="R | Handkecodet">
-  <meta property="og:description" content="Data Scientist"><meta property="og:image" content="/img/me">
+  <meta property="og:url" content="/post/analysing-corona-virus-data/">
+  <meta property="og:title" content="Analysing corona virus data | Handkecodet">
+  <meta property="og:description" content="bloomberg.com; 2020-01-31
+Due to recent events I will take a look at the development of the corona virus. For this I have a data set from kaggle. Based on this data set, which is updated daily, I want to make a prognosis of further infection.
+Since it is a very short time series, the prognosis should always be treated with caution. Regressors that influence the further development are not included."><meta property="og:image" content="/img/me">
   <meta property="twitter:image" content="/img/me"><meta property="og:locale" content="en-us">
   
-    <meta property="og:updated_time" content="2020-02-04T00:00:00&#43;00:00">
+    
+      <meta property="article:published_time" content="2020-02-04T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2020-02-04T19:46:39&#43;01:00">
   
 
   
 
 
+    
 
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/analysing-corona-virus-data/"
+  },
+  "headline": "Analysing corona virus data",
+  
+  "datePublished": "2020-02-04T00:00:00Z",
+  "dateModified": "2020-02-04T19:46:39+01:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Florian Handke"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Handkecodet",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img//"
+    }
+  },
+  "description": "bloomberg.com; 2020-01-31\n\rDue to recent events I will take a look at the development of the corona virus. For this I have a data set from kaggle. Based on this data set, which is updated daily, I want to make a prognosis of further infection.\nSince it is a very short time series, the prognosis should always be treated with caution. Regressors that influence the further development are not included."
+}
+</script>
+
+  
 
   
 
@@ -249,10 +298,13 @@
   
 
 
+  
 
 
 
-  <title>R | Handkecodet</title>
+
+
+  <title>Analysing corona virus data | Handkecodet</title>
 
 </head>
 
@@ -471,120 +523,402 @@
 </nav>
 
 
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Analysing corona virus data</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    Feb 4, 2020
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    2 min read
+  </span>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/analysing-corona-virus-data/#disqus_thread"></a>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/categories/r/">R</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+
+<div class="figure">
+<img src="/post/2020-02-04-corona-virus_files/1000x-1.jpg" alt="bloomberg.com; 2020-01-31" width="800" />
+<p class="caption">bloomberg.com; 2020-01-31</p>
+</div>
+<p>Due to recent events I will take a look at the development of the corona virus. For this I have a data set from kaggle. Based on this data set, which is updated daily, I want to make a prognosis of further infection.</p>
+<p>Since it is a very short time series, the prognosis should always be treated with caution. Regressors that influence the further development are not included.</p>
+<p>For the forecast I will mainly work with the fable package. This allows the forecast of data in the format tbl.</p>
+<pre class="r"><code>library(tidyverse)
+library(fs)
+library(readr)
+library(lubridate)
+library(stringr)
+
+path &lt;- dir_ls(&quot;~/Documents/handdke_codet/static&quot;,
+                                      recurse = TRUE) %&gt;% 
+                                 path_abs() %&gt;% 
+                                 str_subset(&quot;2019_nCoV_data&quot;)
+
+data &lt;- read_csv(path)</code></pre>
+<pre class="r"><code>glimpse(data)</code></pre>
+<pre><code>## Observations: 700
+## Variables: 8
+## $ Sno              &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,...
+## $ Date             &lt;date&gt; 2020-01-22, 2020-01-22, 2020-01-22, 2020-01-22, 2...
+## $ `Province/State` &lt;chr&gt; &quot;Anhui&quot;, &quot;Beijing&quot;, &quot;Chongqing&quot;, &quot;Fujian&quot;, &quot;Gansu&quot;...
+## $ Country          &lt;chr&gt; &quot;China&quot;, &quot;China&quot;, &quot;China&quot;, &quot;China&quot;, &quot;China&quot;, &quot;Chin...
+## $ `Last Update`    &lt;dttm&gt; 2020-01-22 12:00:00, 2020-01-22 12:00:00, 2020-01...
+## $ Confirmed        &lt;dbl&gt; 1, 14, 6, 1, 0, 26, 2, 1, 4, 1, 0, 5, 0, 444, 4, 0...
+## $ Deaths           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ Recovered        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...</code></pre>
+<p>In the first step, the data is aggregated per day and then converted into a so-called tsibble, which enables a tidy evaluation of the forecast.</p>
+<p>For the forecast I create two simple models: An ets converted by log() and a regular ets model.</p>
+<pre class="r"><code>library(tsibble)
+library(fable)
+library(forecast)
+library(feasts)
+
+sum_data &lt;- data %&gt;% 
+  group_by(Date) %&gt;% 
+  summarise(Count_Confirmed = sum(Confirmed)) %&gt;% 
+  ungroup() %&gt;% 
+  as_tsibble(index = Date)
+
+forecast &lt;- sum_data %&gt;% 
+  model(ets_log = ETS(log(Count_Confirmed)),
+        ets = ETS(Count_Confirmed)) %&gt;% 
+  forecast(h = 10)</code></pre>
+<p>The results show the significant difference of the logarithmic model. The logarithmic model reflects the trend much better.</p>
+<pre class="r"><code>library(ggplot2)
+library(ggthemes)
+
+sum_data %&gt;% 
+  ggplot() +
+  geom_line(aes(x = Date, y = Count_Confirmed), 
+            color = &quot;black&quot;, size = 2) +
+  geom_line(data = forecast, 
+            aes(x = Date, y = Count_Confirmed, color = .model), 
+            size = 2) +
+  xlab(&quot;Date&quot;) +
+  ylab(&quot;Confirmed&quot;) +
+  ggtitle(&quot;Forecasting confirmed corona virus infections&quot;) +
+  guides(colour = guide_legend(title = &quot;Forecast&quot;)) +
+  theme_fivethirtyeight()</code></pre>
+<p><img src="/post/2020-02-04-analysing-corona-virus-data_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>In this post I wanted to describe the basic possibilities of the fable package. What else is possible with the fable package, I will describe in future posts.</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/2020/">2020</a>
+  
+  <a class="badge badge-light" href="/tags/corona/">corona</a>
+  
+  <a class="badge badge-light" href="/tags/virus/">virus</a>
+  
+  <a class="badge badge-light" href="/tags/exploratory/">exploratory</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/analysing-corona-virus-data/&amp;text=Analysing%20corona%20virus%20data" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/analysing-corona-virus-data/&amp;t=Analysing%20corona%20virus%20data" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Analysing%20corona%20virus%20data&amp;body=/post/analysing-corona-virus-data/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/analysing-corona-virus-data/&amp;title=Analysing%20corona%20virus%20data" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Analysing%20corona%20virus%20data%20/post/analysing-corona-virus-data/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/analysing-corona-virus-data/&amp;title=Analysing%20corona%20virus%20data" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
   
 
 
 
 
 
-
-
-
-
-
-
-
-  
 
   
   
   
     
   
-<div class="universal-wrapper pt-3">
-  <h1>R</h1>
-
   
-
-  
-</div>
-
-
-
-<div class="universal-wrapper">
-  
-
-  
-  
-  <div>
-    <h2><a href="/post/analysing-corona-virus-data/">Analysing corona virus data</a></h2>
-    <div class="article-style">
+  <div class="media author-card content-widget-hr">
+    
       
-      bloomberg.com; 2020-01-31
-Due to recent events I will take a look at the development of the corona virus. For this I have a data set from kaggle. Based on this data set, which is updated daily, I want to make a prognosis of further infection.
-Since it is a very short time series, the prognosis should always be treated with caution. Regressors that influence the further development are not included.
+      <img class="portrait mr-3" src="/authors/admin/avatar_hu8f66607d61f908dedb34b91a578fc13f_500012_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/">Florian Handke</a></h5>
+      <h6 class="card-subtitle">Data Scientist</h6>
+      <p class="card-text">What is there to discover?</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
       
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:handke.florian@web.de" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.xing.com/profile/Florian_Handke3/cv?sc_o=mxb_p" target="_blank" rel="noopener">
+        <i class="fab fa-xing-square"></i>
+      </a>
+    </li>
+  
+</ul>
+
     </div>
   </div>
+
+
+
+
+<section id="comments">
   
-  <div>
-    <h2><a href="/post/comparing-ski-resorts/">Comparing ski resorts</a></h2>
-    <div class="article-style">
-      
-      The ski season has just started. Therefore I was interested to know how the prices for different tickets are. So I compared and analyzed the prices of different ski resorts in Germany, Austria and Switzerland. https://www.skiinfo.de maintains a database with the prices of various ski areas in the categories day ticket and 6-day ticket. Each for adults and children.
-      
-    </div>
-  </div>
+    
+<div id="disqus_thread"></div>
+<script>
+  let disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "https-handkecodet-netlify-com" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
   
-  <div>
-    <h2><a href="/post/evaluating-the-reichenau-half-marathon/">Evaluating the Reichenau half marathon</a></h2>
-    <div class="article-style">
-      
-      Last week I ran my first half marathon on the island Reichenau near Konstanz. You don’t win any prizes with 62nd place, but that wasn’t my goal either. Since the organizer put the results of the race online, I took a closer look at the data. I show the results in the following post.
-The data I evaluate in this blog post are freely accessible at SV Reichenau.
-      
-    </div>
-  </div>
+</section>
+
+
+
+
+
+
   
-  <div>
-    <h2><a href="/post/comparing-house-prices/">Comparing house prices</a></h2>
-    <div class="article-style">
-      
-      In the first post the data were collected. Now we want to get a first impression of the collected data. What is the structure of the data, how are they distributed and, most importantly, do they still need pre-processing?
-In the following I will present the data in different ways. In technical jargon this is called descriptive analytics. The following evaluations are only an excerpt of what is possible and do not claim to be complete.
-      
-    </div>
-  </div>
   
-  <div>
-    <h2><a href="/post/comparing-house-prices/">Comparing house prices</a></h2>
-    <div class="article-style">
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
       
-      The price of houses is widely discussed these days in germany:
-Real estate prices have risen nationwide in recent years. This is also shown by the present house price index of the Federal Statistical Office, which, starting from 2015 (index = 100), was around 116.3 points in 2018. Thus, prices have increased by 16.3 percent compared to the base year 2015. Nevertheless, there are regional differences in the development of real estate prices.
+      <li><a href="/post/comparing-ski-resorts/">Comparing ski resorts</a></li>
       
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/extracting-the-essential-v2/">Extracting the essential [V2]</a></h2>
-    <div class="article-style">
+      <li><a href="/post/lying-with-statistics/">Lying with statistics</a></li>
       
-      This week I told Oliver about my first blog post. He said if it wasn’t also possible for him to examine any text according to the principle that I showed in my July 27 post.
-But of course there are! With R you can create webapps that allow an improved user interaction.
-In order to realize the idea from the post, we will build a simple user interface, where the user can define a URL, based on which the text analysis will be done.
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/extracting-the-essential/">Extracting the essential</a></h2>
-    <div class="article-style">
-      
-      Reading large texts takes time. Sometimes it would be useful to extract essential sentences of a text to get a first impression of the whole. Therefore we will scrap a text from the web, do some string manipulation, tokenize it and finally extract the most important sentences by using Google Pagerank algorithm.
-To do so I will use the following R packages
-rvest
-stringr
-udpipe
-textrank
-      
-    </div>
+    </ul>
   </div>
   
 
-  
 
-</div>
+
+  </div>
+</article>
 
       
 
