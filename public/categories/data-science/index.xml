@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Science | Handkecodet</title>
+    <link>/categories/data-science/</link>
+      <atom:link href="/categories/data-science/index.xml" rel="self" type="application/rss+xml" />
+    <description>Data Science</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 09 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/img/me</url>
+      <title>Data Science</title>
+      <link>/categories/data-science/</link>
+    </image>
+    
+    <item>
+      <title>Data Science - Am I doing this?</title>
+      <link>/post/am-i-doing-this/</link>
+      <pubDate>Tue, 09 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/post/am-i-doing-this/</guid>
+      <description>
+
+
+&lt;p&gt;I mean, five years ago, I never thought I’d be at this point.
+It’s not like I have several patents pending. No I am a data scientist.&lt;/p&gt;
+&lt;p&gt;But what does that even mean. And why did someone like me suddenly enjoy evaluating data?
+In every blog post and every other industry article,
+people talk about data and its importance for the future. Everything will be
+based only on data, the unknown machine will make decisions and we will be surprised how good these decisions are.&lt;/p&gt;
+&lt;p&gt;Please do not misunderstand me: I believe data is an important basis for
+understanding and optimizing business processes.
+They are the basis for new services, help to optimize products and sometimes look pretty cool :)&lt;/p&gt;
+&lt;p&gt;You may remember the world map which shows the user interaction of
+Facebook users worldwide. Or other unusual ways of processing and displaying data.&lt;/p&gt;
+&lt;p&gt;What I learned about Data Science is that it takes much more than data.
+What it needs most of all is a problem definition, domain knowledge
+from people who are experts in their field and an understanding of what the target audience wants to know.
+If I then have the necessary mathematical understanding, I am ready for the big, wide Data Science world.&lt;/p&gt;
+&lt;p&gt;Then the fun begins: In my time as a data scientist
+I have almost never seen a data set that didn’t have data quality problems.
+Missing data, unrealistic data, wrong timestamps, data gaps, etc..
+No matter whether they are made by humans or by a machine.
+Such quality problems can leave you living in an illusion until the end.
+An illusion that perhaps says that it would be a good decision
+to increase inventory, sell a product or send a service technician on site.&lt;/p&gt;
+&lt;p&gt;As soon as all this has been fixed, we’ll move on: classification, forecast, decision trees.&lt;/p&gt;
+&lt;p&gt;So what if I told you that much of what a data scientist does is not
+about complicated forecasting procedures, but about preparing, structuring, aggregating data and ensuring reproducibility.&lt;/p&gt;
+&lt;p&gt;Only then one can think about the type of visualization or application of machine learning.&lt;/p&gt;
+&lt;p&gt;I think it is worth thinking about real profitable projects. To think big but start small.&lt;/p&gt;
+&lt;p&gt;Perhaps it might be quite impressive to make a prediction about the spontaneous failure of a system. But it is more likely that there are much simpler questions to solve which also bring a greater benefit in everyday life.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
