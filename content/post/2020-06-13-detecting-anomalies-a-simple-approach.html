@@ -1,0 +1,122 @@
+---
+title: Detecting anomalies - a simple approach
+author: Florian Handke
+date: '2020-06-13'
+slug: detecting-anomalies-a-simple-approach
+categories:
+  - R
+  - Data Science
+  - Statistic
+tags:
+  - Outlier Detection
+  - '2020'
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-06-13T14:27:52+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+<!-- ![](/post/2020-06-13-detecting-anomalies-a-simple-approach_files/sheep-black-sheep.jpg) -->
+<p>During my work I have a lot to do with the analysis of time series. These are mainly signal data which have to be evaluated accordingly. Predictions have to be made, which give a conclusion on how a certain sensor value will behave in e.g. 30 days. This is only one of many applications of forecasting methods.</p>
+<p>Today, however, I would like to devote myself to another, equally exciting topic. As an analyst, I am not always interested in the future, but also in the past. For example, I’m interested in certain progressions, constellations, correlations or even outliers of data points.</p>
+<p>Outliers can occur in many use cases: Some are real and some are not. Maybe it is a sensor error or an error in the posting of stock items. Or it is actually an outlier that is a real deviation from the target. Such application cases are manifold:</p>
+<ul>
+<li><p>A produced part is not within the specification</p></li>
+<li><p>The memory consumption of data centers deviates from normal</p></li>
+<li><p>Or fraud control by comparing the behaviour of a user</p></li>
+</ul>
+<p>A very useful definition of outliers can be found in the <a href="https://www.itl.nist.gov/div898/handbook/prc/section1/prc16.htm">Engineering statistics handbook</a></p>
+<blockquote>
+<p>An outlier is an observation that lies an abnormal distance from other values in a random sample from a population. In a sense, this definition leaves it up to the analyst (or a consensus process) to decide what will be considered abnormal. Before abnormal observations can be singled out, it is necessary to characterize normal observations.</p>
+</blockquote>
+<p>There are many ways to identify outliers. The simplest is probably the graphical evaluation of progressions using a box plot or a time series. However, when it comes to checking data in large quantities and time-critically, such methods reach their limits. You need procedures that can be automated.</p>
+<p>In my contribution today I want to develop and test such a procedure.</p>
+<p>How can we now implement such an outlier detection. A common method is the determination by the inter-quantile range. By definition, inter-quantile range is:</p>
+<blockquote>
+<p>In descriptive statistics, the interquartile range (IQR), also called the midspread, middle 50%, or H‑spread, is a measure of statistical dispersion, being equal to the difference between 75th and 25th percentiles, or between upper and lower quartiles, IQR = Q3 − Q1.
+<a href="https://en.wikipedia.org/wiki/Interquartile_range">wikipedia; 2020-06-14</a></p>
+</blockquote>
+<p>In order to determine these, we form the corresponding quantiles and then use them to calculate the IQR</p>
+<pre class="r"><code>x &lt;- runif(1000, 5.0, 7.5)
+
+quantile &lt;- stats::quantile(x, prob = c(0.25, 0.75), na.rm = TRUE)
+
+quantile[[2]] - quantile[[1]]</code></pre>
+<pre><code>## [1] 1.198383</code></pre>
+<p>R also offers us with the stats package a function to calculate the value:</p>
+<pre class="r"><code>iqr &lt;- stats::IQR(x)
+iqr</code></pre>
+<pre><code>## [1] 1.198383</code></pre>
+<p>In order to define the corresponding limits for outliers, a definition must be made of the value from which a data point is declared as an outlier. We use the following definition which is also used in the tsoutliers package:</p>
+<pre class="r"><code>limits &lt;- quantile + 1.5 * iqr * c(-1, 1)
+limits</code></pre>
+<pre><code>##      25%      75% 
+## 3.909025 8.702557</code></pre>
+<p>Our function should evaluate the column col of a dataframe and then output a new column outlier. This column is then indexed with TRUE or FALSE whether the corresponding value is an outlier.</p>
+<pre class="r"><code>detect_outliers &lt;- function(df, col) {
+  
+  col_enquo &lt;- rlang::enquo(col)
+  x &lt;- df %&gt;% dplyr::pull(!! col_enquo)
+  
+  quantile &lt;- stats::quantile(x, prob = c(0.25, 0.75), na.rm = TRUE)
+  iqr &lt;- stats::IQR(x)
+  limits &lt;- quantile + 1.5 * iqr * c(-1, 1)
+
+  tibble::tibble(Value = x) %&gt;% 
+    dplyr::mutate(lower_limit = limits[[1]],
+                  upper_limit = limits[[2]],
+                  outlier = dplyr::case_when(Value &gt; upper_limit | 
+                                               Value &lt; lower_limit ~ TRUE,
+                                             TRUE ~ FALSE)) %&gt;% 
+    dplyr::bind_cols(df %&gt;% dplyr::select(- !! col_enquo))
+}</code></pre>
+<p>Let’s test our function on some sample data. Two outliers are built into the data set with 1002 points. One has the value -5, the other 20.</p>
+<pre class="r"><code>dataframe &lt;- tibble::tibble(Index = 1:1002,
+                            Value = c(-5, runif(1000, 5.0, 7.5), 20))
+
+outlier_df &lt;- detect_outliers(dataframe, &quot;Value&quot;)
+outlier_df</code></pre>
+<pre><code>## # A tibble: 1,002 x 5
+##    Value lower_limit upper_limit outlier Index
+##    &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;lgl&gt;   &lt;int&gt;
+##  1 -5           3.82        8.73 TRUE        1
+##  2  7.22        3.82        8.73 FALSE       2
+##  3  7.19        3.82        8.73 FALSE       3
+##  4  6.37        3.82        8.73 FALSE       4
+##  5  6.07        3.82        8.73 FALSE       5
+##  6  6.82        3.82        8.73 FALSE       6
+##  7  5.64        3.82        8.73 FALSE       7
+##  8  6.43        3.82        8.73 FALSE       8
+##  9  5.28        3.82        8.73 FALSE       9
+## 10  5.02        3.82        8.73 FALSE      10
+## # ... with 992 more rows</code></pre>
+<p>Let us look at the result graphically again. In green we see the data points defined as outliers. The two horizontal lines mark the corresponding limits for the evaluation.</p>
+<pre class="r"><code>outlier_df %&gt;% 
+  ggplot2::ggplot(aes(x = Index)) + 
+  ggplot2::geom_point(aes(y = Value, color = outlier)) + 
+  ggplot2::geom_line(aes(y = lower_limit)) + 
+  ggplot2::geom_line(aes(y = upper_limit)) +
+  ggplot2::theme_light()</code></pre>
+<p><img src="/post/2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>As we can see the two outliers are correctly classified by our outlier detection.</p>
+<p>Our chosen data behaves stationary. What if we want to examine data with a trend for outliers? Does our method still work?</p>
+<pre class="r"><code>dataframe_trend &lt;- tibble::tibble(Index = 1:1002,
+                            Value = c(30, diffinv(rnorm(999, mean = 0, sd = 5)), 0))
+outlier_df_trend &lt;- detect_outliers(dataframe_trend, &quot;Value&quot;)</code></pre>
+<pre class="r"><code>outlier_df_trend %&gt;% 
+  ggplot2::ggplot(aes(x = Index)) + 
+  ggplot2::geom_point(aes(y = Value, color = outlier)) + 
+  ggplot2::geom_line(aes(y = lower_limit)) + 
+  ggplot2::geom_line(aes(y = upper_limit)) +
+  ggplot2::theme_light()</code></pre>
+<p><img src="/post/2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>As we can see, our method fails with more complex processes. To solve the problem we need a different approach which I will describe in another post.</p>
+<p>My goal in this post was to show that outlier detection can be implemented relatively easily. It is important to note that the underlying data plays a decisive role.</p>
