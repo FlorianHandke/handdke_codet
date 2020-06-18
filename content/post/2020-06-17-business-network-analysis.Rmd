@@ -1,0 +1,210 @@
+---
+title: Business Network Analysis
+author: Florian Handke
+date: '2020-06-17'
+slug: business-network-analysis
+categories:
+  - Data Science
+  - R
+tags:
+  - Network Analysis
+  - igraph
+  - xml2
+  - rvest
+  - xing
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-06-17T22:38:00+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r echo=FALSE, out.width="100%", fig.align='center'}
+knitr::include_graphics("C:/Users/User/Documents/handdke_codet/static/post/2020-06-17-business-network-analysis_files/1-Spinnennetz.jpg")
+```
+
+```{r, echo = FALSE}
+library(magrittr)
+```
+
+Business networks like xing or linkedIn are full of information. People describe themselves with their skills, languages spoken, current or previous employers or their jobs.
+
+Recording and capturing all this information is difficult with conventional methods. A network analysis is one possibility for a clear presentation of data.
+
+> Network analysis is a set of techniques derived from network theory, which has evolved from computer science to demonstrate the power of social network influences. Using network analysis in domain analysis can add another layer of methodological triangulation by providing a different way to read and interpret the same data. The use of network analysis in knowledge organization domain analysis is recent and is just evolving. The visualization technique involves mapping relationships among entities based on the symmetry or asymmetry of their relative proximity. 
+
+[[Richard P. Smiraglia, in Domain Analysis for Knowledge Organization, 2015](https://www.sciencedirect.com/topics/social-sciences/network-analysis)]
+
+But what is necessary for this? 
+We have to obtain the data, then convert it into a processable format and then transfer it to a network diagram.
+
+As in previous posts, we will use the following packages to collect the data:
+
+ * `rvest`
+ 
+ * `xml2`
+ 
+To display the data afterwards we will use the `igraph` package.
+
+First we write a function (`get_xing_info`) that converts a link from an HTML page into an XML file. Subsequently, several subfunctions are to be used to obtain further information. 
+
+```{r}
+get_xing_info <- function(dir) {
+  
+  xml <- xml2::read_html(dir) 
+  tibble::tibble(Name = get_name(xml),
+         Attribute = c(get_top_skills(xml),
+                       get_skills(xml),
+                       get_languages(xml)$language,
+                       get_workexperience(xml)$company))
+}
+```
+
+Now we can write the individual subfunctions. There are subfunctions for the individual information blocks:
+ 
+ * the name (`get_name`)
+
+ * the top skills (`get_top_skills`)
+
+ * the specified skills (`get_skills`)
+
+ * spoken languages (`get_languages`)
+ 
+To get the appropriate information, the xPath is used. With this xPath the information can be extracted via the function `html_nodes` and `html_text`.
+
+```{r}
+get_name <- function(xml) {
+xml %>% 
+  rvest::html_nodes(xpath = '//*[@id="cv-print-header-name"]/div[1]') %>%
+  rvest::html_text()
+}
+```
+
+```{r}
+get_top_skills <- function(xml) {
+  xml %>% 
+    rvest::html_nodes(xpath = '//*[@id="haves"]/div[1]/div/ul/li') %>%
+    rvest::html_text() %>% 
+    stringr::str_trim()
+}
+```
+
+```{r}
+get_skills <- function(xml) {
+  xml %>% 
+    rvest::html_nodes(xpath = '//*[@id="haves"]/ul/li') %>%
+    rvest::html_text() %>% 
+    stringr::str_trim()
+}
+```
+
+```{r}
+get_languages <- function(xml) {
+  
+  xml_lang <- xml %>% 
+    rvest::html_nodes(xpath = '//*[@id="language-skills"]/li') 
+  
+  erg <- list()
+  
+  for (i in seq_along(xml_lang)) {
+    
+    #language
+    language <- xml_lang %>% 
+      rvest::html_nodes(xpath = paste0('//*[@id="language-skills"]/li[',i,']/div/h3')) %>% 
+      rvest::html_text()
+    
+    #level
+    level <- xml_lang %>% 
+      rvest::html_nodes(xpath = paste0('//*[@id="language-skills"]/li[1]/div/span')) %>% 
+      rvest::html_text()
+    
+    erg[[i]] <- tibble::tibble(language = language,
+                               level = level)
+    
+  }
+  dplyr::bind_rows(erg)
+}
+```
+
+```{r}
+get_workexperience <- function(xml) {
+  
+  xml_exp <- xml %>% 
+  rvest::html_nodes(xpath = '//*[@id="work-experience"]/ul/li') 
+  
+  erg <- list()
+  
+  for (i in seq_along(xml_exp)) {
+
+    time <- xml_exp %>% 
+      rvest::html_nodes(xpath = paste0('//*[@id="work-experience"]/ul/li[',i,']/div/div/div[2]/div[1]')) %>% 
+      rvest::html_text() %>% 
+      stringr::str_trim()
+    
+    job <- xml_exp %>% 
+      rvest::html_nodes(xpath = paste0('//*[@id="work-experience"]/ul/li[',i,']/div/div/div[2]/div[2]/h3')) %>% 
+      rvest::html_text() %>% 
+      stringr::str_trim()
+    
+    company <- xml_exp %>% 
+      rvest::html_nodes(xpath = paste0('//*[@id="work-experience"]/ul/li[',i,']/div/div/div[2]/div[2]/h4')) %>% 
+      rvest::html_text() %>% 
+      stringr::str_trim()
+    
+    erg[[i]] <- tibble::tibble(time = time,
+                               job = job,
+                               company = company)
+  }
+  
+  dplyr::bind_rows(erg)
+}
+```
+
+The igraph library provides a large number of functions for displaying networks. By converting the table into a suitable format, the network can be printed. For this the table is passed to `graph_from_data_frame`.
+
+```{r}
+plot_xing_network <- function(x) {
+  Network <- igraph::graph_from_data_frame(d=x, directed=F)
+  plot(Network,
+       size = 2,
+       size2 = 2,
+       shape = "square",
+       vertex.color="red",
+       vertex.size=4, 
+       vertex.label=NA)
+}
+```
+
+Now that we have created all functions, we only have to import the corresponding HTML pages. 
+
+```{r}
+pages <- fs::dir_info(path = "C:/Users/User/Documents/handdke_codet",
+                      recurse = T) %>% 
+  tibble::as_tibble() %>% 
+  dplyr::filter(stringr::str_detect(path, "XING.html")) %>% 
+  dplyr::filter(stringr::str_detect(path, "static")) %>% 
+  dplyr::pull(path)
+```
+
+```{r}
+res_df <- tibble::tibble(Dir = pages) %>% 
+  dplyr::mutate(Result = purrr::map(Dir, get_xing_info)) %>% 
+  tidyr::unnest(cols = c(Result)) %>% 
+  dplyr::select(-Dir) %>% 
+  dplyr::distinct()
+```
+
+As an output we get nice net. The data is of course anomized.
+
+```{r}
+plot_xing_network(res_df)
+```
+
+Network analysis can clearly display complicated data bases. Connections between the individual inputs are easily visible.
+
+I hope my contribution could give a short insight into network analysis and makes you want to know more.

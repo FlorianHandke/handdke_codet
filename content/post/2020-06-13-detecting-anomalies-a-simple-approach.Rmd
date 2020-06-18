@@ -22,7 +22,9 @@ image:
 projects: []
 ---
 
-<!-- ![](/post/2020-06-13-detecting-anomalies-a-simple-approach_files/sheep-black-sheep.jpg) -->
+```{r, echo = FALSE}
+knitr::include_graphics("C:/Users/User/Documents/handdke_codet/static/post/2020-06-13-outlier-detection_files/sheep-black-sheep.jpg")
+```
 
 During my work I have a lot to do with the analysis of time series. These are mainly signal data which have to be evaluated accordingly. Predictions have to be made, which give a conclusion on how a certain sensor value will behave in e.g. 30 days. This is only one of many applications of forecasting methods. 
 

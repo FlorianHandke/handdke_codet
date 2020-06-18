@@ -75,6 +75,151 @@
     </item>
     
     <item>
+      <title>Business Network Analysis</title>
+      <link>/post/business-network-analysis/</link>
+      <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/post/business-network-analysis/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;img src=&#34;C:/Users/User/Documents/handdke_codet/static/post/2020-06-17-business-network-analysis_files/1-Spinnennetz.jpg&#34; width=&#34;100%&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Business networks like xing or linkedIn are full of information. People describe themselves with their skills, languages spoken, current or previous employers or their jobs.&lt;/p&gt;
+&lt;p&gt;Recording and capturing all this information is difficult with conventional methods. A network analysis is one possibility for a clear presentation of data.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Network analysis is a set of techniques derived from network theory, which has evolved from computer science to demonstrate the power of social network influences. Using network analysis in domain analysis can add another layer of methodological triangulation by providing a different way to read and interpret the same data. The use of network analysis in knowledge organization domain analysis is recent and is just evolving. The visualization technique involves mapping relationships among entities based on the symmetry or asymmetry of their relative proximity.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;[&lt;a href=&#34;https://www.sciencedirect.com/topics/social-sciences/network-analysis&#34;&gt;Richard P. Smiraglia, in Domain Analysis for Knowledge Organization, 2015&lt;/a&gt;]&lt;/p&gt;
+&lt;p&gt;But what is necessary for this?
+We have to obtain the data, then convert it into a processable format and then transfer it to a network diagram.&lt;/p&gt;
+&lt;p&gt;As in previous posts, we will use the following packages to collect the data:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;rvest&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;xml2&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To display the data afterwards we will use the &lt;code&gt;igraph&lt;/code&gt; package.&lt;/p&gt;
+&lt;p&gt;First we write a function (&lt;code&gt;get_xing_info&lt;/code&gt;) that converts a link from an HTML page into an XML file. Subsequently, several subfunctions are to be used to obtain further information.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get_xing_info &amp;lt;- function(dir) {
+  
+  xml &amp;lt;- xml2::read_html(dir) 
+  tibble::tibble(Name = get_name(xml),
+         Attribute = c(get_top_skills(xml),
+                       get_skills(xml),
+                       get_languages(xml)$language,
+                       get_workexperience(xml)$company))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we can write the individual subfunctions. There are subfunctions for the individual information blocks:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;the name (&lt;code&gt;get_name&lt;/code&gt;)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;the top skills (&lt;code&gt;get_top_skills&lt;/code&gt;)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;the specified skills (&lt;code&gt;get_skills&lt;/code&gt;)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;spoken languages (&lt;code&gt;get_languages&lt;/code&gt;)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To get the appropriate information, the xPath is used. With this xPath the information can be extracted via the function &lt;code&gt;html_nodes&lt;/code&gt; and &lt;code&gt;html_text&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get_name &amp;lt;- function(xml) {
+xml %&amp;gt;% 
+  rvest::html_nodes(xpath = &amp;#39;//*[@id=&amp;quot;cv-print-header-name&amp;quot;]/div[1]&amp;#39;) %&amp;gt;%
+  rvest::html_text()
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get_top_skills &amp;lt;- function(xml) {
+  xml %&amp;gt;% 
+    rvest::html_nodes(xpath = &amp;#39;//*[@id=&amp;quot;haves&amp;quot;]/div[1]/div/ul/li&amp;#39;) %&amp;gt;%
+    rvest::html_text() %&amp;gt;% 
+    stringr::str_trim()
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get_skills &amp;lt;- function(xml) {
+  xml %&amp;gt;% 
+    rvest::html_nodes(xpath = &amp;#39;//*[@id=&amp;quot;haves&amp;quot;]/ul/li&amp;#39;) %&amp;gt;%
+    rvest::html_text() %&amp;gt;% 
+    stringr::str_trim()
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get_languages &amp;lt;- function(xml) {
+  
+  xml_lang &amp;lt;- xml %&amp;gt;% 
+    rvest::html_nodes(xpath = &amp;#39;//*[@id=&amp;quot;language-skills&amp;quot;]/li&amp;#39;) 
+  
+  erg &amp;lt;- list()
+  
+  for (i in seq_along(xml_lang)) {
+    
+    #language
+    language &amp;lt;- xml_lang %&amp;gt;% 
+      rvest::html_nodes(xpath = paste0(&amp;#39;//*[@id=&amp;quot;language-skills&amp;quot;]/li[&amp;#39;,i,&amp;#39;]/div/h3&amp;#39;)) %&amp;gt;% 
+      rvest::html_text()
+    
+    #level
+    level &amp;lt;- xml_lang %&amp;gt;% 
+      rvest::html_nodes(xpath = paste0(&amp;#39;//*[@id=&amp;quot;language-skills&amp;quot;]/li[1]/div/span&amp;#39;)) %&amp;gt;% 
+      rvest::html_text()
+    
+    erg[[i]] &amp;lt;- tibble::tibble(language = language,
+                               level = level)
+    
+  }
+  dplyr::bind_rows(erg)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get_workexperience &amp;lt;- function(xml) {
+  
+  xml_exp &amp;lt;- xml %&amp;gt;% 
+  rvest::html_nodes(xpath = &amp;#39;//*[@id=&amp;quot;work-experience&amp;quot;]/ul/li&amp;#39;) 
+  
+  erg &amp;lt;- list()
+  
+  for (i in seq_along(xml_exp)) {
+
+    time &amp;lt;- xml_exp %&amp;gt;% 
+      rvest::html_nodes(xpath = paste0(&amp;#39;//*[@id=&amp;quot;work-experience&amp;quot;]/ul/li[&amp;#39;,i,&amp;#39;]/div/div/div[2]/div[1]&amp;#39;)) %&amp;gt;% 
+      rvest::html_text() %&amp;gt;% 
+      stringr::str_trim()
+    
+    job &amp;lt;- xml_exp %&amp;gt;% 
+      rvest::html_nodes(xpath = paste0(&amp;#39;//*[@id=&amp;quot;work-experience&amp;quot;]/ul/li[&amp;#39;,i,&amp;#39;]/div/div/div[2]/div[2]/h3&amp;#39;)) %&amp;gt;% 
+      rvest::html_text() %&amp;gt;% 
+      stringr::str_trim()
+    
+    company &amp;lt;- xml_exp %&amp;gt;% 
+      rvest::html_nodes(xpath = paste0(&amp;#39;//*[@id=&amp;quot;work-experience&amp;quot;]/ul/li[&amp;#39;,i,&amp;#39;]/div/div/div[2]/div[2]/h4&amp;#39;)) %&amp;gt;% 
+      rvest::html_text() %&amp;gt;% 
+      stringr::str_trim()
+    
+    erg[[i]] &amp;lt;- tibble::tibble(time = time,
+                               job = job,
+                               company = company)
+  }
+  
+  dplyr::bind_rows(erg)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The igraph library provides a large number of functions for displaying networks. By converting the table into a suitable format, the network can be printed. For this the table is passed to &lt;code&gt;graph_from_data_frame&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_xing_network &amp;lt;- function(x) {
+  Network &amp;lt;- igraph::graph_from_data_frame(d=x, directed=F)
+  plot(Network,
+       size = 2,
+       size2 = 2,
+       shape = &amp;quot;square&amp;quot;,
+       vertex.color=&amp;quot;red&amp;quot;,
+       vertex.size=4, 
+       vertex.label=NA)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now that we have created all functions, we only have to import the corresponding HTML pages.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pages &amp;lt;- fs::dir_info(path = &amp;quot;C:/Users/User/Documents/handdke_codet&amp;quot;,
+                      recurse = T) %&amp;gt;% 
+  tibble::as_tibble() %&amp;gt;% 
+  dplyr::filter(stringr::str_detect(path, &amp;quot;XING.html&amp;quot;)) %&amp;gt;% 
+  dplyr::filter(stringr::str_detect(path, &amp;quot;static&amp;quot;)) %&amp;gt;% 
+  dplyr::pull(path)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res_df &amp;lt;- tibble::tibble(Dir = pages) %&amp;gt;% 
+  dplyr::mutate(Result = purrr::map(Dir, get_xing_info)) %&amp;gt;% 
+  tidyr::unnest(cols = c(Result)) %&amp;gt;% 
+  dplyr::select(-Dir) %&amp;gt;% 
+  dplyr::distinct()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As an output we get nice net. The data is of course anomized.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_xing_network(res_df)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-06-17-business-network-analysis_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Network analysis can clearly display complicated data bases. Connections between the individual inputs are easily visible.&lt;/p&gt;
+&lt;p&gt;I hope my contribution could give a short insight into network analysis and makes you want to know more.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Detecting anomalies - a simple approach</title>
       <link>/post/detecting-anomalies-a-simple-approach/</link>
       <pubDate>Sat, 13 Jun 2020 00:00:00 +0000</pubDate>
@@ -82,7 +227,7 @@
       <description>
 
 
-&lt;!-- ![](/post/2020-06-13-detecting-anomalies-a-simple-approach_files/sheep-black-sheep.jpg) --&gt;
+&lt;p&gt;&lt;img src=&#34;C:/Users/User/Documents/handdke_codet/static/post/2020-06-13-outlier-detection_files/sheep-black-sheep.jpg&#34; width=&#34;775&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;During my work I have a lot to do with the analysis of time series. These are mainly signal data which have to be evaluated accordingly. Predictions have to be made, which give a conclusion on how a certain sensor value will behave in e.g. 30 days. This is only one of many applications of forecasting methods.&lt;/p&gt;
 &lt;p&gt;Today, however, I would like to devote myself to another, equally exciting topic. As an analyst, I am not always interested in the future, but also in the past. For example, I’m interested in certain progressions, constellations, correlations or even outliers of data points.&lt;/p&gt;
 &lt;p&gt;Outliers can occur in many use cases: Some are real and some are not. Maybe it is a sensor error or an error in the posting of stock items. Or it is actually an outlier that is a real deviation from the target. Such application cases are manifold:&lt;/p&gt;
@@ -108,16 +253,16 @@
 quantile &amp;lt;- stats::quantile(x, prob = c(0.25, 0.75), na.rm = TRUE)
 
 quantile[[2]] - quantile[[1]]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 1.198383&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1.203253&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;R also offers us with the stats package a function to calculate the value:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;iqr &amp;lt;- stats::IQR(x)
 iqr&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 1.198383&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1.203253&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In order to define the corresponding limits for outliers, a definition must be made of the value from which a data point is declared as an outlier. We use the following definition which is also used in the tsoutliers package:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;limits &amp;lt;- quantile + 1.5 * iqr * c(-1, 1)
 limits&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##      25%      75% 
-## 3.909025 8.702557&lt;/code&gt;&lt;/pre&gt;
+## 3.835619 8.648631&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Our function should evaluate the column col of a dataframe and then output a new column outlier. This column is then indexed with TRUE or FALSE whether the corresponding value is an outlier.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;detect_outliers &amp;lt;- function(df, col) {
   
@@ -145,16 +290,16 @@ outlier_df&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## # A tibble: 1,002 x 5
 ##    Value lower_limit upper_limit outlier Index
 ##    &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt; &amp;lt;lgl&amp;gt;   &amp;lt;int&amp;gt;
-##  1 -5           3.82        8.73 TRUE        1
-##  2  7.22        3.82        8.73 FALSE       2
-##  3  7.19        3.82        8.73 FALSE       3
-##  4  6.37        3.82        8.73 FALSE       4
-##  5  6.07        3.82        8.73 FALSE       5
-##  6  6.82        3.82        8.73 FALSE       6
-##  7  5.64        3.82        8.73 FALSE       7
-##  8  6.43        3.82        8.73 FALSE       8
-##  9  5.28        3.82        8.73 FALSE       9
-## 10  5.02        3.82        8.73 FALSE      10
+##  1 -5           3.87        8.79 TRUE        1
+##  2  5.96        3.87        8.79 FALSE       2
+##  3  5.25        3.87        8.79 FALSE       3
+##  4  6.45        3.87        8.79 FALSE       4
+##  5  6.82        3.87        8.79 FALSE       5
+##  6  6.19        3.87        8.79 FALSE       6
+##  7  6.87        3.87        8.79 FALSE       7
+##  8  5.86        3.87        8.79 FALSE       8
+##  9  6.41        3.87        8.79 FALSE       9
+## 10  6.56        3.87        8.79 FALSE      10
 ## # ... with 992 more rows&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Let us look at the result graphically again. In green we see the data points defined as outliers. The two horizontal lines mark the corresponding limits for the evaluation.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;outlier_df %&amp;gt;% 
@@ -163,7 +308,7 @@ outlier_df&lt;/code&gt;&lt;/pre&gt;
   ggplot2::geom_line(aes(y = lower_limit)) + 
   ggplot2::geom_line(aes(y = upper_limit)) +
   ggplot2::theme_light()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;As we can see the two outliers are correctly classified by our outlier detection.&lt;/p&gt;
 &lt;p&gt;Our chosen data behaves stationary. What if we want to examine data with a trend for outliers? Does our method still work?&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dataframe_trend &amp;lt;- tibble::tibble(Index = 1:1002,
@@ -175,14 +320,14 @@ outlier_df_trend &amp;lt;- detect_outliers(dataframe_trend, &amp;quot;Value&amp;
   ggplot2::geom_line(aes(y = lower_limit)) + 
   ggplot2::geom_line(aes(y = upper_limit)) +
   ggplot2::theme_light()&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;As we can see, our method fails with more complex processes. To solve the problem we need a different approach which I will describe in another post.&lt;/p&gt;
 &lt;p&gt;My goal in this post was to show that outlier detection can be implemented relatively easily. It is important to note that the underlying data plays a decisive role.&lt;/p&gt;
 </description>
     </item>
     
     <item>
-      <title>Data Science - Am I doing this?</title>
+      <title>Data Science - Why am I doing this?</title>
       <link>/post/am-i-doing-this/</link>
       <pubDate>Tue, 09 Jun 2020 00:00:00 +0000</pubDate>
       <guid>/post/am-i-doing-this/</guid>
