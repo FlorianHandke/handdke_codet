@@ -33,17 +33,62 @@
   </url>
   
   <url>
-    <loc>/tags/2020/</loc>
-    <lastmod>2020-06-13T14:27:52+02:00</lastmod>
+    <loc>/post/business-network-analysis/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-06-13T14:27:52+02:00</lastmod>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/data-science/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/igraph/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/network-analysis/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rvest/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/xing/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/xml2/</loc>
+    <lastmod>2020-06-17T22:38:00+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/2020/</loc>
     <lastmod>2020-06-13T14:27:52+02:00</lastmod>
   </url>
   
@@ -58,22 +103,7 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2020-06-13T14:27:52+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2020-06-13T14:27:52+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/categories/statistic/</loc>
-    <lastmod>2020-06-13T14:27:52+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-06-13T14:27:52+02:00</lastmod>
   </url>
   
@@ -189,11 +219,6 @@
   
   <url>
     <loc>/tags/purrr/</loc>
-    <lastmod>2019-09-01T19:25:55+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/rvest/</loc>
     <lastmod>2019-09-01T19:25:55+01:00</lastmod>
   </url>
   

@@ -71,8 +71,6 @@ Today, however, I would like to devote myself to another, equally exciting topic
     
 
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
-    
 
     
 
@@ -618,7 +616,7 @@ Today, however, I would like to devote myself to another, equally exciting topic
       
 
 
-<!-- ![](/post/2020-06-13-detecting-anomalies-a-simple-approach_files/sheep-black-sheep.jpg) -->
+<p><img src="C:/Users/User/Documents/handdke_codet/static/post/2020-06-13-outlier-detection_files/sheep-black-sheep.jpg" width="775" /></p>
 <p>During my work I have a lot to do with the analysis of time series. These are mainly signal data which have to be evaluated accordingly. Predictions have to be made, which give a conclusion on how a certain sensor value will behave in e.g. 30 days. This is only one of many applications of forecasting methods.</p>
 <p>Today, however, I would like to devote myself to another, equally exciting topic. As an analyst, I am not always interested in the future, but also in the past. For example, I’m interested in certain progressions, constellations, correlations or even outliers of data points.</p>
 <p>Outliers can occur in many use cases: Some are real and some are not. Maybe it is a sensor error or an error in the posting of stock items. Or it is actually an outlier that is a real deviation from the target. Such application cases are manifold:</p>
@@ -644,16 +642,16 @@ Today, however, I would like to devote myself to another, equally exciting topic
 quantile &lt;- stats::quantile(x, prob = c(0.25, 0.75), na.rm = TRUE)
 
 quantile[[2]] - quantile[[1]]</code></pre>
-<pre><code>## [1] 1.198383</code></pre>
+<pre><code>## [1] 1.203253</code></pre>
 <p>R also offers us with the stats package a function to calculate the value:</p>
 <pre class="r"><code>iqr &lt;- stats::IQR(x)
 iqr</code></pre>
-<pre><code>## [1] 1.198383</code></pre>
+<pre><code>## [1] 1.203253</code></pre>
 <p>In order to define the corresponding limits for outliers, a definition must be made of the value from which a data point is declared as an outlier. We use the following definition which is also used in the tsoutliers package:</p>
 <pre class="r"><code>limits &lt;- quantile + 1.5 * iqr * c(-1, 1)
 limits</code></pre>
 <pre><code>##      25%      75% 
-## 3.909025 8.702557</code></pre>
+## 3.835619 8.648631</code></pre>
 <p>Our function should evaluate the column col of a dataframe and then output a new column outlier. This column is then indexed with TRUE or FALSE whether the corresponding value is an outlier.</p>
 <pre class="r"><code>detect_outliers &lt;- function(df, col) {
   
@@ -681,16 +679,16 @@ outlier_df</code></pre>
 <pre><code>## # A tibble: 1,002 x 5
 ##    Value lower_limit upper_limit outlier Index
 ##    &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt; &lt;lgl&gt;   &lt;int&gt;
-##  1 -5           3.82        8.73 TRUE        1
-##  2  7.22        3.82        8.73 FALSE       2
-##  3  7.19        3.82        8.73 FALSE       3
-##  4  6.37        3.82        8.73 FALSE       4
-##  5  6.07        3.82        8.73 FALSE       5
-##  6  6.82        3.82        8.73 FALSE       6
-##  7  5.64        3.82        8.73 FALSE       7
-##  8  6.43        3.82        8.73 FALSE       8
-##  9  5.28        3.82        8.73 FALSE       9
-## 10  5.02        3.82        8.73 FALSE      10
+##  1 -5           3.87        8.79 TRUE        1
+##  2  5.96        3.87        8.79 FALSE       2
+##  3  5.25        3.87        8.79 FALSE       3
+##  4  6.45        3.87        8.79 FALSE       4
+##  5  6.82        3.87        8.79 FALSE       5
+##  6  6.19        3.87        8.79 FALSE       6
+##  7  6.87        3.87        8.79 FALSE       7
+##  8  5.86        3.87        8.79 FALSE       8
+##  9  6.41        3.87        8.79 FALSE       9
+## 10  6.56        3.87        8.79 FALSE      10
 ## # ... with 992 more rows</code></pre>
 <p>Let us look at the result graphically again. In green we see the data points defined as outliers. The two horizontal lines mark the corresponding limits for the evaluation.</p>
 <pre class="r"><code>outlier_df %&gt;% 
@@ -699,7 +697,7 @@ outlier_df</code></pre>
   ggplot2::geom_line(aes(y = lower_limit)) + 
   ggplot2::geom_line(aes(y = upper_limit)) +
   ggplot2::theme_light()</code></pre>
-<p><img src="/post/2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>As we can see the two outliers are correctly classified by our outlier detection.</p>
 <p>Our chosen data behaves stationary. What if we want to examine data with a trend for outliers? Does our method still work?</p>
 <pre class="r"><code>dataframe_trend &lt;- tibble::tibble(Index = 1:1002,
@@ -711,7 +709,7 @@ outlier_df_trend &lt;- detect_outliers(dataframe_trend, &quot;Value&quot;)</code
   ggplot2::geom_line(aes(y = lower_limit)) + 
   ggplot2::geom_line(aes(y = upper_limit)) +
   ggplot2::theme_light()</code></pre>
-<p><img src="/post/2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="2020-06-13-detecting-anomalies-a-simple-approach_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>As we can see, our method fails with more complex processes. To solve the problem we need a different approach which I will describe in another post.</p>
 <p>My goal in this post was to show that outlier detection can be implemented relatively easily. It is important to note that the underlying data plays a decisive role.</p>
 
@@ -844,7 +842,7 @@ outlier_df_trend &lt;- detect_outliers(dataframe_trend, &quot;Value&quot;)</code
   <div class="media author-card content-widget-hr">
     
       
-      <img class="portrait mr-3" src="/authors/admin/avatar_hu8f66607d61f908dedb34b91a578fc13f_500012_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
+      <img class="portrait mr-3" src="/authors/admin/Avatar_hu8ef28d43811abc8460aa88e7c822fb7d_2833247_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
     
 
     <div class="media-body">
@@ -932,7 +930,7 @@ outlier_df_trend &lt;- detect_outliers(dataframe_trend, &quot;Value&quot;)</code
     <h3>Related</h3>
     <ul>
       
-      <li><a href="/post/am-i-doing-this/">Data Science - Am I doing this?</a></li>
+      <li><a href="/post/am-i-doing-this/">Data Science - Why am I doing this?</a></li>
       
       <li><a href="/post/analysing-corona-virus-data/">Analysing corona virus data</a></li>
       
@@ -972,8 +970,6 @@ outlier_df_trend &lt;- detect_outliers(dataframe_trend, &quot;Value&quot;)</code
     
 
     
-    
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
     
 
     
