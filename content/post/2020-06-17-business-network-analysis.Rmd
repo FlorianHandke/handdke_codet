@@ -25,7 +25,7 @@ projects: []
 ---
 
 ```{r echo=FALSE, out.width="100%", fig.align='center'}
-knitr::include_graphics("C:/Users/User/Documents/handdke_codet/static/post/2020-06-17-business-network-analysis_files/1-Spinnennetz.jpg")
+knitr::include_graphics("/post/2020-06-17-business-network-analysis_files/1-Spinnennetz.jpg")
 ```
 
 ```{r, echo = FALSE}
@@ -183,11 +183,10 @@ plot_xing_network <- function(x) {
 Now that we have created all functions, we only have to import the corresponding HTML pages. 
 
 ```{r}
-pages <- fs::dir_info(path = "C:/Users/User/Documents/handdke_codet",
+pages <- fs::dir_info(path = "C:/Users/User/Documents/xing",
                       recurse = T) %>% 
   tibble::as_tibble() %>% 
   dplyr::filter(stringr::str_detect(path, "XING.html")) %>% 
-  dplyr::filter(stringr::str_detect(path, "static")) %>% 
   dplyr::pull(path)
 ```
 

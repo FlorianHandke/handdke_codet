@@ -26,7 +26,7 @@ projects: []
 
 
 
-<p><img src="C:/Users/User/Documents/handdke_codet/static/post/2020-06-17-business-network-analysis_files/1-Spinnennetz.jpg" width="100%" style="display: block; margin: auto;" /></p>
+<p><img src="/post/2020-06-17-business-network-analysis_files/1-Spinnennetz.jpg" width="100%" style="display: block; margin: auto;" /></p>
 <p>Business networks like xing or linkedIn are full of information. People describe themselves with their skills, languages spoken, current or previous employers or their jobs.</p>
 <p>Recording and capturing all this information is difficult with conventional methods. A network analysis is one possibility for a clear presentation of data.</p>
 <blockquote>
@@ -144,11 +144,10 @@ xml %&gt;%
        vertex.label=NA)
 }</code></pre>
 <p>Now that we have created all functions, we only have to import the corresponding HTML pages.</p>
-<pre class="r"><code>pages &lt;- fs::dir_info(path = &quot;C:/Users/User/Documents/handdke_codet&quot;,
+<pre class="r"><code>pages &lt;- fs::dir_info(path = &quot;C:/Users/User/Documents/xing&quot;,
                       recurse = T) %&gt;% 
   tibble::as_tibble() %&gt;% 
   dplyr::filter(stringr::str_detect(path, &quot;XING.html&quot;)) %&gt;% 
-  dplyr::filter(stringr::str_detect(path, &quot;static&quot;)) %&gt;% 
   dplyr::pull(path)</code></pre>
 <pre class="r"><code>res_df &lt;- tibble::tibble(Dir = pages) %&gt;% 
   dplyr::mutate(Result = purrr::map(Dir, get_xing_info)) %&gt;% 
