@@ -20,7 +20,7 @@
       <description>
 
 
-&lt;p&gt;&lt;img src=&#34;C:/Users/User/Documents/handdke_codet/static/post/2020-06-17-business-network-analysis_files/1-Spinnennetz.jpg&#34; width=&#34;100%&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2020-06-17-business-network-analysis_files/1-Spinnennetz.jpg&#34; width=&#34;100%&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Business networks like xing or linkedIn are full of information. People describe themselves with their skills, languages spoken, current or previous employers or their jobs.&lt;/p&gt;
 &lt;p&gt;Recording and capturing all this information is difficult with conventional methods. A network analysis is one possibility for a clear presentation of data.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -138,11 +138,10 @@ xml %&amp;gt;%
        vertex.label=NA)
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now that we have created all functions, we only have to import the corresponding HTML pages.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pages &amp;lt;- fs::dir_info(path = &amp;quot;C:/Users/User/Documents/handdke_codet&amp;quot;,
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pages &amp;lt;- fs::dir_info(path = &amp;quot;C:/Users/User/Documents/xing&amp;quot;,
                       recurse = T) %&amp;gt;% 
   tibble::as_tibble() %&amp;gt;% 
   dplyr::filter(stringr::str_detect(path, &amp;quot;XING.html&amp;quot;)) %&amp;gt;% 
-  dplyr::filter(stringr::str_detect(path, &amp;quot;static&amp;quot;)) %&amp;gt;% 
   dplyr::pull(path)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res_df &amp;lt;- tibble::tibble(Dir = pages) %&amp;gt;% 
   dplyr::mutate(Result = purrr::map(Dir, get_xing_info)) %&amp;gt;% 
