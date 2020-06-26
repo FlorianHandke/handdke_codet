@@ -5,12 +5,176 @@
     <link>/categories/r/</link>
       <atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     <description>R</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 17 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 26 Jun 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/me</url>
       <title>R</title>
       <link>/categories/r/</link>
     </image>
+    
+    <item>
+      <title>Tool wear detection with a Random Forest classifier</title>
+      <link>/post/tool-wear-detection-with-a-random-forest-classifier/</link>
+      <pubDate>Fri, 26 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/post/tool-wear-detection-with-a-random-forest-classifier/</guid>
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/plotly-binding/plotly.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/typedarray/typedarray.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/crosstalk/css/crosstalk.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/crosstalk/js/crosstalk.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/plotly-main/plotly-latest.min.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;Production and manufacturing processes are often very susceptible to quality fluctuations, as they depend on many parameters. For example, even small fluctuations of certain parameters can result in the fact that, for example, the dimensional accuracy of a workpiece no longer conforms. It is therefore necessary to monitor certain parameters. Common methods for this are mostly based on statistical methods (e.g. SPC or Six Sigma). However, what if a large part of the defects could already be detected during the production process, when all that is required for this is certain parameters that are continuously recorded by a production system.&lt;/p&gt;
+&lt;p&gt;This is exactly where I would like to start in my blog post today. I want to use the Random Forest classification method to implement a process control that detects whether a tool is worn out during machining or not.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently and with the same distribution for all trees in the forest. The generalization error for forests converges a.s. to a limit as the number of trees in the forest becomes large. The generalization error of a forest of tree classifiers depends on the strength of the individual trees in the forest and the correlation between them. Using a random selection of features to split each node yields error rates that compare favorably to Adaboost (Y. Freund &amp;amp; R. Schapire, Machine Learning: Proceedings of the Thirteenth International conference, ***, 148–156), but are more robust with respect to noise. Internal estimates monitor error, strength, and correlation and these are used to show the response to increasing the number of features used in the splitting. Internal estimates are also used to measure variable importance.&lt;a href=&#34;https://link.springer.com/article/10.1023/A:1010933404324&#34;&gt;Breiman, L. Random Forests. Machine Learning 45, 5–32 (2001)&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;For this purpose, I will use a data set from the &lt;a href=&#34;https://www.kaggle.com/shasun/tool-wear-detection-in-cnc-mill&#34;&gt;University of Michigan&lt;/a&gt;, which has recorded the wear of a tool in different machining environments and test runs. The records include over 25000 data sets described by 40 parameters.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(fs) # Loading the data
+library(tidyverse) # General data wraggling
+library(magrittr) # Piping
+library(ranger) # Random Forest&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The implementation is done with the &lt;a href=&#34;https://cran.r-project.org/web/packages/ranger/index.html&#34;&gt;ranger&lt;/a&gt; package, which allows a quick calculation.&lt;/p&gt;
+&lt;p&gt;Let’s start by loading the data into RStudio and making some adjustments. As a result, we will get the mill_data dataframe, which contains both meta-data and the test results.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dir &amp;lt;- fs::dir_info(path = &amp;quot;C:/Users/User/Documents/18653_25987_bundle_archive/&amp;quot;)
+
+meta_data &amp;lt;- dir %&amp;gt;% 
+  dplyr::filter(stringr::str_detect(path, &amp;quot;train&amp;quot;)) %&amp;gt;% 
+  dplyr::select(path) %&amp;gt;% 
+  dplyr::mutate(data = purrr::map(path, ~ read.csv(.))) %&amp;gt;% 
+  tidyr::unnest(data) %&amp;gt;% 
+  dplyr::select(-path) %&amp;gt;% 
+  dplyr::select(No, tool_condition)
+
+raw_data &amp;lt;- dir %&amp;gt;% 
+  dplyr::filter(stringr::str_detect(path, &amp;quot;experiment&amp;quot;)) %&amp;gt;% 
+  dplyr::select(path) %&amp;gt;% 
+  dplyr::mutate(No = dplyr::row_number(),
+                data = purrr::map(path, ~ read.csv(.))) %&amp;gt;% 
+  tidyr::unnest(data) %&amp;gt;% 
+  dplyr::select(-path) %&amp;gt;% 
+  dplyr::select_at(vars(!contains(&amp;quot;Position&amp;quot;)))
+
+mill_data &amp;lt;- raw_data %&amp;gt;%
+  dplyr::left_join(meta_data, by = &amp;quot;No&amp;quot;) %&amp;gt;% 
+  dplyr::select(-No)
+
+mill_data %&amp;gt;% dplyr::glimpse()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Rows: 25,286
+## Columns: 41
+## $ X1_ActualVelocity         &amp;lt;dbl&amp;gt; 0.0, -10.8, -17.8, -18.0, -17.9, -17.6, -...
+## $ X1_ActualAcceleration     &amp;lt;dbl&amp;gt; 0.00, -350.00, -6.25, 0.00, -18.80, 81.20...
+## $ X1_CommandVelocity        &amp;lt;dbl&amp;gt; 0.0, -13.6, -17.9, -17.9, -17.9, -17.9, -...
+## $ X1_CommandAcceleration    &amp;lt;dbl&amp;gt; 0.00e+00, -3.58e+02, -9.54e-05, -9.54e-05...
+## $ X1_CurrentFeedback        &amp;lt;dbl&amp;gt; 0.18, -10.90, -8.59, -6.11, -5.70, -5.85,...
+## $ X1_DCBusVoltage           &amp;lt;dbl&amp;gt; 0.0207, 0.1860, 0.1400, 0.1300, 0.1140, 0...
+## $ X1_OutputCurrent          &amp;lt;dbl&amp;gt; 329, 328, 328, 327, 328, 328, 328, 327, 3...
+## $ X1_OutputVoltage          &amp;lt;dbl&amp;gt; 2.77, 23.30, 30.60, 30.30, 30.50, 30.90, ...
+## $ X1_OutputPower            &amp;lt;dbl&amp;gt; -1.42e-06, 4.48e-03, 5.33e-03, 4.89e-03, ...
+## $ Y1_ActualVelocity         &amp;lt;dbl&amp;gt; -0.025, -19.800, -32.500, -32.600, -32.00...
+## $ Y1_ActualAcceleration     &amp;lt;dbl&amp;gt; -6.25, -750.00, 0.00, -62.50, 138.00, -12...
+## $ Y1_CommandVelocity        &amp;lt;dbl&amp;gt; 0.0, -24.6, -32.3, -32.3, -32.3, -32.3, -...
+## $ Y1_CommandAcceleration    &amp;lt;dbl&amp;gt; 0.00e+00, -6.47e+02, -9.54e-05, -9.54e-05...
+## $ Y1_CurrentFeedback        &amp;lt;dbl&amp;gt; 0.539, -14.500, -7.790, -8.130, -13.800, ...
+## $ Y1_DCBusVoltage           &amp;lt;dbl&amp;gt; 0.0167, 0.2810, 0.1390, 0.1560, 0.2020, 0...
+## $ Y1_OutputCurrent          &amp;lt;dbl&amp;gt; 328, 325, 327, 325, 326, 326, 326, 325, 3...
+## $ Y1_OutputVoltage          &amp;lt;dbl&amp;gt; 1.84, 37.80, 49.40, 47.60, 47.10, 49.60, ...
+## $ Y1_OutputPower            &amp;lt;dbl&amp;gt; 6.43e-07, 1.26e-02, 9.43e-03, 1.05e-02, 1...
+## $ Z1_ActualVelocity         &amp;lt;dbl&amp;gt; 0.0, -20.3, -33.7, -33.7, -33.6, -33.7, -...
+## $ Z1_ActualAcceleration     &amp;lt;dbl&amp;gt; 0.00, -712.00, 37.50, -6.25, 18.80, -6.25...
+## $ Z1_CommandVelocity        &amp;lt;dbl&amp;gt; 0.0, -25.6, -33.7, -33.7, -33.7, -33.7, -...
+## $ Z1_CommandAcceleration    &amp;lt;dbl&amp;gt; 0.00e+00, -6.74e+02, -9.54e-05, 0.00e+00,...
+## $ Z1_CurrentFeedback        &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ Z1_DCBusVoltage           &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ Z1_OutputCurrent          &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ Z1_OutputVoltage          &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ S1_ActualVelocity         &amp;lt;dbl&amp;gt; 0.00100, 0.00000, 0.00000, -0.00100, 0.00...
+## $ S1_ActualAcceleration     &amp;lt;dbl&amp;gt; 0.2500, 0.2500, -0.4380, -0.2500, -0.1880...
+## $ S1_CommandVelocity        &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ S1_CommandAcceleration    &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ S1_CurrentFeedback        &amp;lt;dbl&amp;gt; 0.52400, -0.28800, 0.52400, -0.18000, 0.2...
+## $ S1_DCBusVoltage           &amp;lt;dbl&amp;gt; 2.74e-19, 2.74e-19, 2.74e-19, 2.74e-19, 2...
+## $ S1_OutputCurrent          &amp;lt;dbl&amp;gt; 329, 328, 328, 328, 328, 328, 328, 328, 3...
+## $ S1_OutputVoltage          &amp;lt;dbl&amp;gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,...
+## $ S1_OutputPower            &amp;lt;dbl&amp;gt; 6.96e-07, -5.27e-07, 9.10e-07, 1.07e-06, ...
+## $ S1_SystemInertia          &amp;lt;dbl&amp;gt; 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 1...
+## $ M1_CURRENT_PROGRAM_NUMBER &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,...
+## $ M1_sequence_number        &amp;lt;dbl&amp;gt; 0, 4, 7, 7, 7, 7, 2, 7, 7, 7, 7, 7, 7, 7,...
+## $ M1_CURRENT_FEEDRATE       &amp;lt;dbl&amp;gt; 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 5...
+## $ Machining_Process         &amp;lt;fct&amp;gt; Starting, Prep, Prep, Prep, Prep, Prep, P...
+## $ tool_condition            &amp;lt;fct&amp;gt; unworn, unworn, unworn, unworn, unworn, u...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the next step we generate a training data set and a test data set. The training data set should comprise 70% of the total data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(123)
+mill_split &amp;lt;- rsample::initial_split(mill_data, prop = .7)
+mill_train &amp;lt;- rsample::training(mill_split)
+mill_test  &amp;lt;- rsample::testing(mill_split)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As features we select all parameters (columns) that do not reflect any positional information and the value we want to determine by our model (tool_condition).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;features &amp;lt;- setdiff(names(mill_train), 
+                    c(&amp;quot;tool_condition&amp;quot;, 
+                      stringr::str_detect(names(mill_train), &amp;quot;Position&amp;quot;)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we create our Random Forest Model with:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The formula: &lt;code&gt;tool_condition ~ .&lt;/code&gt; which derives the state of the tool from the other parameters&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Our training data record: &lt;code&gt;mill_train&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The number of trees to be created: &lt;code&gt;num.tree&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The number of variables to possibly split at in each node: &lt;code&gt;mtry&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;As well as the mode: &lt;code&gt;impurity&lt;/code&gt; which allows us to make an evaluation of the weighting of the parameters (Gini index)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mill_ranger &amp;lt;- ranger::ranger(
+  formula   = tool_condition ~ ., 
+  data      = mill_train, 
+  num.trees = 500,
+  mtry      = floor(length(features) / 3),
+  importance      = &amp;#39;impurity&amp;#39;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;ranger&lt;/code&gt; offers a number of additional parameters with which the model can be further optimized. In our case, we do not want to go any further into parameterization. It should be mentioned, however, that the &lt;a href=&#34;https://cran.r-project.org/web/packages/tuneRanger/index.html&#34;&gt;tuneRanger&lt;/a&gt; package can be used to further optimize the model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mill_ranger$prediction.error&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.127168&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let us look at the prediction error of our model. This is 12.7%. So 87.3% of the data could be classified correctly, which is a good result without further optimization.&lt;/p&gt;
+&lt;p&gt;We know nothing more precise about the statement of the parameters. However, what we can determine using our random forest model is the effect of the parameters on the classification. According to our results, the parameters &lt;code&gt;S1_DCBusVoltage&lt;/code&gt;, &lt;code&gt;X1_OutputCurrent&lt;/code&gt;, &lt;code&gt;Y1_OutputCurrent&lt;/code&gt; have the greatest influence.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mill_ranger$variable.importance %&amp;gt;% 
+  dplyr::bind_rows() %&amp;gt;% 
+  tidyr::pivot_longer(cols = dplyr::everything()) %&amp;gt;% 
+  dplyr::arrange(desc(value)) %&amp;gt;%
+  dplyr::top_n(25) %&amp;gt;%
+  plotly::plot_ly(x = ~value,
+                  y = ~reorder(name, value)) %&amp;gt;% 
+  plotly::add_bars() %&amp;gt;% 
+  plotly::layout(xaxis = list(title = &amp;quot;Count&amp;quot;),
+                 yaxis = list(title = &amp;quot;Top Parameters&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: `arrange_()` is deprecated as of dplyr 0.7.0.
+## Please use `arrange()` instead.
+## See vignette(&amp;#39;programming&amp;#39;) for more help
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:672px;height:480px;&#34; class=&#34;plotly html-widget&#34;&gt;&lt;/div&gt;
+&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;visdat&#34;:{&#34;1bf457041cc2&#34;:[&#34;function () &#34;,&#34;plotlyVisDat&#34;]},&#34;cur_data&#34;:&#34;1bf457041cc2&#34;,&#34;attrs&#34;:{&#34;1bf457041cc2&#34;:{&#34;x&#34;:{},&#34;y&#34;:{},&#34;alpha_stroke&#34;:1,&#34;sizes&#34;:[10,100],&#34;spans&#34;:[1,20],&#34;type&#34;:&#34;bar&#34;,&#34;inherit&#34;:true}},&#34;layout&#34;:{&#34;margin&#34;:{&#34;b&#34;:40,&#34;l&#34;:60,&#34;t&#34;:25,&#34;r&#34;:10},&#34;xaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;title&#34;:&#34;Count&#34;},&#34;yaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;title&#34;:&#34;Top Parameters&#34;,&#34;type&#34;:&#34;category&#34;,&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;Y1_CommandAcceleration&#34;,&#34;S1_OutputVoltage&#34;,&#34;Z1_ActualAcceleration&#34;,&#34;Y1_ActualVelocity&#34;,&#34;X1_ActualVelocity&#34;,&#34;Y1_ActualAcceleration&#34;,&#34;Y1_OutputPower&#34;,&#34;S1_OutputPower&#34;,&#34;X1_CurrentFeedback&#34;,&#34;S1_ActualAcceleration&#34;,&#34;Y1_CurrentFeedback&#34;,&#34;Y1_OutputVoltage&#34;,&#34;X1_ActualAcceleration&#34;,&#34;Machining_Process&#34;,&#34;X1_OutputPower&#34;,&#34;S1_CurrentFeedback&#34;,&#34;X1_OutputVoltage&#34;,&#34;X1_DCBusVoltage&#34;,&#34;S1_OutputCurrent&#34;,&#34;M1_CURRENT_FEEDRATE&#34;,&#34;M1_sequence_number&#34;,&#34;Y1_DCBusVoltage&#34;,&#34;Y1_OutputCurrent&#34;,&#34;X1_OutputCurrent&#34;,&#34;S1_DCBusVoltage&#34;]},&#34;hovermode&#34;:&#34;closest&#34;,&#34;showlegend&#34;:false},&#34;source&#34;:&#34;A&#34;,&#34;config&#34;:{&#34;showSendToCloud&#34;:false},&#34;data&#34;:[{&#34;x&#34;:[732.35221990947,670.555190063958,587.508734353027,545.589663675432,498.092138991059,401.702594897214,399.080710799698,325.402444833124,304.984644477905,292.976792400881,282.782856223003,269.445666620046,266.283339230976,265.751510784839,253.400266235192,242.970184952054,239.864155661647,232.354548343786,219.227983703288,219.111042325736,210.230359408777,205.564868922393,187.422290075556,166.408458865974,113.653164266848],&#34;y&#34;:[&#34;S1_DCBusVoltage&#34;,&#34;X1_OutputCurrent&#34;,&#34;Y1_OutputCurrent&#34;,&#34;Y1_DCBusVoltage&#34;,&#34;M1_sequence_number&#34;,&#34;M1_CURRENT_FEEDRATE&#34;,&#34;S1_OutputCurrent&#34;,&#34;X1_DCBusVoltage&#34;,&#34;X1_OutputVoltage&#34;,&#34;S1_CurrentFeedback&#34;,&#34;X1_OutputPower&#34;,&#34;Machining_Process&#34;,&#34;X1_ActualAcceleration&#34;,&#34;Y1_OutputVoltage&#34;,&#34;Y1_CurrentFeedback&#34;,&#34;S1_ActualAcceleration&#34;,&#34;X1_CurrentFeedback&#34;,&#34;S1_OutputPower&#34;,&#34;Y1_OutputPower&#34;,&#34;Y1_ActualAcceleration&#34;,&#34;X1_ActualVelocity&#34;,&#34;Y1_ActualVelocity&#34;,&#34;Z1_ActualAcceleration&#34;,&#34;S1_OutputVoltage&#34;,&#34;Y1_CommandAcceleration&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;orientation&#34;:&#34;h&#34;,&#34;marker&#34;:{&#34;color&#34;:&#34;rgba(31,119,180,1)&#34;,&#34;line&#34;:{&#34;color&#34;:&#34;rgba(31,119,180,1)&#34;}},&#34;error_y&#34;:{&#34;color&#34;:&#34;rgba(31,119,180,1)&#34;},&#34;error_x&#34;:{&#34;color&#34;:&#34;rgba(31,119,180,1)&#34;},&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;frame&#34;:null}],&#34;highlight&#34;:{&#34;on&#34;:&#34;plotly_click&#34;,&#34;persistent&#34;:false,&#34;dynamic&#34;:false,&#34;selectize&#34;:false,&#34;opacityDim&#34;:0.2,&#34;selected&#34;:{&#34;opacity&#34;:1},&#34;debounce&#34;:0},&#34;shinyEvents&#34;:[&#34;plotly_hover&#34;,&#34;plotly_click&#34;,&#34;plotly_selected&#34;,&#34;plotly_relayout&#34;,&#34;plotly_brushed&#34;,&#34;plotly_brushing&#34;,&#34;plotly_clickannotation&#34;,&#34;plotly_doubleclick&#34;,&#34;plotly_deselect&#34;,&#34;plotly_afterplot&#34;,&#34;plotly_sunburstclick&#34;],&#34;base_url&#34;:&#34;https://plot.ly&#34;},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
+&lt;p&gt;With the model we have created, we can now further classify during operation and determine whether a tool breakage has occurred. This can be done with the function predict, into which we now classify our test data (&lt;code&gt;mill_test&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;predictions &amp;lt;- predict(mill_ranger, mill_test, type = &amp;quot;response&amp;quot;)
+head(predictions$predictions)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] unworn unworn unworn unworn unworn unworn
+## Levels: unworn worn&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Since I like to work with pipes, I would like to mention that the &lt;a href=&#34;https://parsnip.tidymodels.org/articles/parsnip_Intro.html&#34;&gt;parsnip&lt;/a&gt; package (which is part of &lt;a href=&#34;https://www.tidymodels.org/&#34;&gt;tidymodell&lt;/a&gt;) also contains a ranger implementation which allows an easy and understandable implementation.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(parsnip)
+
+rf_with_seed &amp;lt;-
+  rand_forest(trees = 2000, 
+              mtry = varying(), 
+              mode = &amp;quot;regression&amp;quot;) %&amp;gt;%
+  set_engine(&amp;quot;ranger&amp;quot;, seed = 123) 
+
+rf_with_seed %&amp;gt;%
+  set_args(mtry = 4) %&amp;gt;%
+  set_engine(&amp;quot;ranger&amp;quot;) %&amp;gt;%
+  fit(tool_condition ~ ., data = mill_train)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Already with little effort we were able to create a classifier that detects worn tools to a large extent.&lt;/p&gt;
+&lt;p&gt;Fewer machine crashes, lower quality costs or an increase in OEE are only a few of the advantages that can be achieved with a classifier.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Business Network Analysis</title>

@@ -27,9 +27,12 @@ date_format = "Jan 2006"
   description = """
   Responsibilities include:
   
-  * Development of the analysis environment
-  * Preparation of forecasts
-  * Service Forecast Automation
+  *  Development of the analysis environment for Service Condition Monitoring in the programming language R.
+  *  Implementation of a wide range of requirements such as determination of future equipment failures using machine learning, generation of
+analysis reports on the status of equipment, development of web apps for field observation or general evaluation of service key performance
+indicators.
+  *  Through my work I make complex equipment statuses easy to understand and consume for end users and service technicians.
+  *  Development in an agile environment
   """
 
 [[experience]]
@@ -42,10 +45,14 @@ date_format = "Jan 2006"
   description = """
   Responsibilities include:
   
-  * Planning and implementation of projects
-  * Production planning, controlling and optimization
-  * Central customer contact person
-  * Complaint management
+  * Central contact for all customer concerns
+  * Management and implementation of internal projects and customer projects
+  * Planning and implementation of actions for improvement
+  * Production planning and controlling
+  * Quotation costing and preparation
+  * Complaints Management
+  * Installation of quality management procedures
+
   """
 
 +++

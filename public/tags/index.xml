@@ -5,12 +5,44 @@
     <link>/tags/</link>
       <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 17 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 26 Jun 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/img/me</url>
       <title>Tags</title>
       <link>/tags/</link>
     </image>
+    
+    <item>
+      <title>2020</title>
+      <link>/tags/2020/</link>
+      <pubDate>Fri, 26 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/2020/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Classifier</title>
+      <link>/tags/classifier/</link>
+      <pubDate>Fri, 26 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/classifier/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Random Forest</title>
+      <link>/tags/random-forest/</link>
+      <pubDate>Fri, 26 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/random-forest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ranger</title>
+      <link>/tags/ranger/</link>
+      <pubDate>Fri, 26 Jun 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/ranger/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>igraph</title>
@@ -49,14 +81,6 @@
       <link>/tags/xml2/</link>
       <pubDate>Wed, 17 Jun 2020 00:00:00 +0000</pubDate>
       <guid>/tags/xml2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>2020</title>
-      <link>/tags/2020/</link>
-      <pubDate>Sat, 13 Jun 2020 00:00:00 +0000</pubDate>
-      <guid>/tags/2020/</guid>
       <description></description>
     </item>
     
