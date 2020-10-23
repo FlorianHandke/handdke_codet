@@ -1,0 +1,87 @@
+---
+title: My favorite R tools
+author: Florian Handke
+date: '2020-10-23'
+slug: []
+categories:
+  - R
+tags:
+  - '2020'
+  - Packages
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-10-23T15:24:26+02:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+The diversity of R inspires me again and again. There are incredibly many packages and a broad community that continues to work on making R even better and more practicable. 
+
+To keep the overview is sometimes not so easy. 
+Which package do I need for which application or problem?
+In my daily work I always use the same packages.
+They are the basis for my code and are supplemented by other packages and functions in various places.
+
+Therefore I have created an overview which classifies the different packages along the workflow. 
+Important: There is not one tool that covers everything! 
+
+```{r echo=FALSE, out.width="100%", fig.align='center'}
+# knitr::include_graphics("/2020-10-23-my-favorite-r-tools/index.en_files/r-favs.PNG")
+```
+
+![](/img/r-favs.JPG)
+
+Get the file [here](https://github.com/FlorianHandke/handdke_codet/tree/master/static/img/r-favs.png)
+
+I will try to explain the list with the help of different tasks:
+
+## Task 1
+
+A colleague tried to make an analysis with Excel, failed due to the complexity and is now approaching me.
+The data basis is then usually available as an xlsx file.
+With the so called tidyverse you can do most of these analyses.
+you import the file via the `readxl` package, and you can clean, transform or extend data with `dplyr`, `tidyr` and co. the result is either a report, which you create via `rmarkdown` or another xlsx-file, which your colleague can work with.
+
+## Task 2
+
+A head of department cyclically requires a report with which he can evaluate certain key indicators.
+Again we can fall back on `rmarkdoen`. 
+The data may be stored in a SQL database. You connect via `odbc`.
+With the `dbplyr` package you can use the usual `dplyr`-syntax which is translated into a sql query.
+After you have evaluated the data, it will be displayed in a report.
+Most of the time this is done with a combination of graph and table.
+People want to understand the facts, fancy graphics help them, but it is essential to understand the basis of the analysis.
+It may sound odd but: Only if the users of the analysis trust the result, it is used to draw conclusions and make decisions.
+As a result you could e.g. create a html-report via `rmarkdown`, which contains a `ggplot` (png) or `plotly` (SVG or WebGL) graphic. 
+
+Commercial solutions like RStudio Connect make my workflow easier.
+I can parameterize reports, define creation times, control accesses, notify users by mail, etc.
+
+## Task 3
+
+I do not only want to evaluate data but also have an input of new data.
+Here you can use shiny webapps. With them I can build fast and easy (or with some effort more complex user interfaces) with different interactions.
+`shiny` offers countless possibilities. Based on that there are a lot of packages which enhance the user interface or add functionality (e.g. `shinyashboard`, `shinyWidgets` or `shinyJS`).
+Hosting your own Shiny Server is not difficult at all. You can find instructions [here]( https://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/).
+If you want to test something, you can host Apps for free at [shinyapps.io](https://www.shinyapps.io/)
+
+The commercial version using RStudio Connect again makes the workflow very easy.
+Access can be controlled via LDAP, there is load balancing that can be easily set via the UI and I can easily retrieve log messages.
+
+## Task 4
+  
+R offers many different possibilities to apply Machine Learning.
+With the packages of `fabletools` and `todymodels` I can use the tidy syntax I am used to.
+For example, I can easily convert a `tibble` into a `tsibble` (:)), apply a model such as `ARIMA` or `ETS` to it and create a prediction.
+Fable is based on the `forecast` package, which I also like to work with.
+
+Using the `plumber` package I can configure my machine learning models as API and make them available to other systems.
+
+R offers me as an experienced user the possibility to explore and display data in various forms and to draw conclusions from it.
+It also offers me many interfaces to other systems and allows domain experts to interact with processed data (e.g. via reports or web apps).
+These can then interpret data and draw conclusions from it.
